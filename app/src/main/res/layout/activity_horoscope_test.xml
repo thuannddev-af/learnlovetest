@@ -117,7 +117,7 @@
         android:focusable="true"
         android:fontFamily="@font/plusjakartasans_semibold"
         android:gravity="center"
-        android:text="@string/love_test_title"
+        android:text="@string/love_test"
         android:textColor="@color/white"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"

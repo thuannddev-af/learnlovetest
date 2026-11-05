@@ -5,6 +5,8 @@ import com.example.afica.lovetest.utils.Constant
 import android.content.ClipData
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Paint
 import android.graphics.drawable.Animatable
 import android.net.Uri
 import android.text.SpannableString
@@ -88,7 +90,7 @@ class NameTestResultActivity : BaseActivity<ActivityNameTestResultBinding>() {
                 val partnerSign = signs.firstOrNull { it.code == partnerCode }
                 yourSign?.let {
                     yourName = getString(it.nameRes)
-                    viewBaseActivity.tvYourName.text = horoscopeLabel(yourName, it.iconRes)
+                    viewBaseActivity.tvYourName.text = horoscopeLabel(yourName, it.iconRes )
                 }
                 partnerSign?.let {
                     partnerName = getString(it.nameRes)
@@ -103,9 +105,21 @@ class NameTestResultActivity : BaseActivity<ActivityNameTestResultBinding>() {
     private fun horoscopeLabel(sign: String, iconRes: Int): CharSequence {
         val icon = ContextCompat.getDrawable(this, iconRes)?.mutate() ?: return sign
         val size = (20 * resources.displayMetrics.density).toInt()
+        val offsetY = 2f * resources.displayMetrics.density
         icon.setBounds(0, 0, size, size)
+        val iconSpan = object : ImageSpan(icon, ALIGN_CENTER) {
+            override fun draw(
+                canvas: Canvas, text: CharSequence, start: Int, end: Int,
+                x: Float, top: Int, y: Int, bottom: Int, paint: Paint
+            ) {
+                val checkpoint = canvas.save()
+                canvas.translate(0f, offsetY)
+                super.draw(canvas, text, start, end, x, top, y, bottom, paint)
+                canvas.restoreToCount(checkpoint)
+            }
+        }
         return SpannableString("\uFFFC $sign").apply {
-            setSpan(ImageSpan(icon, ImageSpan.ALIGN_CENTER), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+            setSpan(iconSpan, 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
         }
     }
 
