@@ -1,0 +1,131 @@
+<resources>
+
+    <string-array name="date_weekdays">
+        <item>Sun</item><item>Mon</item><item>Tue</item><item>Wed</item><item>Thu</item><item>Fri</item><item>Sat</item>
+    </string-array>
+
+    <string name="setting_title">सेटिंग्स</string>
+    <string name="setting_rate">रेटिंग दें</string>
+    <string name="setting_feedback">प्रतिक्रिया</string>
+    <string name="setting_privacy">गोपनीयता नीति</string>
+    <string name="app_name">Lovetest</string>
+    <string name="splash">प्यार का <![CDATA[<font color="#FF0845">काउंटर</font>]]></string>
+
+    <string name="splash_ad_notice">इस क्रिया में विज्ञापन हो सकते हैं</string>
+    <string name="language">भाषा</string>
+    <string name="home_tab">होम</string>
+    <string name="love_test_title">लव टेस्ट</string>
+    <string name="result_title">परिणाम</string>
+    <string name="result_share">शेयर करें</string>
+    <string name="result_retry">फिर से कोशिश करें</string>
+    <string name="result_percentage">%1$d%%</string>
+    <string name="result_calculating">अनुकूलता की गणना हो रही है</string>
+    <string name="result_share_text">%1$s ♥ %2$s\n%3$d%%\n%4$s</string>
+    <string name="result_share_error">परिणाम शेयर नहीं हो सका। कृपया दोबारा कोशिश करें।</string>
+
+    <string name="name_test_title">नाम टेस्ट</string>
+    <string name="name_test_description">अपने नाम दर्ज करके जानें कि आप दोनों कितने अनुकूल हैं</string>
+    <string name="horoscope_test_title">राशिफल टेस्ट</string>
+    <string name="horoscope_choose_title">राशिफल</string>
+    <string name="horoscope_your_sign">आपकी राशि: %1$s</string>
+    <string name="horoscope_partner_sign">आपके साथी की राशि: %1$s</string>
+
+    <string name="zodiac_aries">मेष</string>
+    <string name="zodiac_taurus">वृषभ</string>
+    <string name="zodiac_gemini">मिथुन</string>
+    <string name="zodiac_cancer">कर्क</string>
+    <string name="zodiac_leo">सिंह</string>
+    <string name="zodiac_virgo">कन्या</string>
+    <string name="zodiac_libra">तुला</string>
+    <string name="zodiac_scorpio">वृश्चिक</string>
+    <string name="zodiac_sagittarius">धनु</string>
+    <string name="zodiac_capricorn">मकर</string>
+    <string name="zodiac_aquarius">कुंभ</string>
+    <string name="zodiac_pisces">मीन</string>
+
+    <string name="horoscope_test_description">अपने क्रश के साथ राशि अनुकूलता टेस्ट आज़माएं</string>
+    <string name="name_test_your_name">आपका नाम</string>
+    <string name="name_test_partner_name">आपके साथी का नाम</string>
+
+    <string name="memory_empty_title">कोई सालगिरह नहीं</string>
+    <string name="memory_empty_description">अपनी यादगार सालगिरहों को यहां संजोकर रखें!</string>
+    <string name="memory_add">याद जोड़ें</string>
+    <string name="memory_add_photo">फोटो जोड़ने के लिए टैप करें</string>
+    <string name="memory_title">शीर्षक</string>
+    <string name="memory_date">याद की तारीख</string>
+    <string name="memory_date_hint">dd/mm/yyyy</string>
+    <string name="memory_title_required">कृपया शीर्षक दर्ज करें</string>
+    <string name="memory_photo_required">कृपया फोटो जोड़ें</string>
+    <string name="memory_date_required">कृपया तारीख चुनें</string>
+    <string name="memory_save_error">याद सेव नहीं हो सकी। कृपया दोबारा कोशिश करें।</string>
+    <string name="memory_load_error">यादें लोड नहीं हो सकीं। कृपया इस स्क्रीन को फिर से खोलें।</string>
+
+    <string name="background_choose_title">अपना बैकग्राउंड चुनें</string>
+    <string name="background_add_photo">बैकग्राउंड फोटो जोड़ें</string>
+    <string name="background_photo_number">बैकग्राउंड %1$d</string>
+    <string name="background_plus">+</string>
+
+    <string name="start_date_title">शुरुआत की तारीख</string>
+    <string name="start_date_of_love">प्यार की शुरुआत की तारीख</string>
+    <string name="start_date_done">हो गया</string>
+    <string name="start_date_back">वापस</string>
+    <string name="date_previous_month">पिछला महीना</string>
+    <string name="date_next_month">अगला महीना</string>
+    <string name="date_cancel">रद्द करें</string>
+    <string name="date_choose_year">साल चुनें</string>
+
+    <string name="profile_information">जानकारी</string>
+    <string name="profile_change_photo">फोटो बदलने के लिए टैप करें</string>
+    <string name="profile_name">नाम</string>
+    <string name="profile_gender">लिंग</string>
+    <string name="profile_birthday">जन्मदिन</string>
+    <string name="profile_save">सेव करें</string>
+    <string name="profile_select_option">विकल्प चुनें</string>
+    <string name="profile_take_photo">फोटो लें</string>
+    <string name="profile_upload_photo">फोटो अपलोड करें</string>
+    <string name="profile_name_required">कृपया नाम दर्ज करें</string>
+    <string name="profile_photo_error">यह फोटो नहीं खुल सकी। कृपया दूसरी फोटो चुनें।</string>
+    <string name="profile_camera_unavailable">कोई कैमरा ऐप उपलब्ध नहीं है।</string>
+    <string name="profile_loading_photo">फोटो लोड हो रही है…</string>
+
+    <string name="home_love_test_tab">लव टेस्ट</string>
+    <string name="home_memory_tab">यादें</string>
+    <string name="home_settings">सेटिंग्स</string>
+    <string name="home_change_background">बैकग्राउंड फोटो बदलें</string>
+    <string name="home_your_avatar">आपकी प्रोफाइल फोटो</string>
+    <string name="home_partner_avatar">आपके साथी की प्रोफाइल फोटो</string>
+    <string name="home_boy_name">Sasuke</string>
+    <string name="home_girl_name">Naruto</string>
+    <string name="home_default_age">26</string>
+    <string name="home_male">पुरुष</string>
+    <string name="home_female">महिला</string>
+    <string name="home_zero_days">0</string>
+    <string name="home_days">दिन</string>
+    <string name="home_start_date_hint">शुरुआत की तारीख चुनने के लिए टैप करें</string>
+    <string name="home_choose_start_date">अपने रिश्ते की शुरुआत की तारीख चुनें</string>
+
+    <string name="permission_title">अनुमतियां</string>
+    <string name="permission_description">इस ऐप को सही तरीके से काम करने के लिए\nनीचे दी गई अनुमतियों की आवश्यकता है</string>
+    <string name="permission_allow_access">एक्सेस की अनुमति दें</string>
+    <string name="permission_continue">जारी रखें</string>
+    <string name="permission_photo_settings_message">अपनी फोटो इस्तेमाल करने के लिए ऐप सेटिंग्स में फोटो एक्सेस की अनुमति दें।</string>
+    <string name="permission_open_settings">सेटिंग्स खोलें</string>
+
+    <string name="onboarding_relationship_title">अपने रिश्ते को परखें</string>
+    <string name="onboarding_relationship_description">जानें कि आप और आपका साथी\nप्यार में कितने अनुकूल हैं</string>
+    <string name="onboarding_next">अगला</string>
+    <string name="onboarding_counter_title">प्यार के दिनों का काउंटर</string>
+    <string name="onboarding_counter_description">जानें कि आप दोनों कितने समय से\nएक साथ हैं</string>
+    <string name="onboarding_moments_title">यादगार पल</string>
+    <string name="onboarding_moments_description">अपने साथ बिताए खास पलों को संजोकर रखें</string>
+
+    <string name="english">अंग्रेज़ी</string>
+    <string name="vietnamese">वियतनामी</string>
+    <string name="hindi">हिन्दी</string>
+    <string name="spanish">स्पेनिश</string>
+    <string name="french">फ़्रेंच</string>
+    <string name="portuguese">पुर्तगाली</string>
+    <string name="indo">इंडोनेशियाई</string>
+    <string name="german">जर्मन</string>
+
+</resources>

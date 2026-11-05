@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/background_calendar_dialog"
+    android:orientation="vertical"
+    android:padding="12dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/btnPreviousMonth"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/date_previous_month"
+            android:padding="16dp"
+            android:src="@drawable/ic_arrow_left"
+            app:tint="@color/splash_accent" />
+        <TextView
+            android:id="@+id/tvMonth"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/plusjakartasans_semibold"
+            android:gravity="center"
+            android:textColor="@color/splash_title"
+            android:textSize="16sp" />
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/btnNextMonth"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/date_next_month"
+            android:padding="16dp"
+            android:rotation="180"
+            android:src="@drawable/ic_arrow_left"
+            app:tint="@color/splash_accent" />
+    </LinearLayout>
+    <GridLayout
+        android:id="@+id/weekdayGrid"
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:columnCount="7"
+        android:rowCount="1" />
+    <GridLayout
+        android:id="@+id/calendarGrid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="7"
+        android:rowCount="6" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="4dp"
+        android:gravity="end|center_vertical"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/btnCancel"
+            android:layout_width="88dp"
+            android:layout_height="44dp"
+            android:background="@drawable/background_calendar_cancel"
+            android:clickable="true"
+            android:focusable="true"
+            android:fontFamily="@font/plusjakartasans_semibold"
+            android:gravity="center"
+            android:text="@string/date_cancel"
+            android:textColor="@color/splash_title"
+            android:textSize="14sp" />
+        <TextView
+            android:id="@+id/btnSave"
+            android:layout_width="112dp"
+            android:layout_height="44dp"
+            android:layout_marginStart="16dp"
+            android:background="@drawable/background_profile_save"
+            android:clickable="true"
+            android:focusable="true"
+            android:fontFamily="@font/plusjakartasans_semibold"
+            android:gravity="center"
+            android:text="@string/profile_save"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/clOnboarding"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/splash_background">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/imageTopGuide"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.18" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/titleGuide"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.60" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/footerGuide"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.80" />
+
+    <ImageView
+        android:id="@+id/imgBoarding"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginBottom="24dp"
+        android:importantForAccessibility="no"
+        android:scaleType="fitCenter"
+        android:src="@drawable/onboarding1"
+        app:layout_constraintTop_toTopOf="@id/imageTopGuide"
+        app:layout_constraintBottom_toTopOf="@id/titleGuide"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:fontFamily="@font/plusjakartasans_regular"
+        android:gravity="center"
+        android:text="@string/onboarding_relationship_title"
+        android:textColor="@color/splash_title"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="@id/titleGuide"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/tvDescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginTop="12dp"
+        android:fontFamily="@font/plusjakartasans_regular"
+        android:gravity="center"
+        android:lineSpacingExtra="6dp"
+        android:text="@string/onboarding_relationship_description"
+        android:textColor="@color/splash_notice"
+        android:textSize="14sp"
+        app:layout_constraintTop_toBottomOf="@id/tvTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/onboardingDots"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:gravity="center_vertical"
+        android:importantForAccessibility="noHideDescendants"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="@id/btnNext"
+        app:layout_constraintBottom_toBottomOf="@id/btnNext"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <View
+            android:id="@+id/dot1"
+            android:layout_width="@dimen/onboarding_dot_selected_width"
+            android:layout_height="@dimen/onboarding_dot_size"
+            android:background="@drawable/onboarding_dot_selected" />
+
+        <View
+            android:id="@+id/dot2"
+            android:layout_width="@dimen/onboarding_dot_size"
+            android:layout_height="@dimen/onboarding_dot_size"
+            android:layout_marginStart="@dimen/onboarding_dot_spacing"
+            android:background="@drawable/dot_normal" />
+
+        <View
+            android:id="@+id/dot3"
+            android:layout_width="@dimen/onboarding_dot_size"
+            android:layout_height="@dimen/onboarding_dot_size"
+            android:layout_marginStart="@dimen/onboarding_dot_spacing"
+            android:background="@drawable/dot_normal" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/btnNext"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:minWidth="48dp"
+        android:layout_marginEnd="16dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:clickable="true"
+        android:focusable="true"
+        android:fontFamily="@font/plusjakartasans_regular"
+        android:gravity="center"
+        android:paddingHorizontal="4dp"
+        android:text="@string/onboarding_next"
+        android:textColor="@color/splash_title"
+        android:textSize="14sp"
+        app:layout_constraintTop_toTopOf="@id/footerGuide"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

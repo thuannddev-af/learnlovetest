@@ -1,0 +1,138 @@
+<resources>
+
+    <string-array name="date_weekdays" translatable="false">
+        <item>Sun</item>
+        <item>Mon</item>
+        <item>Tue</item>
+        <item>Wed</item>
+        <item>Thu</item>
+        <item>Fri</item>
+        <item>Sat</item>
+    </string-array>
+
+
+    <string name="setting_title">Einstellungen</string>
+    <string name="setting_rate">Bewerten</string>
+    <string name="setting_feedback">Feedback</string>
+    <string name="setting_privacy">Datenschutzerklärung</string>
+    <string name="app_name">Lovetest</string>
+    <string name="splash">LIEBESZÄHLER</string>
+
+    <string name="splash_ad_notice">Diese Aktion kann Werbung enthalten</string>
+    <string name="language">Sprache</string>
+    <string name="home_tab">Startseite</string>
+    <string name="love_test_title">Liebestest</string>
+    <string name="result_title">Ergebnis</string>
+    <string name="result_share">Teilen</string>
+    <string name="result_retry">Erneut versuchen</string>
+    <string name="result_percentage">%1$d%%</string>
+    <string name="result_calculating">Kompatibilität wird berechnet</string>
+    <string name="result_share_text">%1$s ♥ %2$s\n%3$d%%\n%4$s</string>
+    <string name="result_share_error">Das Ergebnis konnte nicht geteilt werden. Bitte versuche es erneut.</string>
+
+    <string name="name_test_title">Namenstest</string>
+    <string name="name_test_description">Entdecke, wie gut ihr zusammenpasst, indem du eure Namen eingibst</string>
+    <string name="horoscope_test_title">Horoskoptest</string>
+    <string name="horoscope_choose_title">Horoskop</string>
+    <string name="horoscope_your_sign">Dein Sternzeichen: %1$s</string>
+    <string name="horoscope_partner_sign">Sternzeichen deines Partners: %1$s</string>
+
+    <string name="zodiac_aries">Widder</string>
+    <string name="zodiac_taurus">Stier</string>
+    <string name="zodiac_gemini">Zwillinge</string>
+    <string name="zodiac_cancer">Krebs</string>
+    <string name="zodiac_leo">Löwe</string>
+    <string name="zodiac_virgo">Jungfrau</string>
+    <string name="zodiac_libra">Waage</string>
+    <string name="zodiac_scorpio">Skorpion</string>
+    <string name="zodiac_sagittarius">Schütze</string>
+    <string name="zodiac_capricorn">Steinbock</string>
+    <string name="zodiac_aquarius">Wassermann</string>
+    <string name="zodiac_pisces">Fische</string>
+
+    <string name="horoscope_test_description">Teste, wie gut du und dein Schwarm laut Sternzeichen zusammenpasst</string>
+    <string name="name_test_your_name">Dein Name</string>
+    <string name="name_test_partner_name">Name deines Partners</string>
+
+    <string name="memory_empty_title">Keine Jahrestage</string>
+    <string name="memory_empty_description">Halte hier deine unvergesslichen Jahrestage fest!</string>
+    <string name="memory_add">Erinnerung hinzufügen</string>
+    <string name="memory_add_photo">Tippen, um ein Foto hinzuzufügen</string>
+    <string name="memory_title">Titel</string>
+    <string name="memory_date">Datum der Erinnerung</string>
+    <string name="memory_date_hint" translatable="false">dd/mm/yyyy</string>
+    <string name="memory_title_required">Bitte gib einen Titel ein</string>
+    <string name="memory_photo_required">Bitte füge ein Foto hinzu</string>
+    <string name="memory_date_required">Bitte wähle ein Datum aus</string>
+    <string name="memory_save_error">Die Erinnerung konnte nicht gespeichert werden. Bitte versuche es erneut.</string>
+    <string name="memory_load_error">Erinnerungen konnten nicht geladen werden. Bitte öffne diese Seite erneut.</string>
+
+    <string name="background_choose_title">Hintergrund auswählen</string>
+    <string name="background_add_photo">Hintergrundfoto hinzufügen</string>
+    <string name="background_photo_number">Hintergrund %1$d</string>
+    <string name="background_plus">+</string>
+
+    <string name="start_date_title">Startdatum</string>
+    <string name="start_date_of_love">Beginn der Beziehung</string>
+    <string name="start_date_done">Fertig</string>
+    <string name="start_date_back">Zurück</string>
+    <string name="date_previous_month">Vorheriger Monat</string>
+    <string name="date_next_month">Nächster Monat</string>
+    <string name="date_cancel">Abbrechen</string>
+    <string name="date_choose_year">Jahr auswählen</string>
+
+    <string name="profile_information">Informationen</string>
+    <string name="profile_change_photo">Tippen, um das Foto zu ändern</string>
+    <string name="profile_name">Name</string>
+    <string name="profile_gender">Geschlecht</string>
+    <string name="profile_birthday">Geburtstag</string>
+    <string name="profile_save">Speichern</string>
+    <string name="profile_select_option">Option auswählen</string>
+    <string name="profile_take_photo">Foto aufnehmen</string>
+    <string name="profile_upload_photo">Foto hochladen</string>
+    <string name="profile_name_required">Bitte gib einen Namen ein</string>
+    <string name="profile_photo_error">Dieses Foto konnte nicht geöffnet werden. Bitte wähle ein anderes aus.</string>
+    <string name="profile_camera_unavailable">Keine Kamera-App verfügbar.</string>
+    <string name="profile_loading_photo">Foto wird geladen…</string>
+
+    <string name="home_love_test_tab">Liebestest</string>
+    <string name="home_memory_tab">Erinnerungen</string>
+    <string name="home_settings">Einstellungen</string>
+    <string name="home_change_background">Hintergrundfoto ändern</string>
+    <string name="home_your_avatar">Dein Profilbild</string>
+    <string name="home_partner_avatar">Profilbild deines Partners</string>
+    <string name="home_boy_name">Sasuke</string>
+    <string name="home_girl_name">Naruto</string>
+    <string name="home_default_age">26</string>
+    <string name="home_male">Männlich</string>
+    <string name="home_female">Weiblich</string>
+    <string name="home_zero_days">0</string>
+    <string name="home_days">Tage</string>
+    <string name="home_start_date_hint">Tippen, um das Startdatum festzulegen</string>
+    <string name="home_choose_start_date">Wähle den Beginn eurer Beziehung</string>
+
+    <string name="permission_title">Berechtigungen</string>
+    <string name="permission_description">Diese App benötigt die folgenden Berechtigungen,\num ordnungsgemäß zu funktionieren</string>
+    <string name="permission_allow_access">Zugriff erlauben</string>
+    <string name="permission_continue">Weiter</string>
+    <string name="permission_photo_settings_message">Erlaube den Zugriff auf Fotos in den App-Einstellungen, um deine Fotos zu verwenden.</string>
+    <string name="permission_open_settings">Einstellungen öffnen</string>
+
+    <string name="onboarding_relationship_title">Teste eure Beziehung</string>
+    <string name="onboarding_relationship_description">Finde heraus, wie gut du und dein Partner\nzusammenpassen</string>
+    <string name="onboarding_next">Weiter</string>
+    <string name="onboarding_counter_title">Liebestagezähler</string>
+    <string name="onboarding_counter_description">Behalte im Blick, wie lange\nihr schon zusammen seid</string>
+    <string name="onboarding_moments_title">Unvergessliche Momente</string>
+    <string name="onboarding_moments_description">Halte eure schönsten gemeinsamen Momente fest</string>
+
+    <string name="english">Englisch</string>
+    <string name="vietnamese">Vietnamesisch</string>
+    <string name="hindi">Hindi</string>
+    <string name="spanish">Spanisch</string>
+    <string name="french">Französisch</string>
+    <string name="portuguese">Portugiesisch</string>
+    <string name="indo">Indonesisch</string>
+    <string name="german">Deutsch</string>
+
+</resources>

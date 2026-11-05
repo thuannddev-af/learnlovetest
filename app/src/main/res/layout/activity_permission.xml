@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/splash_background"
+    android:fillViewport="true"
+    tools:context=".component.permission.PermissionActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingHorizontal="16dp"
+        android:paddingBottom="24dp">
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:fontFamily="@font/plusjakartasans_semibold"
+            android:gravity="center_vertical"
+            android:text="@string/permission_title"
+            android:textColor="@color/splash_title"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+        <ImageView
+            android:id="@+id/imgPermission"
+            android:layout_width="216dp"
+            android:layout_height="192dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="24dp"
+            android:importantForAccessibility="no"
+            android:scaleType="fitCenter"
+            android:src="@drawable/permission" />
+        <TextView
+            android:id="@+id/tvDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:fontFamily="@font/plusjakartasans_regular"
+            android:gravity="center"
+            android:lineSpacingExtra="4dp"
+            android:text="@string/permission_description"
+            android:textColor="@color/splash_notice"
+            android:textSize="14sp" />
+        <LinearLayout
+            android:id="@+id/accessRow"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/background_permission_access"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="16dp"
+            android:paddingEnd="8dp">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/plusjakartasans_semibold"
+                android:labelFor="@id/switchAccess"
+                android:text="@string/permission_allow_access"
+                android:textColor="@color/splash_notice"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/switchAccess"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="@null"
+                android:button="@drawable/permission_switch"
+                android:contentDescription="@string/permission_allow_access"
+                android:gravity="center"
+                app:buttonTint="@null" />
+        </LinearLayout>
+        <TextView
+            android:id="@+id/btnContinue"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="72dp"
+            android:foreground="@drawable/foreground_click_circle"
+            android:clickable="true"
+            android:focusable="true"
+            android:fontFamily="@font/plusjakartasans_semibold"
+            android:gravity="center"
+            android:paddingHorizontal="16dp"
+            android:text="@string/permission_continue"
+            android:textColor="@color/splash_accent"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+</ScrollView>

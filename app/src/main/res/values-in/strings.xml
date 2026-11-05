@@ -1,0 +1,131 @@
+<resources>
+
+    <string-array name="date_weekdays">
+        <item>Sun</item><item>Mon</item><item>Tue</item><item>Wed</item><item>Thu</item><item>Fri</item><item>Sat</item>
+    </string-array>
+
+    <string name="setting_title">Pengaturan</string>
+    <string name="setting_rate">Beri Rating</string>
+    <string name="setting_feedback">Masukan</string>
+    <string name="setting_privacy">Kebijakan Privasi</string>
+    <string name="app_name">Lovetest</string>
+    <string name="splash">PENGHITUNG<![CDATA[<font color="#FF0845">HARI CINTA</font>]]></string>
+
+    <string name="splash_ad_notice">Tindakan ini mungkin berisi iklan</string>
+    <string name="language">Bahasa</string>
+    <string name="home_tab">Beranda</string>
+    <string name="love_test_title">Tes Cinta</string>
+    <string name="result_title">Hasil</string>
+    <string name="result_share">Bagikan</string>
+    <string name="result_retry">Coba Lagi</string>
+    <string name="result_percentage">%1$d%%</string>
+    <string name="result_calculating">Menghitung kecocokan</string>
+    <string name="result_share_text">%1$s ♥ %2$s\n%3$d%%\n%4$s</string>
+    <string name="result_share_error">Tidak dapat membagikan hasil. Silakan coba lagi.</string>
+
+    <string name="name_test_title">Tes Nama</string>
+    <string name="name_test_description">Temukan kecocokan kalian dengan memasukkan nama</string>
+    <string name="horoscope_test_title">Tes Horoskop</string>
+    <string name="horoscope_choose_title">Horoskop</string>
+    <string name="horoscope_your_sign">Zodiak kamu: %1$s</string>
+    <string name="horoscope_partner_sign">Zodiak pasanganmu: %1$s</string>
+
+    <string name="zodiac_aries">Aries</string>
+    <string name="zodiac_taurus">Taurus</string>
+    <string name="zodiac_gemini">Gemini</string>
+    <string name="zodiac_cancer">Cancer</string>
+    <string name="zodiac_leo">Leo</string>
+    <string name="zodiac_virgo">Virgo</string>
+    <string name="zodiac_libra">Libra</string>
+    <string name="zodiac_scorpio">Scorpio</string>
+    <string name="zodiac_sagittarius">Sagitarius</string>
+    <string name="zodiac_capricorn">Capricorn</string>
+    <string name="zodiac_aquarius">Aquarius</string>
+    <string name="zodiac_pisces">Pisces</string>
+
+    <string name="horoscope_test_description">Coba tes kecocokan zodiak dengan gebetanmu</string>
+    <string name="name_test_your_name">Nama kamu</string>
+    <string name="name_test_partner_name">Nama pasangan</string>
+
+    <string name="memory_empty_title">Belum ada hari jadi</string>
+    <string name="memory_empty_description">Simpan kenangan hari jadi tak terlupakanmu di sini!</string>
+    <string name="memory_add">Tambah Kenangan</string>
+    <string name="memory_add_photo">Ketuk untuk menambah foto</string>
+    <string name="memory_title">Judul</string>
+    <string name="memory_date">Tanggal kenangan</string>
+    <string name="memory_date_hint">dd/mm/yyyy</string>
+    <string name="memory_title_required">Silakan masukkan judul</string>
+    <string name="memory_photo_required">Silakan tambahkan foto</string>
+    <string name="memory_date_required">Silakan pilih tanggal</string>
+    <string name="memory_save_error">Tidak dapat menyimpan kenangan. Silakan coba lagi.</string>
+    <string name="memory_load_error">Tidak dapat memuat kenangan. Silakan buka kembali halaman ini.</string>
+
+    <string name="background_choose_title">Pilih Latar Belakang</string>
+    <string name="background_add_photo">Tambah foto latar belakang</string>
+    <string name="background_photo_number">Latar Belakang %1$d</string>
+    <string name="background_plus">+</string>
+
+    <string name="start_date_title">Tanggal Mulai</string>
+    <string name="start_date_of_love">Tanggal mulai hubungan</string>
+    <string name="start_date_done">Selesai</string>
+    <string name="start_date_back">Kembali</string>
+    <string name="date_previous_month">Bulan sebelumnya</string>
+    <string name="date_next_month">Bulan berikutnya</string>
+    <string name="date_cancel">Batal</string>
+    <string name="date_choose_year">Pilih tahun</string>
+
+    <string name="profile_information">Informasi</string>
+    <string name="profile_change_photo">Ketuk untuk mengganti foto</string>
+    <string name="profile_name">Nama</string>
+    <string name="profile_gender">Jenis Kelamin</string>
+    <string name="profile_birthday">Tanggal Lahir</string>
+    <string name="profile_save">Simpan</string>
+    <string name="profile_select_option">Pilih Opsi</string>
+    <string name="profile_take_photo">Ambil Foto</string>
+    <string name="profile_upload_photo">Unggah Foto</string>
+    <string name="profile_name_required">Silakan masukkan nama</string>
+    <string name="profile_photo_error">Tidak dapat membuka foto ini. Silakan pilih foto lain.</string>
+    <string name="profile_camera_unavailable">Tidak ada aplikasi kamera yang tersedia.</string>
+    <string name="profile_loading_photo">Memuat foto…</string>
+
+    <string name="home_love_test_tab">Tes Cinta</string>
+    <string name="home_memory_tab">Kenangan</string>
+    <string name="home_settings">Pengaturan</string>
+    <string name="home_change_background">Ganti foto latar belakang</string>
+    <string name="home_your_avatar">Foto profil kamu</string>
+    <string name="home_partner_avatar">Foto profil pasanganmu</string>
+    <string name="home_boy_name">Sasuke</string>
+    <string name="home_girl_name">Naruto</string>
+    <string name="home_default_age">26</string>
+    <string name="home_male">Pria</string>
+    <string name="home_female">Wanita</string>
+    <string name="home_zero_days">0</string>
+    <string name="home_days">Hari</string>
+    <string name="home_start_date_hint">Ketuk untuk memilih tanggal mulai</string>
+    <string name="home_choose_start_date">Pilih tanggal mulai hubungan kalian</string>
+
+    <string name="permission_title">Izin</string>
+    <string name="permission_description">Aplikasi ini memerlukan izin berikut agar\ndapat berfungsi dengan baik</string>
+    <string name="permission_allow_access">Izinkan Akses</string>
+    <string name="permission_continue">Lanjutkan</string>
+    <string name="permission_photo_settings_message">Izinkan akses foto di pengaturan aplikasi untuk menggunakan fotomu.</string>
+    <string name="permission_open_settings">Buka Pengaturan</string>
+
+    <string name="onboarding_relationship_title">Uji Hubungan Kalian</string>
+    <string name="onboarding_relationship_description">Cari tahu kecocokan cintamu\ndengan pasangan</string>
+    <string name="onboarding_next">Berikutnya</string>
+    <string name="onboarding_counter_title">Penghitung Hari Cinta</string>
+    <string name="onboarding_counter_description">Pantau sudah berapa lama\nkalian bersama</string>
+    <string name="onboarding_moments_title">Momen Tak Terlupakan</string>
+    <string name="onboarding_moments_description">Simpan momen indah kalian bersama</string>
+
+    <string name="english">Inggris</string>
+    <string name="vietnamese">Vietnam</string>
+    <string name="hindi">Hindi</string>
+    <string name="spanish">Spanyol</string>
+    <string name="french">Prancis</string>
+    <string name="portuguese">Portugis</string>
+    <string name="indo">Indonesia</string>
+    <string name="german">Jerman</string>
+
+</resources>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="onboarding_dot_size">6dp</dimen>
+    <dimen name="onboarding_dot_selected_width">16dp</dimen>
+    <dimen name="onboarding_dot_spacing">6dp</dimen>
+</resources>

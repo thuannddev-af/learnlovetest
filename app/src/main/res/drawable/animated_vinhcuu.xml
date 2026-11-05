@@ -1,0 +1,4 @@
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android" android:drawable="@drawable/vinhcuu">
+    <target android:name="leftLoop" android:animation="@animator/infinity_left_color" />
+    <target android:name="rightLoop" android:animation="@animator/infinity_right_color" />
+</animated-vector>
