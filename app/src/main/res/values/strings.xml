@@ -101,7 +101,7 @@
     <string name="permission_description">This app needs permissions below to\nwork properly</string>
     <string name="permission_allow_access">Allow access</string>
     <string name="permission_continue">Continue</string>
-    <string name="permission_photo_settings_message">Allow photo access in app settings to use your photos.</string>
+    <string name="permission_camera_settings_message">Allow camera access in app settings to take photos.</string>
     <string name="permission_open_settings">Open settings</string>
     <string name="onboarding_relationship_title">Test Your Relationship</string>
     <string name="onboarding_relationship_description">Find out your love compatibility\nwith your partner</string>

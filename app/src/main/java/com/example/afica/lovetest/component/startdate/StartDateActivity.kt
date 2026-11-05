@@ -37,11 +37,11 @@ class StartDateActivity : BaseActivity<ActivityStartDateBinding>() {
             isAppearanceLightStatusBars = true
             isAppearanceLightNavigationBars = true
         }
-        ViewCompat.setOnApplyWindowInsetsListener(viewBaseActivity.root) { view, insets ->
-            val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            view.setPadding(bars.left, bars.top, bars.right, bars.bottom)
-            insets
-        }
+//        ViewCompat.setOnApplyWindowInsetsListener(viewBaseActivity.root) { view, insets ->
+//            val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+//            view.setPadding(bars.left, bars.top, bars.right, bars.bottom)
+//            insets
+//        }
 
         viewBaseActivity.btnBack.setOnClickListener { finish() }
         viewBaseActivity.btnDateOfLove.setOnClickListener {

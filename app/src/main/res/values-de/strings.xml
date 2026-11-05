@@ -21,7 +21,8 @@
     <string name="splash_ad_notice">Diese Aktion kann Werbung enthalten</string>
     <string name="language">Sprache</string>
     <string name="home_tab">Startseite</string>
-    <string name="love_test_title">Liebestest</string>
+    <string name="love_test_title">Liebes <![CDATA[<font color="#FF0845">test</font>]]></string>
+
     <string name="result_title">Ergebnis</string>
     <string name="result_share">Teilen</string>
     <string name="result_retry">Erneut versuchen</string>
@@ -115,7 +116,7 @@
     <string name="permission_description">Diese App benötigt die folgenden Berechtigungen,\num ordnungsgemäß zu funktionieren</string>
     <string name="permission_allow_access">Zugriff erlauben</string>
     <string name="permission_continue">Weiter</string>
-    <string name="permission_photo_settings_message">Erlaube den Zugriff auf Fotos in den App-Einstellungen, um deine Fotos zu verwenden.</string>
+    <string name="permission_camera_settings_message">Erlaube den Kamerazugriff in den App-Einstellungen, um Fotos aufzunehmen.</string>
     <string name="permission_open_settings">Einstellungen öffnen</string>
 
     <string name="onboarding_relationship_title">Teste eure Beziehung</string>

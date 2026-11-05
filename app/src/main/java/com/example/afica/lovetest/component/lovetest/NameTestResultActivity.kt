@@ -58,11 +58,11 @@ class NameTestResultActivity : BaseActivity<ActivityNameTestResultBinding>() {
             isAppearanceLightStatusBars = true
             isAppearanceLightNavigationBars = true
         }
-        ViewCompat.setOnApplyWindowInsetsListener(viewBaseActivity.root) { view, insets ->
-            val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            view.setPadding(bars.left, bars.top, bars.right, bars.bottom)
-            insets
-        }
+//        ViewCompat.setOnApplyWindowInsetsListener(viewBaseActivity.root) { view, insets ->
+//            val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+//            view.setPadding(bars.left, bars.top, bars.right, bars.bottom)
+//            insets
+//        }
         viewBaseActivity.btnBack.setOnClickListener { onBack() }
         viewBaseActivity.btnRetry.setOnClickListener { if (!sharing) viewModel.retry() }
         viewBaseActivity.btnShare.setOnClickListener { shareResult() }

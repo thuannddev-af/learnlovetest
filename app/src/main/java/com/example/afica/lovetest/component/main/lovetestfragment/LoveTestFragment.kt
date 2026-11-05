@@ -21,11 +21,11 @@ class LoveTestFragment : BaseFragment<FragmentLoveTestBinding>() {
 
     override fun initViews() {
         val bottomPadding = viewBinding.root.paddingBottom
-        ViewCompat.setOnApplyWindowInsetsListener(viewBinding.root) { view, insets ->
-            val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            view.setPadding(0, bars.top, 0, bottomPadding)
-            insets
-        }
+//        ViewCompat.setOnApplyWindowInsetsListener(viewBinding.root) { view, insets ->
+//            val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+//            view.setPadding(0, bars.top, 0, bottomPadding)
+//            insets
+//        }
         viewBinding.btnNameTest.setOnClickListener {
             startActivity(Intent(requireContext(), NameTestActivity::class.java))
         }

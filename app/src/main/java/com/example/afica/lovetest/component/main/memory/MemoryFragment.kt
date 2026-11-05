@@ -31,10 +31,10 @@ class MemoryFragment : BaseFragment<FragmentMemoryBinding>() {
         val views = viewBinding
 
         val bottomPadding = views.root.paddingBottom
-        ViewCompat.setOnApplyWindowInsetsListener(views.root) { target, insets ->
-            target.setPadding(0, insets.getInsets(WindowInsetsCompat.Type.systemBars()).top, 0, bottomPadding)
-            insets
-        }
+//        ViewCompat.setOnApplyWindowInsetsListener(views.root) { target, insets ->
+//            target.setPadding(0, insets.getInsets(WindowInsetsCompat.Type.systemBars()).top, 0, bottomPadding)
+//            insets
+//        }
         views.rclMemories.adapter = memoryAdapter
         val addMemory = View.OnClickListener { startActivity(Intent(requireContext(), MemoryActivity::class.java)) }
         views.btnAddFirst.setOnClickListener(addMemory)

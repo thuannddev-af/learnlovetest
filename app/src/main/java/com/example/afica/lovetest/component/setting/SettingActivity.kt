@@ -13,11 +13,11 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
 
     override fun initViews() {
         WindowInsetsControllerCompat(window, viewBaseActivity.root).isAppearanceLightStatusBars = true
-        ViewCompat.setOnApplyWindowInsetsListener(viewBaseActivity.root) { view, insets ->
-            val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            view.setPadding(bars.left, bars.top, bars.right, bars.bottom)
-            insets
-        }
+//        ViewCompat.setOnApplyWindowInsetsListener(viewBaseActivity.root) { view, insets ->
+//            val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+//            view.setPadding(bars.left, bars.top, bars.right, bars.bottom)
+//            insets
+//        }
         viewBaseActivity.btnBack.setOnClickWithPressEffect { onBack() }
         viewBaseActivity.btnLanguage.setOnClickListener {
             LanguageActivity.start(this, isFromSplash = false)

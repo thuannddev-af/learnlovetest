@@ -14,7 +14,9 @@
     <string name="splash_ad_notice">Cette action peut contenir des publicités</string>
     <string name="language">Langue</string>
     <string name="home_tab">Accueil</string>
-    <string name="love_test_title">Test d\'amour</string>
+
+    <string name="love_test_title">Test <![CDATA[<font color="#FF0845">d\'amour</font>]]></string>
+
     <string name="result_title">Résultat</string>
     <string name="result_share">Partager</string>
     <string name="result_retry">Réessayer</string>
@@ -108,7 +110,7 @@
     <string name="permission_description">Cette application nécessite les autorisations suivantes pour\nfonctionner correctement</string>
     <string name="permission_allow_access">Autoriser l\'accès</string>
     <string name="permission_continue">Continuer</string>
-    <string name="permission_photo_settings_message">Autorisez l\'accès aux photos dans les paramètres de l\'application pour utiliser vos photos.</string>
+    <string name="permission_camera_settings_message">Autorisez la caméra dans les paramètres pour prendre des photos.</string>
     <string name="permission_open_settings">Ouvrir les paramètres</string>
 
     <string name="onboarding_relationship_title">Testez votre relation</string>

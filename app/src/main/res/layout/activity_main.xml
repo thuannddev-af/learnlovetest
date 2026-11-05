@@ -45,11 +45,13 @@
             android:orientation="vertical">
 
             <ImageView android:duplicateParentState="true"
-                android:layout_width="32dp"
+                android:layout_width="28dp"
                 android:layout_height="28dp"
                 android:importantForAccessibility="no"
-                android:src="@drawable/nav_love_test_selector" />
-
+                android:src="@drawable/nav_love_test_selector"
+                android:scaleX="1.6"
+                android:scaleY="1.6"
+                android:translationY="-4dp" />
             <TextView android:duplicateParentState="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

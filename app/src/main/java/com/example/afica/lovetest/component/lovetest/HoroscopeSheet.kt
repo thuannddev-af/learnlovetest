@@ -18,9 +18,11 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlinx.coroutines.launch
-
 @AndroidEntryPoint
 class HoroscopeSheet : BottomSheetDialogFragment() {
+
+    override fun getTheme(): Int = com.example.afica.lovetest.R.style.ThemeOverlay_Lovetest_BackgroundSheet
+
     @Inject lateinit var getSigns: GetZodiacSignsUseCase
     private var binding: SheetHoroscopeBinding? = null
     private val horoscopeAdapter = HoroscopeAdapter()

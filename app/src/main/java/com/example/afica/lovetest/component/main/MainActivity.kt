@@ -25,11 +25,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     override fun provideViewBinding(): ActivityMainBinding = ActivityMainBinding.inflate(layoutInflater)
 
     override fun initViews() {
-        ViewCompat.setOnApplyWindowInsetsListener(viewBaseActivity.root) { view, insets ->
-            val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            view.setPadding(bars.left, 0, bars.right, bars.bottom)
-            insets
-        }
+//        ViewCompat.setOnApplyWindowInsetsListener(viewBaseActivity.root) { view, insets ->
+//            val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+//            view.setPadding(bars.left, 0, bars.right, bars.bottom)
+//            insets
+//        }
         viewBaseActivity.viewPager.adapter = object : FragmentStateAdapter(this) {
             override fun getItemCount() = 3
             override fun createFragment(position: Int): Fragment = when (position) {

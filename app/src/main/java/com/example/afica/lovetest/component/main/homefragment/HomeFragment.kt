@@ -32,13 +32,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         FragmentHomeBinding.inflate(layoutInflater, container, false)
 
     override fun initViews() {
-        ViewCompat.setOnApplyWindowInsetsListener(views.root) { _, insets ->
-            val actions = views.headerActions
-            actions.layoutParams = (actions.layoutParams as ViewGroup.MarginLayoutParams).apply {
-                topMargin = insets.getInsets(WindowInsetsCompat.Type.systemBars()).top
-            }
-            insets
-        }
+//        ViewCompat.setOnApplyWindowInsetsListener(views.root) { _, insets ->
+//            val actions = views.headerActions
+//            actions.layoutParams = (actions.layoutParams as ViewGroup.MarginLayoutParams).apply {
+//                topMargin = insets.getInsets(WindowInsetsCompat.Type.systemBars()).top
+//            }
+//            insets
+//        }
         views.imgBoy.setOnClickListener { showProfile(Constant.PROFILE_BOY) }
         views.btnSettings.setOnClickWithPressEffect {
             startActivity(Intent(requireContext(), SettingActivity::class.java))

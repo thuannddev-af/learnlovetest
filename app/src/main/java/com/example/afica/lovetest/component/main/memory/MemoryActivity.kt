@@ -51,12 +51,12 @@ class MemoryActivity : BaseActivity<ActivityMemoryBinding>() {
             isAppearanceLightStatusBars = true
             isAppearanceLightNavigationBars = true
         }
-        ViewCompat.setOnApplyWindowInsetsListener(viewBaseActivity.root) { view, insets ->
-            val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            val keyboard = insets.getInsets(WindowInsetsCompat.Type.ime())
-            view.setPadding(bars.left, bars.top, bars.right, maxOf(bars.bottom, keyboard.bottom))
-            insets
-        }
+//        ViewCompat.setOnApplyWindowInsetsListener(viewBaseActivity.root) { view, insets ->
+//            val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+//            val keyboard = insets.getInsets(WindowInsetsCompat.Type.ime())
+//            view.setPadding(bars.left, bars.top, bars.right, maxOf(bars.bottom, keyboard.bottom))
+//            insets
+//        }
 
         viewBaseActivity.btnBack.setOnClickListener { finish() }
         viewBaseActivity.btnAddPhoto.setOnClickListener {

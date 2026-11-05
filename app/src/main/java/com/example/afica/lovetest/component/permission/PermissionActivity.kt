@@ -4,7 +4,6 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
-import android.os.Build
 import android.provider.Settings
 
 import androidx.activity.result.contract.ActivityResultContracts
@@ -19,62 +18,60 @@ import com.example.afica.lovetest.databinding.ActivityPermissionBinding
 import com.example.afica.lovetest.utils.setOnClickWithPressEffect
 
 class PermissionActivity : BaseActivity<ActivityPermissionBinding>() {
-    private val requestPhotos = registerForActivityResult(
-        ActivityResultContracts.RequestMultiplePermissions()
-    ) {
-        updatePhotoAccess()
-        if (!hasPhotoAccess() && photoPermissions().none { shouldShowRequestPermissionRationale(it) }) {
-            AlertDialog.Builder(this)
-                .setMessage(R.string.permission_photo_settings_message)
-                .setPositiveButton(R.string.permission_open_settings) { _, _ -> openAppSettings() }
-                .setNegativeButton(android.R.string.cancel, null)
-                .show()
+    private val requestCamera = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { granted ->
+        updateCameraAccess()
+        if (!granted && !shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
+            showCameraPermissionDialog()
         }
     }
 
     override fun provideViewBinding(): ActivityPermissionBinding = ActivityPermissionBinding.inflate(layoutInflater)
 
     override fun initViews() {
-        updatePhotoAccess()
+        updateCameraAccess()
         viewBaseActivity.switchAccess.setOnClickListener {
-            updatePhotoAccess()
-            if (hasPhotoAccess()) {
+            updateCameraAccess()
+            if (hasCameraAccess()) {
                 openAppSettings()
             } else {
-                requestPhotos.launch(photoPermissions())
+                requestCamera.launch(Manifest.permission.CAMERA)
             }
         }
         viewBaseActivity.btnContinue.setOnClickWithPressEffect {
-            startActivity(Intent(this, MainActivity::class.java))
-            finish()
+            if (hasCameraAccess()) {
+                startActivity(Intent(this, MainActivity::class.java))
+                finish()
+            } else {
+                showCameraPermissionDialog()
+            }
         }
-        ViewCompat.setOnApplyWindowInsetsListener(viewBaseActivity.root) { view, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            view.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
+//        ViewCompat.setOnApplyWindowInsetsListener(viewBaseActivity.root) { view, insets ->
+//            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+//            view.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+//            insets
+//        }
     }
 
     override fun onResume() {
         super.onResume()
-        updatePhotoAccess()
+        updateCameraAccess()
     }
 
-    private fun photoPermissions(): Array<String> = when {
-        Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE -> arrayOf(
-            Manifest.permission.READ_MEDIA_IMAGES,
-            Manifest.permission.READ_MEDIA_VISUAL_USER_SELECTED
-        )
-        Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> arrayOf(Manifest.permission.READ_MEDIA_IMAGES)
-        else -> arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
+    private fun hasCameraAccess(): Boolean =
+        ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
+
+    private fun updateCameraAccess() {
+        viewBaseActivity.switchAccess.isChecked = hasCameraAccess()
     }
 
-    private fun hasPhotoAccess(): Boolean = photoPermissions().any {
-        ContextCompat.checkSelfPermission(this, it) == PackageManager.PERMISSION_GRANTED
-    }
-
-    private fun updatePhotoAccess() {
-        viewBaseActivity.switchAccess.isChecked = hasPhotoAccess()
+    private fun showCameraPermissionDialog() {
+        AlertDialog.Builder(this)
+            .setMessage(R.string.permission_camera_settings_message)
+            .setNegativeButton(android.R.string.cancel, null)
+            .setPositiveButton(R.string.permission_open_settings) { _, _ -> openAppSettings() }
+            .show()
     }
 
     private fun openAppSettings() {

@@ -34,11 +34,11 @@ class HoroscopeTestActivity : BaseActivity<ActivityHoroscopeTestBinding>() {
             isAppearanceLightStatusBars = true
             isAppearanceLightNavigationBars = true
         }
-        ViewCompat.setOnApplyWindowInsetsListener(viewBaseActivity.root) { view, insets ->
-            val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            view.setPadding(bars.left, bars.top, bars.right, bars.bottom)
-            insets
-        }
+//        ViewCompat.setOnApplyWindowInsetsListener(viewBaseActivity.root) { view, insets ->
+//            val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+//            view.setPadding(bars.left, bars.top, bars.right, bars.bottom)
+//            insets
+//        }
         viewBaseActivity.btnBack.setOnClickListener { onBack() }
         viewBaseActivity.btnYourSign.setOnClickListener { chooseSign(yourCode, YOUR_SIGN) }
         viewBaseActivity.btnPartnerSign.setOnClickListener { chooseSign(partnerCode, PARTNER_SIGN) }

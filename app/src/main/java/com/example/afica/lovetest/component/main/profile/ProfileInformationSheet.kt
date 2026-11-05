@@ -3,6 +3,8 @@ package com.example.afica.lovetest.component.main.profile
 import com.example.afica.lovetest.utils.Constant
 
 import android.content.ActivityNotFoundException
+import android.Manifest
+import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
@@ -17,6 +19,7 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.ListPopupWindow
 import androidx.core.content.FileProvider
+import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
 import com.example.afica.lovetest.R
@@ -38,6 +41,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class ProfileInformationSheet : BottomSheetDialogFragment() {
+
+    override fun getTheme(): Int = R.style.ThemeOverlay_Lovetest_BackgroundSheet
     private var binding: SheetProfileInformationBinding? = null
     private val profileId: String get() = requireArguments().getString(PROFILE_ID)!!
     private var birthday = 0L
@@ -47,6 +52,12 @@ class ProfileInformationSheet : BottomSheetDialogFragment() {
     private var draftMale = true
     private var loadingPhoto = false
     private var genderPopup: ListPopupWindow? = null
+    private val requestCameraPermission = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { granted ->
+        if (granted) launchCamera()
+        else Toast.makeText(requireContext(), R.string.permission_camera_settings_message, Toast.LENGTH_LONG).show()
+    }
 
     private val pickPhoto = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
         if (uri != null) importPhoto(uri)
@@ -145,6 +156,10 @@ class ProfileInformationSheet : BottomSheetDialogFragment() {
     }
 
     private fun launchCamera() {
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            requestCameraPermission.launch(Manifest.permission.CAMERA)
+            return
+        }
         try {
             val directory = File(requireContext().cacheDir, "profile_camera").apply { mkdirs() }
             val file = File.createTempFile("avatar_", ".jpg", directory)

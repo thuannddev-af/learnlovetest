@@ -14,7 +14,8 @@
     <string name="splash_ad_notice">Tindakan ini mungkin berisi iklan</string>
     <string name="language">Bahasa</string>
     <string name="home_tab">Beranda</string>
-    <string name="love_test_title">Tes Cinta</string>
+    <string name="love_test_title">Tes <![CDATA[<font color="#FF0845">Cinta</font>]]></string>
+
     <string name="result_title">Hasil</string>
     <string name="result_share">Bagikan</string>
     <string name="result_retry">Coba Lagi</string>
@@ -108,7 +109,7 @@
     <string name="permission_description">Aplikasi ini memerlukan izin berikut agar\ndapat berfungsi dengan baik</string>
     <string name="permission_allow_access">Izinkan Akses</string>
     <string name="permission_continue">Lanjutkan</string>
-    <string name="permission_photo_settings_message">Izinkan akses foto di pengaturan aplikasi untuk menggunakan fotomu.</string>
+    <string name="permission_camera_settings_message">Izinkan akses kamera di pengaturan aplikasi untuk mengambil foto.</string>
     <string name="permission_open_settings">Buka Pengaturan</string>
 
     <string name="onboarding_relationship_title">Uji Hubungan Kalian</string>

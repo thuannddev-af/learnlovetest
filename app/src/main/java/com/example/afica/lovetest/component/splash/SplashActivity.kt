@@ -37,13 +37,13 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>() {
 
     override fun provideViewBinding(): ActivitySplashBinding = ActivitySplashBinding.inflate(layoutInflater)
 
-    override fun initViews() {
-        ViewCompat.setOnApplyWindowInsetsListener(viewBaseActivity.root) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
-    }
+//    override fun initViews() {
+//        ViewCompat.setOnApplyWindowInsetsListener(viewBaseActivity.root) { v, insets ->
+//            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+//            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+//            insets
+//        }
+//    }
 
     override fun onStart() {
         super.onStart()

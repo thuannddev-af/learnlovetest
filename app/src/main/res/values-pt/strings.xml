@@ -1,7 +1,13 @@
 <resources>
 
     <string-array name="date_weekdays">
-        <item>Sun</item><item>Mon</item><item>Tue</item><item>Wed</item><item>Thu</item><item>Fri</item><item>Sat</item>
+        <item>Sun</item>
+        <item>Mon</item>
+        <item>Tue</item>
+        <item>Wed</item>
+        <item>Thu</item>
+        <item>Fri</item>
+        <item>Sat</item>
     </string-array>
 
     <string name="setting_title">Configurações</string>
@@ -14,7 +20,8 @@
     <string name="splash_ad_notice">Esta ação pode conter anúncios</string>
     <string name="language">Idioma</string>
     <string name="home_tab">Início</string>
-    <string name="love_test_title">Teste de Amor</string>
+    <string name="love_test_title">Teste <![CDATA[<font color="#FF0845">de Amor</font>]]></string>
+
     <string name="result_title">Resultado</string>
     <string name="result_share">Compartilhar</string>
     <string name="result_retry">Tentar novamente</string>
@@ -108,7 +115,7 @@
     <string name="permission_description">Este aplicativo precisa das seguintes permissões para\nfuncionar corretamente</string>
     <string name="permission_allow_access">Permitir acesso</string>
     <string name="permission_continue">Continuar</string>
-    <string name="permission_photo_settings_message">Permita o acesso às fotos nas configurações do aplicativo para usar suas fotos.</string>
+    <string name="permission_camera_settings_message">Permita o acesso à câmera nas configurações do aplicativo para tirar fotos.</string>
     <string name="permission_open_settings">Abrir configurações</string>
 
     <string name="onboarding_relationship_title">Teste seu Relacionamento</string>
