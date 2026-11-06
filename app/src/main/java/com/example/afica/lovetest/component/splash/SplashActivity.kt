@@ -1,5 +1,12 @@
 package com.example.afica.lovetest.component.splash
 
+import android.Manifest
+import android.content.Intent
+import android.content.pm.PackageManager
+import com.example.afica.lovetest.component.main.MainActivity
+import com.example.afica.lovetest.component.permission.PermissionActivity
+import com.example.afica.lovetest.utils.SharedPreferenceUtils
+
 import android.os.Handler
 import android.os.Looper
 import android.text.SpannableString
@@ -23,8 +30,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>() {
             if (isFinishing || isDestroyed) return
             val dots = viewBaseActivity.splashDots
             if (activeDotIndex >= dots.childCount) {
-                LanguageActivity.start(this@SplashActivity, isFromSplash = true)
-                finish()
+                openNextScreen()
                 return
             }
             for (index in 0 until dots.childCount) {
@@ -36,6 +42,18 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>() {
     }
 
     override fun provideViewBinding(): ActivitySplashBinding = ActivitySplashBinding.inflate(layoutInflater)
+
+    private fun openNextScreen() {
+        if (!SharedPreferenceUtils.getInstance(this).isLanguageChosen()) {
+            LanguageActivity.start(this, isFromSplash = true)
+        } else {
+            val hasCamera = ContextCompat.checkSelfPermission(
+                this, Manifest.permission.CAMERA
+            ) == PackageManager.PERMISSION_GRANTED
+            startActivity(Intent(this, if (hasCamera) MainActivity::class.java else PermissionActivity::class.java))
+        }
+        finish()
+    }
 
 //    override fun initViews() {
 //        ViewCompat.setOnApplyWindowInsetsListener(viewBaseActivity.root) { v, insets ->
