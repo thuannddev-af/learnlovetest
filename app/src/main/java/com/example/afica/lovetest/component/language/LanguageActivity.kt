@@ -52,7 +52,7 @@ class LanguageActivity : BaseActivity<ActivityLanguageBinding>() {
             selectedLanguageCode = selectLanguageModel?.languageCode
             viewBaseActivity.toolBar.btnAction.isVisible = selectLanguageModel != null
         }
-        viewBaseActivity.toolBar.btnBack.setOnClickListener { onBack() }
+        viewBaseActivity.toolBar.btnBack.setOnClickWithPressEffect { onBack() }
         viewBaseActivity.toolBar.btnAction.setOnClickWithPressEffect {
             selectLanguageModel?.let { selected ->
                 viewBaseActivity.toolBar.btnAction.isEnabled = false

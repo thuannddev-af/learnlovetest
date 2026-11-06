@@ -1,5 +1,7 @@
 package com.example.afica.lovetest.component.startdate
 
+import com.example.afica.lovetest.utils.setOnClickWithPressEffect
+
 import com.example.afica.lovetest.utils.Constant
 
 import android.os.Bundle
@@ -43,13 +45,13 @@ class StartDateActivity : BaseActivity<ActivityStartDateBinding>() {
 //            insets
 //        }
 
-        viewBaseActivity.btnBack.setOnClickListener { finish() }
-        viewBaseActivity.btnDateOfLove.setOnClickListener {
+        viewBaseActivity.btnBack.setOnClickWithPressEffect { finish() }
+        viewBaseActivity.btnDateOfLove.setOnClickWithPressEffect {
             if (supportFragmentManager.findFragmentByTag(DATE_RESULT) == null) {
                 DatePickerDialog.newInstance(selectedDate, DATE_RESULT).show(supportFragmentManager, DATE_RESULT)
             }
         }
-        viewBaseActivity.btnDone.setOnClickListener {
+        viewBaseActivity.btnDone.setOnClickWithPressEffect {
             preferences.putLong(Constant.KEY_SP_START_DATE, selectedDate)
             finish()
         }

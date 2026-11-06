@@ -1,5 +1,7 @@
 package com.example.afica.lovetest.component.onboarding
 
+import com.example.afica.lovetest.utils.setOnClickWithPressEffect
+
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.example.afica.lovetest.R
@@ -26,7 +28,7 @@ class OnBoardingAdapter : BaseAdapter<OnBoarding, ItemOnBoardingBinding>() {
                     height = dotSize
                 }
             }
-            btnNext.setOnClickListener { onNextClick?.invoke(position) }
+            btnNext.setOnClickWithPressEffect { onNextClick?.invoke(position) }
         }
     }
 

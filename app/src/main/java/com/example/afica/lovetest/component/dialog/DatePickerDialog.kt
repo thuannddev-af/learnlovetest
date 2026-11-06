@@ -1,5 +1,7 @@
 package com.example.afica.lovetest.component.dialog
 
+import com.example.afica.lovetest.utils.setOnClickWithPressEffect
+
 import com.example.afica.lovetest.utils.Constant
 
 import android.app.Dialog
@@ -53,12 +55,12 @@ class DatePickerDialog : DialogFragment() {
                 setTextColor(ContextCompat.getColor(context, R.color.splash_notice))
             }, cellLayout(index, 32))
         }
-        views.btnPreviousMonth.setOnClickListener { changeMonth(-1) }
-        views.btnNextMonth.setOnClickListener { changeMonth(1) }
+        views.btnPreviousMonth.setOnClickWithPressEffect { changeMonth(-1) }
+        views.btnNextMonth.setOnClickWithPressEffect { changeMonth(1) }
         views.tvMonth.setOnClickListener { chooseYear() }
         views.tvMonth.contentDescription = getString(R.string.date_choose_year)
-        views.btnCancel.setOnClickListener { dismiss() }
-        views.btnSave.setOnClickListener {
+        views.btnCancel.setOnClickWithPressEffect { dismiss() }
+        views.btnSave.setOnClickWithPressEffect {
             parentFragmentManager.setFragmentResult(
                 requireArguments().getString(REQUEST_KEY)!!,
                 Bundle().apply { putLong(Constant.SELECTED_DATE, selectedDate) }

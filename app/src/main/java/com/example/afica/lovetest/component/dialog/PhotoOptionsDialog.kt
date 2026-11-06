@@ -1,5 +1,7 @@
 package com.example.afica.lovetest.component.dialog
 
+import com.example.afica.lovetest.utils.setOnClickWithPressEffect
+
 import com.example.afica.lovetest.utils.Constant
 
 import android.app.Dialog
@@ -15,8 +17,8 @@ import com.example.afica.lovetest.databinding.DialogPhotoOptionsBinding
 class PhotoOptionsDialog : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val binding = DialogPhotoOptionsBinding.inflate(layoutInflater)
-        binding.btnCamera.setOnClickListener { select(Constant.PHOTO_OPTION_CAMERA) }
-        binding.btnUpload.setOnClickListener { select(Constant.PHOTO_OPTION_UPLOAD) }
+        binding.btnCamera.setOnClickWithPressEffect { select(Constant.PHOTO_OPTION_CAMERA) }
+        binding.btnUpload.setOnClickWithPressEffect { select(Constant.PHOTO_OPTION_UPLOAD) }
         return AlertDialog.Builder(requireContext()).setView(binding.root).create()
     }
 

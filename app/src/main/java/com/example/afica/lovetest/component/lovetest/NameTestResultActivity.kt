@@ -1,5 +1,7 @@
 package com.example.afica.lovetest.component.lovetest
 
+import com.example.afica.lovetest.utils.setOnClickWithPressEffect
+
 import com.example.afica.lovetest.utils.Constant
 
 import android.content.ClipData
@@ -63,9 +65,9 @@ class NameTestResultActivity : BaseActivity<ActivityNameTestResultBinding>() {
 //            view.setPadding(bars.left, bars.top, bars.right, bars.bottom)
 //            insets
 //        }
-        viewBaseActivity.btnBack.setOnClickListener { onBack() }
-        viewBaseActivity.btnRetry.setOnClickListener { if (!sharing) viewModel.retry() }
-        viewBaseActivity.btnShare.setOnClickListener { shareResult() }
+        viewBaseActivity.btnBack.setOnClickWithPressEffect { onBack() }
+        viewBaseActivity.btnRetry.setOnClickWithPressEffect { if (!sharing) viewModel.retry() }
+        viewBaseActivity.btnShare.setOnClickWithPressEffect { shareResult() }
     }
 
     override fun initData() {

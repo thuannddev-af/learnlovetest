@@ -1,5 +1,7 @@
 package com.example.afica.lovetest.component.lovetest
 
+import com.example.afica.lovetest.utils.setOnClickWithPressEffect
+
 import com.example.afica.lovetest.utils.Constant
 
 import android.content.Intent
@@ -28,8 +30,8 @@ class NameTestActivity : BaseActivity<ActivityNameTestBinding>() {
 //            view.setPadding(bars.left, bars.top, bars.right, maxOf(bars.bottom, keyboard.bottom))
 //            insets
 //        }
-        viewBaseActivity.btnBack.setOnClickListener { onBack() }
-        viewBaseActivity.btnLoveTest.setOnClickListener { prepareNameTest() }
+        viewBaseActivity.btnBack.setOnClickWithPressEffect { onBack() }
+        viewBaseActivity.btnLoveTest.setOnClickWithPressEffect { prepareNameTest() }
     }
 
     override fun initData() {

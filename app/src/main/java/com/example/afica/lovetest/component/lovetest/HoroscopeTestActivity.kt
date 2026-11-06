@@ -1,5 +1,7 @@
 package com.example.afica.lovetest.component.lovetest
 
+import com.example.afica.lovetest.utils.setOnClickWithPressEffect
+
 import com.example.afica.lovetest.utils.Constant
 
 import android.content.Intent
@@ -39,10 +41,10 @@ class HoroscopeTestActivity : BaseActivity<ActivityHoroscopeTestBinding>() {
 //            view.setPadding(bars.left, bars.top, bars.right, bars.bottom)
 //            insets
 //        }
-        viewBaseActivity.btnBack.setOnClickListener { onBack() }
-        viewBaseActivity.btnYourSign.setOnClickListener { chooseSign(yourCode, YOUR_SIGN) }
-        viewBaseActivity.btnPartnerSign.setOnClickListener { chooseSign(partnerCode, PARTNER_SIGN) }
-        viewBaseActivity.btnLoveTest.setOnClickListener {
+        viewBaseActivity.btnBack.setOnClickWithPressEffect { onBack() }
+        viewBaseActivity.btnYourSign.setOnClickWithPressEffect { chooseSign(yourCode, YOUR_SIGN) }
+        viewBaseActivity.btnPartnerSign.setOnClickWithPressEffect { chooseSign(partnerCode, PARTNER_SIGN) }
+        viewBaseActivity.btnLoveTest.setOnClickWithPressEffect {
             val your = signs.firstOrNull { it.code == yourCode }
             val partner = signs.firstOrNull { it.code == partnerCode }
             if (your != null && partner != null) {

@@ -1,5 +1,7 @@
 package com.example.afica.lovetest.component.main.memory
 
+import com.example.afica.lovetest.utils.setOnClickWithPressEffect
+
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -14,7 +16,7 @@ class MemoryAddAdapter : RecyclerView.Adapter<MemoryAddAdapter.AddViewHolder>() 
         AddViewHolder(ItemMemoryAddBinding.inflate(LayoutInflater.from(parent.context), parent, false))
 
     override fun onBindViewHolder(holder: AddViewHolder, position: Int) {
-        holder.binding.btnAddMemory.setOnClickListener { onAddClick?.invoke() }
+        holder.binding.btnAddMemory.setOnClickWithPressEffect { onAddClick?.invoke() }
     }
 
     class AddViewHolder(val binding: ItemMemoryAddBinding) : RecyclerView.ViewHolder(binding.root)

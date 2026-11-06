@@ -1,5 +1,7 @@
 package com.example.afica.lovetest.component.main.memory
 
+import com.example.afica.lovetest.utils.setOnClickWithPressEffect
+
 import com.example.afica.lovetest.utils.Constant
 
 import android.net.Uri
@@ -58,17 +60,17 @@ class MemoryActivity : BaseActivity<ActivityMemoryBinding>() {
 //            insets
 //        }
 
-        viewBaseActivity.btnBack.setOnClickListener { finish() }
-        viewBaseActivity.btnAddPhoto.setOnClickListener {
+        viewBaseActivity.btnBack.setOnClickWithPressEffect { finish() }
+        viewBaseActivity.btnAddPhoto.setOnClickWithPressEffect {
             if (!busy) pickPhoto.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
         }
-        viewBaseActivity.btnDate.setOnClickListener {
+        viewBaseActivity.btnDate.setOnClickWithPressEffect {
             if (supportFragmentManager.findFragmentByTag(DATE_RESULT) == null) {
                 DatePickerDialog.newInstance(selectedDate ?: System.currentTimeMillis(), DATE_RESULT)
                     .show(supportFragmentManager, DATE_RESULT)
             }
         }
-        viewBaseActivity.btnSave.setOnClickListener { saveMemory() }
+        viewBaseActivity.btnSave.setOnClickWithPressEffect { saveMemory() }
     }
 
     private fun importPhoto(uri: Uri) {

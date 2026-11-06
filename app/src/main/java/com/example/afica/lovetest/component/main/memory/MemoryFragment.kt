@@ -13,6 +13,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.example.afica.lovetest.R
 import com.example.afica.lovetest.data.repositores.LocalRespository
 import com.example.afica.lovetest.databinding.FragmentMemoryBinding
+import com.example.afica.lovetest.utils.setOnClickWithPressEffect
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlinx.coroutines.CancellationException
@@ -37,7 +38,7 @@ class MemoryFragment : BaseFragment<FragmentMemoryBinding>() {
 //        }
         views.rclMemories.adapter = memoryAdapter
         val addMemory = View.OnClickListener { startActivity(Intent(requireContext(), MemoryActivity::class.java)) }
-        views.btnAddFirst.setOnClickListener(addMemory)
+        views.btnAddFirst.setOnClickWithPressEffect { addMemory.onClick(it) }
 
     }
 

@@ -1,5 +1,7 @@
 package com.example.afica.lovetest.component.main.profile
 
+import com.example.afica.lovetest.utils.setOnClickWithPressEffect
+
 import com.example.afica.lovetest.utils.Constant
 
 import android.content.ActivityNotFoundException
@@ -102,12 +104,12 @@ class ProfileInformationSheet : BottomSheetDialogFragment() {
         val views = binding ?: return
         views.edtName.setText(draftName)
         updateGender()
-        views.btnGender.setOnClickListener { showGenderOptions() }
+        views.btnGender.setOnClickWithPressEffect { showGenderOptions() }
         updateAvatar()
         updateBirthday()
         views.imgAvatar.setOnClickListener { showPhotoOptions() }
-        views.btnChangePhoto.setOnClickListener { showPhotoOptions() }
-        views.btnBirthday.setOnClickListener { chooseBirthday() }
+        views.btnChangePhoto.setOnClickWithPressEffect { showPhotoOptions() }
+        views.btnBirthday.setOnClickWithPressEffect { chooseBirthday() }
         views.btnSave.setOnClickListener { saveProfile() }
     }
 

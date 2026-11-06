@@ -122,6 +122,7 @@
             android:layout_height="48dp"
             android:layout_marginTop="20dp"
             android:background="@drawable/background_profile_save"
+            android:foreground="@drawable/bg_button_foreground"
             android:clickable="true"
             android:focusable="true"
             android:fontFamily="@font/plusjakartasans_semibold"

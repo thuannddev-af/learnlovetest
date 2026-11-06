@@ -49,7 +49,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 BackgroundSheet().show(parentFragmentManager, "background_sheet")
             }
         }
-        views.btnStartDate.setOnClickListener {
+        views.btnStartDate.setOnClickWithPressEffect {
             startActivity(Intent(requireContext(), StartDateActivity::class.java))
         }
     }

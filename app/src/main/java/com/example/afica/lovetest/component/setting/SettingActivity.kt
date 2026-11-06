@@ -19,7 +19,7 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
 //            insets
 //        }
         viewBaseActivity.btnBack.setOnClickWithPressEffect { onBack() }
-        viewBaseActivity.btnLanguage.setOnClickListener {
+        viewBaseActivity.btnLanguage.setOnClickWithPressEffect {
             LanguageActivity.start(this, isFromSplash = false)
         }
     }

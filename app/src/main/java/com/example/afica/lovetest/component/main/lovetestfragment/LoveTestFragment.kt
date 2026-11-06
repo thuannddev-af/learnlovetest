@@ -1,5 +1,7 @@
 package com.example.afica.lovetest.component.main.lovetestfragment
 
+import com.example.afica.lovetest.utils.setOnClickWithPressEffect
+
 import android.content.Intent
 import android.text.SpannableString
 import android.text.Spanned
@@ -26,10 +28,10 @@ class LoveTestFragment : BaseFragment<FragmentLoveTestBinding>() {
 //            view.setPadding(0, bars.top, 0, bottomPadding)
 //            insets
 //        }
-        viewBinding.btnNameTest.setOnClickListener {
+        viewBinding.btnNameTest.setOnClickWithPressEffect {
             startActivity(Intent(requireContext(), NameTestActivity::class.java))
         }
-        viewBinding.btnHoroscopeTest.setOnClickListener {
+        viewBinding.btnHoroscopeTest.setOnClickWithPressEffect {
             startActivity(Intent(requireContext(), HoroscopeTestActivity::class.java))
         }
         val title = getString(R.string.love_test_title)
