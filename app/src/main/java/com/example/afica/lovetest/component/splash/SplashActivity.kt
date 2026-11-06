@@ -1,37 +1,71 @@
 package com.example.afica.lovetest.component.splash
 
 import android.Manifest
+import android.app.ActivityOptions
 import android.content.Intent
 import android.content.pm.PackageManager
 import com.example.afica.lovetest.component.main.MainActivity
 import com.example.afica.lovetest.component.permission.PermissionActivity
 import com.example.afica.lovetest.utils.SharedPreferenceUtils
-
+import com.example.afica.lovetest.utils.Constant
 import android.os.Handler
 import android.os.Looper
-import android.text.SpannableString
-import android.text.Spanned
-import android.text.style.ForegroundColorSpan
-
+import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.example.afica.lovetest.R
 import com.example.afica.lovetest.base.activity.BaseActivity
 import com.example.afica.lovetest.component.language.LanguageActivity
 import com.example.afica.lovetest.databinding.ActivitySplashBinding
+import com.example.afica.lovetest.ads.RemoteConfigManager
+import com.example.afica.lovetest.ads.AdsManager
+import com.google.android.gms.ads.MobileAds
 
 class SplashActivity : BaseActivity<ActivitySplashBinding>() {
+
+
+    companion object {
+        private const val ADS_TIMEOUT = 15000L
+    }
     private val dotsHandler = Handler(Looper.getMainLooper())
     private var activeDotIndex = 0
+
+    //ads
+    private var splashFinished = false
+    private var adsFinished = false
+    private var hasNavigated = false
+    private var isShowingAd = false
+    private var adReady = false
+    private var isResumed = false
+    private val remoteConfigManager by lazy {
+        RemoteConfigManager()
+    }
+
+    private val adsManager by lazy {
+        AdsManager(remoteConfigManager)
+    }
+
+    private val adsTimeoutRunnable = Runnable {
+        if (!adsFinished && !isShowingAd) {
+            Log.d("SplashAds", "Ads timeout")
+            adsFinished = true
+            adReady = false
+            tryShowAds()
+        }
+    }
     private val advanceDot = object : Runnable {
         override fun run() {
             if (isFinishing || isDestroyed) return
             val dots = viewBaseActivity.splashDots
             if (activeDotIndex >= dots.childCount) {
-                openNextScreen()
+                splashFinished = true
+                Log.d("SplashAds", "Splash finished")
+                tryShowAds()
                 return
+            }
+            // Keep the loading indicator moving; reserve the final dot for ready-to-show.
+            if (activeDotIndex == dots.childCount - 1 && !adsFinished) {
+                activeDotIndex = 0
             }
             for (index in 0 until dots.childCount) {
                 dots.getChildAt(index).isSelected = index == activeDotIndex
@@ -44,29 +78,41 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>() {
     override fun provideViewBinding(): ActivitySplashBinding = ActivitySplashBinding.inflate(layoutInflater)
 
     private fun openNextScreen() {
-        if (!SharedPreferenceUtils.getInstance(this).isLanguageChosen()) {
-            LanguageActivity.start(this, isFromSplash = true)
+        val next = if (!SharedPreferenceUtils.getInstance(this).isLanguageChosen()) {
+            Intent(this, LanguageActivity::class.java)
+                .putExtra(Constant.EXTRA_FROM_SPLASH, true)
         } else {
             val hasCamera = ContextCompat.checkSelfPermission(
                 this, Manifest.permission.CAMERA
             ) == PackageManager.PERMISSION_GRANTED
-            startActivity(Intent(this, if (hasCamera) MainActivity::class.java else PermissionActivity::class.java))
+            Intent(this, if (hasCamera) MainActivity::class.java else PermissionActivity::class.java)
         }
+        window.setWindowAnimations(0)
+        disableTransitionAnimations()
+        startActivity(
+            next.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION),
+            ActivityOptions.makeCustomAnimation(this, 0, 0).toBundle()
+        )
         finish()
+        disableTransitionAnimations()
     }
 
-//    override fun initViews() {
-//        ViewCompat.setOnApplyWindowInsetsListener(viewBaseActivity.root) { v, insets ->
-//            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-//            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-//            insets
-//        }
-//    }
+
 
     override fun onStart() {
         super.onStart()
-        activeDotIndex = 0
-        dotsHandler.post(advanceDot)
+        if (!splashFinished) dotsHandler.post(advanceDot)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        isResumed = true
+        tryShowAds()
+    }
+
+    override fun onPause() {
+        isResumed = false
+        super.onPause()
     }
 
     override fun onStop() {
@@ -74,12 +120,135 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>() {
         super.onStop()
     }
 
+    override fun onDestroy() {
+        dotsHandler.removeCallbacksAndMessages(null)
+        adsManager.destroy()
+        super.onDestroy()
+    }
+
     override fun initData() {
         viewBaseActivity.splashTitle.text = HtmlCompat.fromHtml(
             getString(R.string.splash),
             HtmlCompat.FROM_HTML_MODE_LEGACY
         )
-    }
 
+        initAds()
+
+    }
+    private fun initAds() {
+        dotsHandler.postDelayed(
+            adsTimeoutRunnable,
+            ADS_TIMEOUT
+        )
+
+        remoteConfigManager.init { success ->
+            if (isFinishing || isDestroyed ||
+                hasNavigated || adsFinished
+            ) {
+                return@init
+            }
+
+            // LOG KIỂM TRA FIREBASE
+            Log.d("SplashAds", "Firebase fetch: $success")
+
+            Log.d(
+                "SplashAds",
+                "Ads tổng: ${remoteConfigManager.isAdsEnable()}"
+            )
+
+            Log.d(
+                "SplashAds",
+                "Inter Splash: ${
+                    remoteConfigManager.canShowAd(
+                        RemoteConfigManager.INTERSTITIAL_SPLASH_ENABLE
+                    )
+                }"
+            )
+
+            if (!remoteConfigManager.canShowAd(
+                    RemoteConfigManager.INTERSTITIAL_SPLASH_ENABLE
+                )
+            ) {
+                onAdsLoaded(false)
+                return@init
+            }
+
+            MobileAds.initialize(applicationContext) {
+                runOnUiThread {
+                    if (isFinishing || isDestroyed ||
+                        hasNavigated || adsFinished
+                    ) {
+                        return@runOnUiThread
+                    }
+
+                    adsManager.loadInter(this) { loaded ->
+                        if (!isFinishing && !isDestroyed &&
+                            !hasNavigated && !adsFinished
+                        ) {
+                            onAdsLoaded(loaded)
+                        }
+                    }
+                }
+            }
+        }
+    }
+    private fun onAdsLoaded(loaded: Boolean) {
+        if (adsFinished || hasNavigated || isShowingAd) return
+
+        adsFinished = true
+        adReady = loaded
+
+        dotsHandler.removeCallbacks(adsTimeoutRunnable)
+
+        Log.d("SplashAds", "Ads loaded: $loaded")
+        Log.d("SplashAds", "Splash finished: $splashFinished")
+
+        tryShowAds()
+    }
+    private fun tryShowAds() {
+        Log.d(
+            "SplashAds",
+            "tryShowAds: splash=$splashFinished, " +
+                    "ads=$adsFinished, ready=$adReady"
+        )
+
+        if (!splashFinished ||
+            !adsFinished ||
+            !isResumed ||
+            hasNavigated ||
+            isShowingAd ||
+            isFinishing ||
+            isDestroyed
+        ) {
+            return
+        }
+
+        if (adReady) {
+            isShowingAd = true
+            adReady = false
+            Log.d("SplashAds", "Đang hiển thị Interstitial")
+
+            adsManager.showInter(this) {
+                Log.d("SplashAds", "Interstitial đã đóng")
+
+                isShowingAd = false
+                // Dismiss callback may arrive before Splash resumes. Navigate directly.
+                navigateOnce()
+            }
+        } else {
+            Log.d("SplashAds", "Không có Ads, chuyển màn hình")
+
+            navigateOnce()
+        }
+    }
+    private fun navigateOnce() {
+        if (hasNavigated || isFinishing || isDestroyed) return
+
+        hasNavigated = true
+        dotsHandler.removeCallbacks(adsTimeoutRunnable)
+        dotsHandler.removeCallbacks(advanceDot)
+
+        openNextScreen()
+    }
 }
 

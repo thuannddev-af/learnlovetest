@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "82305301616",
+    "project_id": "test-4d78e",
+    "storage_bucket": "test-4d78e.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:82305301616:android:0c0aac4f17fa7f8fd3c8b5",
+        "android_client_info": {
+          "package_name": "com.example.afica.lovetest"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDTN5_lyE5CI4ByyfHARCjK2YY5_rbx2q0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

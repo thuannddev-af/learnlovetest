@@ -4,6 +4,7 @@ plugins {
     id("com.google.dagger.hilt.android")
     id("com.google.devtools.ksp")
     id("org.jetbrains.kotlin.plugin.parcelize")
+    id("com.google.gms.google-services")
 
 
 }
@@ -16,6 +17,8 @@ android {
 
     defaultConfig {
         applicationId = "com.example.afica.lovetest"
+        manifestPlaceholders["ad_app_id"] =
+            "ca-app-pub-3940256099942544~3347511713"
         minSdk = 23
         targetSdk = 36
         versionCode = 1
@@ -90,5 +93,18 @@ dependencies {
     implementation("androidx.room:room-runtime:2.8.4")
     ksp("androidx.room:room-compiler:2.8.4")
     implementation("androidx.fragment:fragment-ktx:1.8.9")
+
+    // Firebase BOM - quản lý phiên bản Firebase
+    implementation(platform("com.google.firebase:firebase-bom:34.4.0"))
+
+    // Firebase Remote Config - bật/tắt quảng cáo từ xa
+    implementation("com.google.firebase:firebase-config")
+
+    // Firebase Analytics - tùy chọn nhưng hữu ích cho Remote Config
+    implementation("com.google.firebase:firebase-analytics")
+
+    // Google AdMob SDK
+    implementation("com.google.android.gms:play-services-ads:24.7.0")
+
 
 }
