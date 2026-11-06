@@ -2,7 +2,6 @@ package com.example.afica.lovetest.data.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.example.afica.lovetest.data.database.dao.TableTestDao
 import com.example.afica.lovetest.data.database.table.TableTest
 import com.example.afica.lovetest.data.database.dao.MemoryDao
 import com.example.afica.lovetest.data.model.Memory
@@ -19,6 +18,5 @@ abstract class AppDatabase : RoomDatabase()
             }
         }
     }
-    abstract fun tableTestDao() : TableTestDao
     abstract fun memoryDao(): MemoryDao
 }

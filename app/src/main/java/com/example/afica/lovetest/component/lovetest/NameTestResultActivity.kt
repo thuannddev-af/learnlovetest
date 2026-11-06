@@ -51,6 +51,23 @@ class NameTestResultActivity : BaseActivity<ActivityNameTestResultBinding>() {
     private var partnerName = ""
     private var animating = false
     private var sharing = false
+    private var waitToast: Toast? = null
+
+    override fun onBack() {
+        if (viewModel.result.value == null) {
+            waitToast?.cancel()
+            waitToast = Toast.makeText(this, R.string.result_wait_before_leaving, Toast.LENGTH_SHORT)
+            waitToast?.show()
+        } else {
+            super.onBack()
+        }
+    }
+
+    override fun onDestroy() {
+        waitToast?.cancel()
+        waitToast = null
+        super.onDestroy()
+    }
 
     override fun provideViewBinding(): ActivityNameTestResultBinding =
         ActivityNameTestResultBinding.inflate(layoutInflater)

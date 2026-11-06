@@ -32,7 +32,7 @@ class LocalDataSource @Inject constructor(private val appDatabase: AppDatabase)
             OnBoarding(R.drawable.onboarding3, R.string.onboarding_moments_title, R.string.onboarding_moments_description)
         )
     }
-    fun getList() = appDatabase.tableTestDao().getList()
+    //fun getList() = appDatabase.tableTestDao().getList()
     fun getZodiacSigns(): List<ZodiacSign> = listOf(
         ZodiacSign("aries", R.string.zodiac_aries, R.drawable.love_aries),
         ZodiacSign("taurus", R.string.zodiac_taurus, R.drawable.love_taurus),

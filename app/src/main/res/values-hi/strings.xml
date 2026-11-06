@@ -1,4 +1,5 @@
 <resources>
+    <string name="result_wait_before_leaving">वापस जाने से पहले परीक्षण पूरा होने तक प्रतीक्षा करें.</string>
 
     <string-array name="date_weekdays">
         <item>Sun</item><item>Mon</item><item>Tue</item><item>Wed</item><item>Thu</item><item>Fri</item><item>Sat</item>

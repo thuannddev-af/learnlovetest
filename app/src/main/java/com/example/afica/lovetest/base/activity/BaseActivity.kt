@@ -7,8 +7,6 @@ import android.view.ViewTreeObserver
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.viewbinding.ViewBinding
@@ -57,7 +55,6 @@ abstract class BaseActivity <V : ViewBinding> : AppCompatActivity() {
         enableEdgeToEdge()
         viewBaseActivity = provideViewBinding()
         setContentView(viewBaseActivity.root)
-        hideSystemUI()
         initViews()
         initData()
         initObserver()
@@ -86,13 +83,6 @@ abstract class BaseActivity <V : ViewBinding> : AppCompatActivity() {
         }
     }
     abstract fun provideViewBinding(): V
-
-    private fun hideSystemUI() {
-        WindowInsetsControllerCompat(window, viewBaseActivity.root).apply {
-            systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-            hide(WindowInsetsCompat.Type.navigationBars())
-        }
-    }
 
     open fun initViews() {}
     open fun initData() {}

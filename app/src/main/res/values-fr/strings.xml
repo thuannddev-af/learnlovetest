@@ -1,4 +1,5 @@
 <resources>
+    <string name="result_wait_before_leaving">Veuillez attendre la fin du test avant de revenir en arrière.</string>
 
     <string-array name="date_weekdays">
         <item>Sun</item><item>Mon</item><item>Tue</item><item>Wed</item><item>Thu</item><item>Fri</item><item>Sat</item>

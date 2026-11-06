@@ -17,6 +17,7 @@ import androidx.lifecycle.lifecycleScope
 import com.example.afica.lovetest.R
 import com.example.afica.lovetest.base.activity.BaseActivity
 import com.example.afica.lovetest.component.onboarding.OnboardingActivity
+import com.example.afica.lovetest.component.main.MainActivity
 import com.example.afica.lovetest.data.model.Language
 import com.example.afica.lovetest.databinding.ActivityLanguageBinding
 import com.example.afica.lovetest.utils.LocaleHelper
@@ -62,6 +63,14 @@ class LanguageActivity : BaseActivity<ActivityLanguageBinding>() {
                 if (isFromSplash) {
                     startActivity(
                         Intent(this, OnboardingActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION),
+                        ActivityOptions.makeCustomAnimation(this, 0, 0).toBundle()
+                    )
+                } else {
+                    // Recreate Main with the saved locale and remove Settings/Language above it.
+                    startActivity(
+                        Intent(this, MainActivity::class.java).addFlags(
+                            Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NO_ANIMATION
+                        ),
                         ActivityOptions.makeCustomAnimation(this, 0, 0).toBundle()
                     )
                 }
