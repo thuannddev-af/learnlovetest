@@ -1,9 +1,14 @@
 package com.example.afica.lovetest.ads
 
 import android.view.View
+import android.view.Gravity
+import android.view.ViewGroup
 import android.util.Log
 import android.widget.FrameLayout
 import androidx.fragment.app.FragmentActivity
+import androidx.core.view.doOnLayout
+import com.example.afica.lovetest.R
+import com.facebook.shimmer.ShimmerFrameLayout
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Lifecycle
@@ -42,33 +47,65 @@ object BannerAdsUtils {
 
         val adView = AdView(activity).apply {
             adUnitId = placement.adId
-            setAdSize(AdSize.BANNER)
+            visibility = View.GONE
         }
+        val shimmer = activity.layoutInflater.inflate(
+            R.layout.layout_banner_control, container, false
+        ) as ShimmerFrameLayout
+        var disposed = false
         val observer = object : DefaultLifecycleObserver {
+            override fun onStart(owner: LifecycleOwner) { shimmer.startShimmer() }
+            override fun onStop(owner: LifecycleOwner) { shimmer.stopShimmer() }
             override fun onResume(owner: LifecycleOwner) = adView.resume()
             override fun onPause(owner: LifecycleOwner) = adView.pause()
             override fun onDestroy(owner: LifecycleOwner) = destroy(container)
         }
         banners[container] = {
+            disposed = true
+            shimmer.stopShimmer()
             lifecycleOwner.lifecycle.removeObserver(observer)
             adView.adListener = object : AdListener() {}
             container.removeView(adView)
+            container.removeView(shimmer)
             adView.destroy()
             container.visibility = View.GONE
         }
         adView.adListener = object : AdListener() {
             override fun onAdLoaded() {
+                if (disposed) return
                 Log.d("BannerAds", "$placement loaded")
+                shimmer.stopShimmer()
+                container.removeView(shimmer)
+                adView.visibility = View.VISIBLE
                 container.visibility = View.VISIBLE
             }
             override fun onAdFailedToLoad(error: LoadAdError) {
+                if (disposed) return
                 Log.e("BannerAds", "$placement failed: ${error.code} - ${error.message}")
+                shimmer.stopShimmer()
+                container.removeView(shimmer)
                 container.visibility = View.GONE
             }
         }
-        container.addView(adView)
+        container.addView(shimmer)
+        container.addView(adView, FrameLayout.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.CENTER
+        ))
+        container.visibility = View.VISIBLE
         lifecycleOwner.lifecycle.addObserver(observer)
-        adView.loadAd(AdRequest.Builder().build())
+
+        //set ads banner ngang màn hình
+        container.doOnLayout {
+            if (disposed) return@doOnLayout
+            val widthPixels = container.width - container.paddingLeft - container.paddingRight
+            val widthDp = (widthPixels / container.resources.displayMetrics.density).toInt()
+            if (widthDp <= 0) {
+                destroy(container)
+                return@doOnLayout
+            }
+            adView.setAdSize(AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(activity, widthDp))
+            adView.loadAd(AdRequest.Builder().build())
+        }
     }
 
     fun destroy(container: FrameLayout) { banners.remove(container)?.invoke() }

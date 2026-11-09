@@ -98,9 +98,11 @@
 
     <FrameLayout
         android:id="@+id/frAdsBanner"
+        android:background="@drawable/bg_banner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
+        android:layout_gravity="bottom"
+        android:minHeight="20dp"
          />
 
 </LinearLayout>
