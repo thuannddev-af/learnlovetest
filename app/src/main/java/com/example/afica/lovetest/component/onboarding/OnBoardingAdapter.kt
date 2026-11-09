@@ -84,7 +84,7 @@ class OnBoardingAdapter(private val activity: FragmentActivity) : RecyclerView.A
             holder.placement = placement
 
 
-            NativeAdsUtils.showNativeOnBoarding(activity, holder.binding.nativeContainer,
+            NativeAdsUtils.showNativeOnboardingFullscreen(activity, holder.binding.nativeContainer,
                 slot = if (placement == NativeAdsUtils.Placement.ONBOARDING) 1 else 2,
                 onFailed = {
                     failedAds.add(placement)

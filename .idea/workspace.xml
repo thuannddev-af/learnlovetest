@@ -65,6 +65,11 @@
           <theme>@style/Theme.Lovetest</theme>
         </config>
       </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/drawable/background_start_date_row.xml">
+        <config>
+          <theme>@style/Theme.Lovetest</theme>
+        </config>
+      </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/drawable/bg_button_ads_native.xml">
         <config>
           <theme>@style/Theme.Lovetest</theme>
@@ -116,6 +121,11 @@
         </config>
       </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/drawable/permission_switch.xml">
+        <config>
+          <theme>@style/Theme.Lovetest</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/drawable/shape_ad_view.xml">
         <config>
           <theme>@style/Theme.Lovetest</theme>
         </config>
@@ -255,6 +265,11 @@
           <theme>@style/Theme.Lovetest</theme>
         </config>
       </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/loading_native_fullscreen_view.xml">
+        <config>
+          <theme>@style/Theme.Lovetest</theme>
+        </config>
+      </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/sheet_background.xml">
         <config>
           <theme>@style/Theme.Lovetest</theme>
@@ -281,41 +296,16 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="682f8607-0284-47d6-b6fd-2756dae56053" name="Changes" comment="pushadsutils">
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/bg_button_ads_native.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/bg_button_cancel_ads.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/bg_button_watch_ads.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+    <list default="true" id="682f8607-0284-47d6-b6fd-2756dae56053" name="Changes" comment="pushads">
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/shape_ad_view.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/loading_native_fullscreen_view.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ads/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/ads/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/ads/AdsConfig.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/ads/AdsConfig.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/ads/BannerAdsUtils.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/ads/BannerAdsUtils.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/ads/InterAdsUtils.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/ads/InterAdsUtils.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/ads/NativeAdsUtils.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/ads/NativeAdsUtils.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/ads/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/ads/RemoteConfigManager.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/ads/RemoteConfigManager.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/component/language/LanguageActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/component/language/LanguageActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/component/main/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/component/main/MainActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/component/main/homefragment/HomeFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/component/main/homefragment/HomeFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/component/main/lovetestfragment/LoveTestFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/component/main/lovetestfragment/LoveTestFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/component/main/memory/MemoryActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/component/main/memory/MemoryActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/component/main/memory/MemoryFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/component/main/memory/MemoryFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/component/main/profile/ProfileInformationSheet.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/component/main/profile/ProfileInformationSheet.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/component/onboarding/OnBoardingAdapter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/component/onboarding/OnBoardingAdapter.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/component/onboarding/OnboardingActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/component/onboarding/OnboardingActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/component/permission/PermissionActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/component/permission/PermissionActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/component/splash/SplashActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/component/splash/SplashActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/utils/ViewExt.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/utils/ViewExt.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_language.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_language.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_memory.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_memory.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_permission.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_permission.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/item_background.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/item_background.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/bg_button_ads_native.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/bg_button_ads_native.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/layout_native_ad.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/layout_native_ad.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/layout_native_ad_fullscreen.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/layout_native_ad_fullscreen.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/settings.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle.kts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -505,9 +495,9 @@
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <MESSAGE value="push" />
     <MESSAGE value="pushcode" />
-    <MESSAGE value="pushads" />
     <MESSAGE value="pushadsutils" />
-    <option name="LAST_COMMIT_MESSAGE" value="pushadsutils" />
+    <MESSAGE value="pushads" />
+    <option name="LAST_COMMIT_MESSAGE" value="pushads" />
   </component>
   <component name="play_dynamic_filters_status">
     <option name="appIdToCheckInfo">

@@ -11,7 +11,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#FFCC00"
+            android:background="#F4A8B7"
             android:paddingHorizontal="4dp"
             android:text="Ad"
             android:textColor="#000000"
@@ -50,9 +50,12 @@
             android:textSize="14sp" />
         <Button
             android:id="@+id/nativeAction"
+            android:elevation="0dp"
+            android:translationZ="0dp"
+            android:stateListAnimator="@null"
+            android:background="@drawable/bg_button_ads_native"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="48dp"
             android:layout_marginTop="12dp" />
     </LinearLayout>
 </com.google.android.gms.ads.nativead.NativeAdView>

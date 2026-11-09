@@ -1,7 +1,6 @@
 package com.example.afica.lovetest.ads
 
 import android.view.View
-import android.view.ViewGroup
 import android.content.Context
 import android.os.Handler
 import android.os.Looper
@@ -9,12 +8,12 @@ import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.LinearLayout
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Lifecycle
 import com.example.afica.lovetest.R
+import com.example.afica.lovetest.utils.setOnClickWithPressEffect
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdLoader
@@ -54,7 +53,6 @@ object NativeAdsUtils {
                 request.listeners.clear()
                 if (listeners.isEmpty()) {
                     request.ad = ad
-                    // Discard unused preloaded ads before they become an hour old.
                     cacheHandler.postDelayed({
                         if (preloads[placement] === request) {
                             preloads.remove(placement)
@@ -86,14 +84,13 @@ object NativeAdsUtils {
         onFailed: () -> Unit = {}
     ) = showNative(activity, container, Placement.LANGUAGE, lifecycleOwner, onFailed = onFailed)
 
-    fun showNativeOnBoarding(
+    fun showNativeOnboardingFullscreen(
         activity: FragmentActivity,
         container: FrameLayout,
         slot: Int = 1,
         lifecycleOwner: LifecycleOwner = activity,
         onFailed: () -> Unit = {}
     ) {
-        require(slot in 1..2) { "Onboarding native slot must be 1 or 2" }
         val placement = if (slot == 1) Placement.ONBOARDING else Placement.ONBOARDING_SECOND
         showNative(activity, container, placement, lifecycleOwner, fullscreen = true, onFailed = onFailed)
     }
@@ -188,19 +185,11 @@ object NativeAdsUtils {
             request.ad = null
             displayAd(cachedAd)
         } else {
+            val loadingLayout = if (fullscreen) R.layout.loading_native_fullscreen_view
+                else R.layout.layout_native_ads_type1
             val shimmer = activity.layoutInflater.inflate(
-                R.layout.layout_native_ads_type1, container, false
+                loadingLayout, container, false
             ) as ShimmerFrameLayout
-            if (fullscreen) {
-                shimmer.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
-                shimmer.findViewById<LinearLayout>(R.id.skeletonContent).layoutParams.height =
-                    ViewGroup.LayoutParams.MATCH_PARENT
-                val media = shimmer.findViewById<View>(R.id.skeletonMedia)
-                media.layoutParams = (media.layoutParams as LinearLayout.LayoutParams).apply {
-                    height = 0
-                    weight = 1f
-                }
-            }
             loadingView = shimmer
             container.addView(shimmer)
             container.visibility = View.VISIBLE
