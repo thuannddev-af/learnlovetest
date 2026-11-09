@@ -15,9 +15,7 @@ import com.example.afica.lovetest.ads.NativeAdsUtils
 import com.example.afica.lovetest.ads.RemoteConfigManager
 import com.example.afica.lovetest.base.activity.BaseActivity
 import com.example.afica.lovetest.component.language.LanguageActivity
-import com.example.afica.lovetest.component.main.MainActivity
 import com.example.afica.lovetest.component.onboarding.OnboardingActivity
-import com.example.afica.lovetest.component.permission.PermissionActivity
 import com.example.afica.lovetest.databinding.ActivitySplashBinding
 import com.example.afica.lovetest.utils.Constant
 import com.example.afica.lovetest.utils.SharedPreferenceUtils
@@ -154,11 +152,11 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>() {
             }
 
             val canShowInter = remoteConfigManager.canShowAd(
-                    RemoteConfigManager.INTER_SPLASH
-                )
+                RemoteConfigManager.INTER_SPLASH
+            )
             val shouldPreloadLanguage =
                 !SharedPreferenceUtils.getInstance(this).isLanguageChosen() &&
-                    remoteConfigManager.canShowAd(RemoteConfigManager.NATIVE_LANGUAGE)
+                        remoteConfigManager.canShowAd(RemoteConfigManager.NATIVE_LANGUAGE)
             if (!canShowInter && !shouldPreloadLanguage) {
                 onAdsLoaded(false)
                 return@init
