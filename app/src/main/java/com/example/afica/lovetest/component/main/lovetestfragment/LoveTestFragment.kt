@@ -11,13 +11,17 @@ import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.Lifecycle
 import com.example.afica.lovetest.R
+import com.example.afica.lovetest.ads.InterAdsUtils
 import com.example.afica.lovetest.base.fragment.BaseFragment
 import com.example.afica.lovetest.component.lovetest.NameTestActivity
 import com.example.afica.lovetest.component.lovetest.HoroscopeTestActivity
 import com.example.afica.lovetest.databinding.FragmentLoveTestBinding
+import com.example.afica.lovetest.utils.setOnSingleClickListener
 
 class LoveTestFragment : BaseFragment<FragmentLoveTestBinding>() {
+    private var waitingForInter = false
     override fun provideViewBinding(container: ViewGroup?): FragmentLoveTestBinding =
         FragmentLoveTestBinding.inflate(layoutInflater, container, false)
 
@@ -28,16 +32,38 @@ class LoveTestFragment : BaseFragment<FragmentLoveTestBinding>() {
 //            view.setPadding(0, bars.top, 0, bottomPadding)
 //            insets
 //        }
-        viewBinding.btnNameTest.setOnClickWithPressEffect {
-            startActivity(Intent(requireContext(), NameTestActivity::class.java))
+        viewBinding.btnNameTest.setOnSingleClickListener(3000L) {
+            showInter {
+                startActivity(Intent(requireContext(), NameTestActivity::class.java))
+            }
         }
-        viewBinding.btnHoroscopeTest.setOnClickWithPressEffect {
-            startActivity(Intent(requireContext(), HoroscopeTestActivity::class.java))
+        viewBinding.btnHoroscopeTest.setOnSingleClickListener(3000L) {
+            InterAdsUtils.showInter(requireActivity(), InterAdsUtils.Placement.INTER_LOVE) {
+                startActivity(Intent(requireContext(), HoroscopeTestActivity::class.java))
+            }
         }
         val title = getString(R.string.love_test_title)
         viewBinding.tvTitle.text = HtmlCompat.fromHtml(
             getString(R.string.love_test_title),
             HtmlCompat.FROM_HTML_MODE_LEGACY
         )
+    }
+
+    private fun showInter(action: () -> Unit) {
+        if (waitingForInter) return
+        val owner = viewLifecycleOwner
+        waitingForInter = true
+        InterAdsUtils.showInter(requireActivity(), InterAdsUtils.Placement.INTER_LOVE) {
+            if (!isAdded || owner.lifecycle.currentState == Lifecycle.State.DESTROYED) {
+                return@showInter
+            }
+            waitingForInter = false
+            action()
+        }
+    }
+
+    override fun onDestroyView() {
+        waitingForInter = false
+        super.onDestroyView()
     }
 }

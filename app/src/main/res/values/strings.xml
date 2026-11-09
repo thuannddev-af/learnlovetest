@@ -56,6 +56,11 @@
     <string name="memory_photo_required">Please add a photo</string>
     <string name="memory_date_required">Please choose a date</string>
     <string name="memory_save_error">Could not save the memory. Please try again.</string>
+    <string name="memory_reward_title">Save your memory</string>
+    <string name="memory_reward_message">Watch an ad to save this memory. Your memory will be saved after you earn the reward.</string>
+    <string name="memory_reward_watch">Watch and save</string>
+    <string name="memory_reward_loading">Loading ad…</string>
+    <string name="memory_reward_incomplete">The memory was not saved. Finish watching the ad to earn the reward, or try again if the ad could not load.</string>
     <string name="memory_load_error">Could not load memories. Please reopen this screen.</string>
     <string name="background_choose_title">Choose your background</string>
     <string name="background_add_photo">Add a background photo</string>

@@ -13,7 +13,15 @@ import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 
 object InterAdsUtils {
     enum class Placement(val adId: String, val configKey: String) {
-        SPLASH(AdsConfig.INTERSTITIAL_SPLASH_ID, RemoteConfigManager.INTERSTITIAL_SPLASH_ENABLE),
+        SPLASH(AdsConfig.INTER_SPLASH, RemoteConfigManager.INTER_SPLASH),
+
+        INTER_SAVE(AdsConfig.INTER_SAVE, RemoteConfigManager.INTER_ADS),
+
+        INTER_DAY(AdsConfig.INTER_DAY, RemoteConfigManager.INTER_ADS),
+
+        INTER_LOVE(AdsConfig.INTER_LOVE, RemoteConfigManager.INTER_ADS),
+
+        INTER_ADD(AdsConfig.INTER_ADD, RemoteConfigManager.INTER_ADS),
         DEFAULT(AdsConfig.INTERSTITIAL_ID, RemoteConfigManager.INTER_ADS)
     }
 
@@ -26,7 +34,6 @@ object InterAdsUtils {
     private val requests = mutableMapOf<Pair<FragmentActivity, Placement>, Request>()
     private val remoteConfig by lazy { RemoteConfigManager() }
 
-    /** Preload when a screen has its own waiting animation, such as splash. */
     fun loadInter(
         activity: FragmentActivity,
         placement: Placement = Placement.DEFAULT,

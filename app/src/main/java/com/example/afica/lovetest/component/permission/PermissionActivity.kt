@@ -13,6 +13,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.afica.lovetest.component.main.MainActivity
 import com.example.afica.lovetest.R
+import com.example.afica.lovetest.ads.NativeAdsUtils
 import com.example.afica.lovetest.base.activity.BaseActivity
 import com.example.afica.lovetest.databinding.ActivityPermissionBinding
 import com.example.afica.lovetest.utils.setOnClickWithPressEffect
@@ -52,6 +53,7 @@ class PermissionActivity : BaseActivity<ActivityPermissionBinding>() {
 //            view.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
 //            insets
 //        }
+        loadNative()
     }
 
     override fun onResume() {
@@ -76,6 +78,10 @@ class PermissionActivity : BaseActivity<ActivityPermissionBinding>() {
 
     private fun openAppSettings() {
         startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:$packageName")))
+    }
+
+    private fun loadNative() {
+        NativeAdsUtils.showNativeLanguage(this, viewBaseActivity.frAdsNative)
     }
 }
 

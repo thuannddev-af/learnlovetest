@@ -16,8 +16,13 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.lifecycleScope
 import com.example.afica.lovetest.R
+import com.example.afica.lovetest.ads.AdsConfig
+import com.example.afica.lovetest.ads.BannerAdsUtils
+import com.example.afica.lovetest.ads.RemoteConfigManager
+import com.example.afica.lovetest.ads.RewardAdsUtils
 import com.example.afica.lovetest.base.activity.BaseActivity
 import com.example.afica.lovetest.component.dialog.DatePickerDialog
+import com.example.afica.lovetest.component.dialog.WatchAndSaveDialog
 import com.example.afica.lovetest.data.model.Memory
 import com.example.afica.lovetest.data.repositores.LocalRespository
 import com.example.afica.lovetest.databinding.ActivityMemoryBinding
@@ -40,6 +45,9 @@ class MemoryActivity : BaseActivity<ActivityMemoryBinding>() {
     private var photoPath: String? = null
     private var selectedDate: Long? = null
     private var busy = false
+    private val rewardDialogLazy = lazy { WatchAndSaveDialog(this) }
+    private val rewardDialog by rewardDialogLazy
+    private val remoteConfig by lazy { RemoteConfigManager() }
 
     private val pickPhoto = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
         if (uri != null) importPhoto(uri)
@@ -71,6 +79,7 @@ class MemoryActivity : BaseActivity<ActivityMemoryBinding>() {
             }
         }
         viewBaseActivity.btnSave.setOnClickWithPressEffect { saveMemory() }
+        showBanner()
     }
 
     private fun importPhoto(uri: Uri) {
@@ -108,7 +117,7 @@ class MemoryActivity : BaseActivity<ActivityMemoryBinding>() {
     }
 
     private fun saveMemory() {
-        if (busy) return
+        if (busy || (rewardDialogLazy.isInitialized() && rewardDialog.isShowing)) return
         val title = viewBaseActivity.edtTitle.text?.toString()?.trim().orEmpty()
         if (title.isEmpty()) {
             viewBaseActivity.edtTitle.error = getString(R.string.memory_title_required)
@@ -125,10 +134,41 @@ class MemoryActivity : BaseActivity<ActivityMemoryBinding>() {
             Toast.makeText(this, R.string.memory_date_required, Toast.LENGTH_SHORT).show()
             return
         }
+        val memory = Memory(memoryId, title, date, photo)
+        if (!remoteConfig.canShowAd(RemoteConfigManager.REWARD_ADS)) {
+            persistMemory(memory)
+            return
+        }
+        rewardDialog.show { showSaveReward(memory) }
+    }
+
+    private fun showSaveReward(memory: Memory) {
+        if (busy || isFinishing || isDestroyed) return
+        setBusy(true)
+        var earned = false
+        Toast.makeText(this, R.string.memory_reward_loading, Toast.LENGTH_SHORT).show()
+        RewardAdsUtils.loadAndShowRewardAds(
+            activity = this,
+            lifecycleOwner = this,
+            idAds = AdsConfig.REWARD_ID,
+            adPlacement = REWARD_SAVE_MEMORY,
+            isEnable = remoteConfig.canShowAd(RemoteConfigManager.REWARD_ADS),
+            onRewardEarned = { earned = true }
+        ) {
+            if (!isFinishing && !isDestroyed) {
+                setBusy(false)
+                if (earned) persistMemory(memory)
+                else Toast.makeText(this, R.string.memory_reward_incomplete, Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
+    private fun persistMemory(memory: Memory) {
+        if (busy) return
         setBusy(true)
         lifecycleScope.launch {
             try {
-                repository.saveMemory(Memory(memoryId, title, date, photo))
+                repository.saveMemory(memory)
                 finish()
             } catch (error: CancellationException) {
                 throw error
@@ -149,6 +189,7 @@ class MemoryActivity : BaseActivity<ActivityMemoryBinding>() {
 
     companion object {
         private const val DATE_RESULT = "memory_date_result"
+        private const val REWARD_SAVE_MEMORY = "reward_save_memory"
     }
 
     override fun initData() {
@@ -157,6 +198,17 @@ class MemoryActivity : BaseActivity<ActivityMemoryBinding>() {
         selectedDate = restoredState?.takeIf { it.containsKey("memory_date") }?.getLong("memory_date")
         renderPhoto()
         renderDate()
+        RewardAdsUtils.loadRewardAds(
+            activity = this,
+            idAds = AdsConfig.REWARD_ID,
+            adPlacement = REWARD_SAVE_MEMORY,
+            isEnable = remoteConfig.canShowAd(RemoteConfigManager.REWARD_ADS)
+        )
+    }
+
+    override fun onDestroy() {
+        if (rewardDialogLazy.isInitialized()) rewardDialog.dismiss()
+        super.onDestroy()
     }
 
     override fun initObserver() {
@@ -166,5 +218,8 @@ class MemoryActivity : BaseActivity<ActivityMemoryBinding>() {
         }
     }
 
+    private fun showBanner() {
+        BannerAdsUtils.showBanner(this, viewBaseActivity.frAdsBanner, BannerAdsUtils.Placement.BANNER_MEMORY)
+    }
 }
 

@@ -1,22 +1,21 @@
 package com.example.afica.lovetest.component.main.homefragment
 
-import com.example.afica.lovetest.utils.Constant
-
 import android.content.Intent
 import android.net.Uri
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.Lifecycle
 import com.example.afica.lovetest.R
+import com.example.afica.lovetest.ads.InterAdsUtils
 import com.example.afica.lovetest.base.fragment.BaseFragment
 import com.example.afica.lovetest.component.main.background.BackgroundSheet
 import com.example.afica.lovetest.component.main.background.BackgroundStore
 import com.example.afica.lovetest.component.main.profile.ProfileInformationSheet
 import com.example.afica.lovetest.component.main.profile.ProfileStore
-import com.example.afica.lovetest.component.startdate.StartDateActivity
 import com.example.afica.lovetest.component.setting.SettingActivity
+import com.example.afica.lovetest.component.startdate.StartDateActivity
 import com.example.afica.lovetest.databinding.FragmentHomeBinding
+import com.example.afica.lovetest.utils.Constant
 import com.example.afica.lovetest.utils.SharedPreferenceUtils
 import com.example.afica.lovetest.utils.setOnClickWithPressEffect
 import java.io.File
@@ -25,6 +24,8 @@ import java.util.TimeZone
 import java.util.concurrent.TimeUnit
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
+    private var interdelay = false
+
     private val preferences by lazy { SharedPreferenceUtils(requireContext(), "home") }
     private val views get() = viewBinding
 
@@ -50,8 +51,28 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             }
         }
         views.btnStartDate.setOnClickWithPressEffect {
-            startActivity(Intent(requireContext(), StartDateActivity::class.java))
+            showInter {
+                startActivity(Intent(requireContext(), StartDateActivity::class.java))
+            }
         }
+    }
+
+    private fun showInter(action: () -> Unit) {
+        if (interdelay) return
+        val owner = viewLifecycleOwner
+        interdelay = true
+        InterAdsUtils.showInter(requireActivity(), InterAdsUtils.Placement.INTER_DAY) {
+            if (!isAdded || owner.lifecycle.currentState == Lifecycle.State.DESTROYED) {
+                return@showInter
+            }
+            interdelay = false
+            action()
+        }
+    }
+
+    override fun onDestroyView() {
+        interdelay = false
+        super.onDestroyView()
     }
 
     override fun initData() {
@@ -61,10 +82,16 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     override fun initObserver() {
-        parentFragmentManager.setFragmentResultListener(Constant.RESULT_PROFILE_UPDATED, viewLifecycleOwner) { _, _ ->
+        parentFragmentManager.setFragmentResultListener(
+            Constant.RESULT_PROFILE_UPDATED,
+            viewLifecycleOwner
+        ) { _, _ ->
             renderProfiles()
         }
-        parentFragmentManager.setFragmentResultListener(Constant.RESULT_BACKGROUND_UPDATED, viewLifecycleOwner) { _, result ->
+        parentFragmentManager.setFragmentResultListener(
+            Constant.RESULT_BACKGROUND_UPDATED,
+            viewLifecycleOwner
+        ) { _, result ->
             result.getString(Constant.BACKGROUND_URI)?.let { showBackground(Uri.parse(it)) }
         }
     }
@@ -79,7 +106,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     private fun showProfile(id: String) {
         if (parentFragmentManager.findFragmentByTag("profile_information") == null) {
-            ProfileInformationSheet.newInstance(id).show(parentFragmentManager, "profile_information")
+            ProfileInformationSheet.newInstance(id)
+                .show(parentFragmentManager, "profile_information")
         }
     }
 
@@ -93,15 +121,18 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         views.tvGirlAge.text = girl.age().toString()
         views.imgBoyGender.setImageResource(if (boy.isMale) R.drawable.boy else R.drawable.girl)
         views.imgGirlGender.setImageResource(if (girl.isMale) R.drawable.boy else R.drawable.girl)
-        views.imgBoyGender.contentDescription = getString(if (boy.isMale) R.string.home_male else R.string.home_female)
-        views.imgGirlGender.contentDescription = getString(if (girl.isMale) R.string.home_male else R.string.home_female)
+        views.imgBoyGender.contentDescription =
+            getString(if (boy.isMale) R.string.home_male else R.string.home_female)
+        views.imgGirlGender.contentDescription =
+            getString(if (girl.isMale) R.string.home_male else R.string.home_female)
         showAvatar(views.imgBoy, boy.photoPath, R.drawable.boy1)
         showAvatar(views.imgGirl, girl.photoPath, R.drawable.girl1)
     }
 
     private fun showAvatar(image: ImageView, path: String?, defaultImage: Int) {
         image.setImageResource(defaultImage)
-        image.scaleType = if (path == null) ImageView.ScaleType.FIT_CENTER else ImageView.ScaleType.CENTER_CROP
+        image.scaleType =
+            if (path == null) ImageView.ScaleType.FIT_CENTER else ImageView.ScaleType.CENTER_CROP
         path?.let { if (File(it).isFile) image.setImageURI(Uri.fromFile(File(it))) }
     }
 
@@ -116,16 +147,23 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     private fun updateDayCount() {
         val days = if (preferences.contains(Constant.KEY_SP_START_DATE)) {
-            val start = Calendar.getInstance().apply { timeInMillis = preferences.getLong(Constant.KEY_SP_START_DATE, 0) }
+            val start = Calendar.getInstance()
+                .apply { timeInMillis = preferences.getLong(Constant.KEY_SP_START_DATE, 0) }
+
             fun dateInUtc(calendar: Calendar): Long =
                 Calendar.getInstance(TimeZone.getTimeZone("UTC")).apply {
                     clear()
-                    set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH))
+                    set(
+                        calendar.get(Calendar.YEAR),
+                        calendar.get(Calendar.MONTH),
+                        calendar.get(Calendar.DAY_OF_MONTH)
+                    )
                 }.timeInMillis
-            TimeUnit.MILLISECONDS.toDays(dateInUtc(Calendar.getInstance()) - dateInUtc(start)).coerceAtLeast(0)
+            TimeUnit.MILLISECONDS.toDays(dateInUtc(Calendar.getInstance()) - dateInUtc(start))
+                .coerceAtLeast(0)
         } else 0L
         views.tvDayCount.text = days.toString()
     }
 
-    
+
 }

@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.example.afica.lovetest.R
+import com.example.afica.lovetest.ads.BannerAdsUtils
 import com.example.afica.lovetest.base.activity.BaseActivity
 import com.example.afica.lovetest.component.main.homefragment.HomeFragment
 import com.example.afica.lovetest.component.main.lovetestfragment.LoveTestFragment
@@ -45,6 +46,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 tab.setOnClickListener { viewBaseActivity.viewPager.setCurrentItem(index, false) }
             }
         updateNavigation(viewBaseActivity.viewPager.currentItem)
+        showBanner()
     }
 
     private fun updateNavigation(position: Int) {
@@ -61,6 +63,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     override fun onDestroy() {
         viewBaseActivity.viewPager.unregisterOnPageChangeCallback(pageCallback)
         super.onDestroy()
+    }
+    private fun showBanner() {
+        BannerAdsUtils.showBanner(
+            this,
+            viewBaseActivity.frAdsBanner,
+            BannerAdsUtils.Placement.BANNER_HOME
+        )
     }
 }
 

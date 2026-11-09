@@ -1,11 +1,7 @@
 package com.example.afica.lovetest.component.main.profile
 
-import com.example.afica.lovetest.utils.setOnClickWithPressEffect
-
-import com.example.afica.lovetest.utils.Constant
-
-import android.content.ActivityNotFoundException
 import android.Manifest
+import android.content.ActivityNotFoundException
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -20,27 +16,29 @@ import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.ListPopupWindow
-import androidx.core.content.FileProvider
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
 import com.example.afica.lovetest.R
-import com.example.afica.lovetest.component.dialog.PhotoOptionsDialog
+import com.example.afica.lovetest.ads.InterAdsUtils
 import com.example.afica.lovetest.component.dialog.DatePickerDialog
+import com.example.afica.lovetest.component.dialog.PhotoOptionsDialog
 import com.example.afica.lovetest.data.model.ProfileInformation
 import com.example.afica.lovetest.databinding.SheetProfileInformationBinding
+import com.example.afica.lovetest.utils.Constant
 import com.example.afica.lovetest.utils.ProfilePhotos
+import com.example.afica.lovetest.utils.setOnClickWithPressEffect
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import java.io.File
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Locale
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.io.File
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class ProfileInformationSheet : BottomSheetDialogFragment() {
 
@@ -58,27 +56,34 @@ class ProfileInformationSheet : BottomSheetDialogFragment() {
         ActivityResultContracts.RequestPermission()
     ) { granted ->
         if (granted) launchCamera()
-        else Toast.makeText(requireContext(), R.string.permission_camera_settings_message, Toast.LENGTH_LONG).show()
+        else Toast.makeText(
+            requireContext(),
+            R.string.permission_camera_settings_message,
+            Toast.LENGTH_LONG
+        ).show()
     }
 
-    private val pickPhoto = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
-        if (uri != null) importPhoto(uri)
-    }
-    private val takePhoto = registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
-        val capturedPath = cameraPath
-        cameraPath = null
-        if (success && capturedPath != null) {
-            importPhoto(Uri.fromFile(File(capturedPath)), capturedPath)
-        } else {
-            capturedPath?.let { File(it).delete() }
+    private val pickPhoto =
+        registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+            if (uri != null) importPhoto(uri)
         }
-    }
+    private val takePhoto =
+        registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
+            val capturedPath = cameraPath
+            cameraPath = null
+            if (success && capturedPath != null) {
+                importPhoto(Uri.fromFile(File(capturedPath)), capturedPath)
+            } else {
+                capturedPath?.let { File(it).delete() }
+            }
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val profile = ProfileStore(requireContext()).load(profileId)
         birthday = savedInstanceState?.getLong("birthday") ?: profile.birthday
-        photoPath = if (savedInstanceState != null) savedInstanceState.getString("photo") else profile.photoPath
+        photoPath =
+            if (savedInstanceState != null) savedInstanceState.getString("photo") else profile.photoPath
         cameraPath = savedInstanceState?.getString("camera")
         draftName = savedInstanceState?.getString("name") ?: profile.name
         draftMale = savedInstanceState?.getBoolean("male") ?: profile.isMale
@@ -86,7 +91,10 @@ class ProfileInformationSheet : BottomSheetDialogFragment() {
             birthday = result.getLong(Constant.SELECTED_DATE)
             updateBirthday()
         }
-        childFragmentManager.setFragmentResultListener(Constant.RESULT_PHOTO_OPTION, this) { _, result ->
+        childFragmentManager.setFragmentResultListener(
+            Constant.RESULT_PHOTO_OPTION,
+            this
+        ) { _, result ->
             when (result.getString(Constant.PHOTO_OPTION)) {
                 Constant.PHOTO_OPTION_CAMERA -> launchCamera()
                 Constant.PHOTO_OPTION_UPLOAD -> pickPhoto.launch(
@@ -96,8 +104,13 @@ class ProfileInformationSheet : BottomSheetDialogFragment() {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        return SheetProfileInformationBinding.inflate(inflater, container, false).also { binding = it }.root
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        return SheetProfileInformationBinding.inflate(inflater, container, false)
+            .also { binding = it }.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -110,7 +123,11 @@ class ProfileInformationSheet : BottomSheetDialogFragment() {
         views.imgAvatar.setOnClickListener { showPhotoOptions() }
         views.btnChangePhoto.setOnClickWithPressEffect { showPhotoOptions() }
         views.btnBirthday.setOnClickWithPressEffect { chooseBirthday() }
-        views.btnSave.setOnClickListener { saveProfile() }
+        views.btnSave.setOnClickListener {
+            InterAdsUtils.showInter(requireActivity(), InterAdsUtils.Placement.INTER_SAVE) {
+                if (isAdded && binding != null) saveProfile()
+            }
+        }
     }
 
     override fun onStart() {
@@ -144,10 +161,12 @@ class ProfileInformationSheet : BottomSheetDialogFragment() {
             anchorView = anchor
             width = anchor.width
             isModal = true
-            setAdapter(ArrayAdapter(
-                requireContext(), android.R.layout.simple_list_item_1,
-                listOf(getString(R.string.home_male), getString(R.string.home_female))
-            ))
+            setAdapter(
+                ArrayAdapter(
+                    requireContext(), android.R.layout.simple_list_item_1,
+                    listOf(getString(R.string.home_male), getString(R.string.home_female))
+                )
+            )
             setOnItemClickListener { _, _, position, _ ->
                 draftMale = position == 0
                 updateGender()
@@ -158,7 +177,11 @@ class ProfileInformationSheet : BottomSheetDialogFragment() {
     }
 
     private fun launchCamera() {
-        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.CAMERA
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
             requestCameraPermission.launch(Manifest.permission.CAMERA)
             return
         }
@@ -166,12 +189,20 @@ class ProfileInformationSheet : BottomSheetDialogFragment() {
             val directory = File(requireContext().cacheDir, "profile_camera").apply { mkdirs() }
             val file = File.createTempFile("avatar_", ".jpg", directory)
             cameraPath = file.absolutePath
-            val uri = FileProvider.getUriForFile(requireContext(), requireContext().packageName + ".profile.photos", file)
+            val uri = FileProvider.getUriForFile(
+                requireContext(),
+                requireContext().packageName + ".profile.photos",
+                file
+            )
             takePhoto.launch(uri)
         } catch (_: ActivityNotFoundException) {
             cameraPath?.let { File(it).delete() }
             cameraPath = null
-            Toast.makeText(requireContext(), R.string.profile_camera_unavailable, Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                requireContext(),
+                R.string.profile_camera_unavailable,
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 
@@ -206,12 +237,14 @@ class ProfileInformationSheet : BottomSheetDialogFragment() {
     }
 
     private fun updateBirthday() {
-        binding?.btnBirthday?.text = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(birthday)
+        binding?.btnBirthday?.text =
+            SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(birthday)
     }
 
     private fun chooseBirthday() {
         if (childFragmentManager.findFragmentByTag(BIRTHDAY_RESULT) == null) {
-            DatePickerDialog.newInstance(birthday, BIRTHDAY_RESULT).show(childFragmentManager, BIRTHDAY_RESULT)
+            DatePickerDialog.newInstance(birthday, BIRTHDAY_RESULT)
+                .show(childFragmentManager, BIRTHDAY_RESULT)
         }
     }
 
@@ -227,8 +260,13 @@ class ProfileInformationSheet : BottomSheetDialogFragment() {
             profileId,
             ProfileInformation(name, draftMale, birthday, photoPath)
         )
-        parentFragmentManager.setFragmentResult(Constant.RESULT_PROFILE_UPDATED, bundleOf(PROFILE_ID to profileId))
+        parentFragmentManager.setFragmentResult(
+            Constant.RESULT_PROFILE_UPDATED,
+            bundleOf(PROFILE_ID to profileId)
+        )
         dismiss()
+
+
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -250,6 +288,7 @@ class ProfileInformationSheet : BottomSheetDialogFragment() {
     companion object {
         private const val BIRTHDAY_RESULT = "birthday_result"
         private const val PROFILE_ID = "profile_id"
-        fun newInstance(id: String) = ProfileInformationSheet().apply { arguments = bundleOf(PROFILE_ID to id) }
+        fun newInstance(id: String) =
+            ProfileInformationSheet().apply { arguments = bundleOf(PROFILE_ID to id) }
     }
 }

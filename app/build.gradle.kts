@@ -78,6 +78,9 @@ dependencies {
     // Unit Test
     testImplementation("junit:junit:4.13.2")
 
+    //shimmer
+    implementation("com.facebook.shimmer:shimmer:0.5.0")
+
     // Android Test
     androidTestImplementation(platform("androidx.compose:compose-bom:2026.02.01"))
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")

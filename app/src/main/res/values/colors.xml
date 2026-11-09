@@ -9,6 +9,10 @@
     <color name="splash_notice">#535762</color>
     <color name="color_main">#54488C</color>
     <color name="background_main">#FFFFFF</color>
+    <color name="btn_ads_native">#FFB8CC</color>
+    <color name="btn_watch_ads">#FB655B</color>
+    <color name="btn_cancel_ads">#F4CBCB</color>
+
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>

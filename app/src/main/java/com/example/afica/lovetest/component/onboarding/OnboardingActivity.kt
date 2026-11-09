@@ -13,18 +13,24 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.afica.lovetest.component.permission.PermissionActivity
 import com.example.afica.lovetest.base.activity.BaseActivity
 import com.example.afica.lovetest.databinding.ActivityOnboardingBinding
+import com.example.afica.lovetest.ads.NativeAdsUtils
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class OnboardingActivity : BaseActivity<ActivityOnboardingBinding>() {
     private val viewModel: OnBoardingViewModel by viewModels()
-    private val onboardingAdapter = OnBoardingAdapter()
+    private val onboardingAdapter by lazy { OnBoardingAdapter(this) }
     private var restoredPosition = 0
     private var initialPageRestored = false
+    private var swipeDirection = 1
     private val pageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
         override fun onPageSelected(position: Int) {
+            if (position != viewModel.currentPosition) {
+                swipeDirection = if (position > viewModel.currentPosition) 1 else -1
+            }
             viewModel.currentPosition = position
+            if (onboardingAdapter.isFailedAd(position)) skipFailedAd(position)
         }
     }
 
@@ -35,6 +41,7 @@ class OnboardingActivity : BaseActivity<ActivityOnboardingBinding>() {
         viewBaseActivity.viewPager.adapter = onboardingAdapter
         viewBaseActivity.viewPager.isUserInputEnabled = true
         viewBaseActivity.viewPager.registerOnPageChangeCallback(pageChangeCallback)
+        onboardingAdapter.onAdFailed = { position -> skipFailedAd(position) }
         onboardingAdapter.onNextClick = { position ->
             val pager = viewBaseActivity.viewPager
             if (position == pager.currentItem && pager.scrollState == ViewPager2.SCROLL_STATE_IDLE) {
@@ -46,12 +53,17 @@ class OnboardingActivity : BaseActivity<ActivityOnboardingBinding>() {
                 }
             }
         }
+    }
 
-//        ViewCompat.setOnApplyWindowInsetsListener(viewBaseActivity.root) { view, insets ->
-//            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-//            view.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-//            insets
-//        }
+    private fun skipFailedAd(position: Int) {
+        viewBaseActivity.viewPager.post {
+            val pager = viewBaseActivity.viewPager
+            val target = position + swipeDirection
+            if (!isFinishing && !isDestroyed && pager.currentItem == position &&
+                target in 0 until onboardingAdapter.itemCount) {
+                pager.setCurrentItem(target, false)
+            }
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -76,7 +88,8 @@ class OnboardingActivity : BaseActivity<ActivityOnboardingBinding>() {
                     if (pages.isNotEmpty()) {
                         val position = if (initialPageRestored) viewModel.currentPosition else restoredPosition
                         onboardingAdapter.setData(ArrayList(pages))
-                        viewBaseActivity.viewPager.setCurrentItem(position.coerceIn(pages.indices), false)
+                        viewBaseActivity.viewPager.setCurrentItem(
+                            position.coerceIn(0, onboardingAdapter.itemCount - 1), false)
                         initialPageRestored = true
                     }
                 }
@@ -85,6 +98,8 @@ class OnboardingActivity : BaseActivity<ActivityOnboardingBinding>() {
     }
 
     override fun initData() {
+        NativeAdsUtils.preloadNative(applicationContext, NativeAdsUtils.Placement.ONBOARDING)
+        NativeAdsUtils.preloadNative(applicationContext, NativeAdsUtils.Placement.ONBOARDING_SECOND)
         viewModel.getListOnBoarding()
     }
 

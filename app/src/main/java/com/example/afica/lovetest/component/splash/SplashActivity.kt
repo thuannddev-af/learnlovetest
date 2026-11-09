@@ -11,10 +11,12 @@ import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
 import com.example.afica.lovetest.R
 import com.example.afica.lovetest.ads.InterAdsUtils
+import com.example.afica.lovetest.ads.NativeAdsUtils
 import com.example.afica.lovetest.ads.RemoteConfigManager
 import com.example.afica.lovetest.base.activity.BaseActivity
 import com.example.afica.lovetest.component.language.LanguageActivity
 import com.example.afica.lovetest.component.main.MainActivity
+import com.example.afica.lovetest.component.onboarding.OnboardingActivity
 import com.example.afica.lovetest.component.permission.PermissionActivity
 import com.example.afica.lovetest.databinding.ActivitySplashBinding
 import com.example.afica.lovetest.utils.Constant
@@ -88,7 +90,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>() {
             ) == PackageManager.PERMISSION_GRANTED
             Intent(
                 this,
-                if (hasCamera) MainActivity::class.java else PermissionActivity::class.java
+                if (hasCamera) OnboardingActivity::class.java else OnboardingActivity::class.java
             )
         }
         window.setWindowAnimations(0)
@@ -151,27 +153,13 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>() {
                 return@init
             }
 
-//            // LOG KIỂM TRA FIREBASE
-//            Log.d("SplashAds", "Firebase fetch: $success")
-//
-//            Log.d(
-//                "SplashAds",
-//                "Ads tổng: ${remoteConfigManager.isAdsEnable()}"
-//            )
-//
-//            Log.d(
-//                "SplashAds",
-//                "Inter Splash: ${
-//                    remoteConfigManager.canShowAd(
-//                        RemoteConfigManager.INTERSTITIAL_SPLASH_ENABLE
-//                    )
-//                }"
-//            )
-
-            if (!remoteConfigManager.canShowAd(
-                    RemoteConfigManager.INTERSTITIAL_SPLASH_ENABLE
+            val canShowInter = remoteConfigManager.canShowAd(
+                    RemoteConfigManager.INTER_SPLASH
                 )
-            ) {
+            val shouldPreloadLanguage =
+                !SharedPreferenceUtils.getInstance(this).isLanguageChosen() &&
+                    remoteConfigManager.canShowAd(RemoteConfigManager.NATIVE_LANGUAGE)
+            if (!canShowInter && !shouldPreloadLanguage) {
                 onAdsLoaded(false)
                 return@init
             }
@@ -181,6 +169,14 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>() {
                     if (isFinishing || isDestroyed ||
                         hasNavigated || adsFinished
                     ) {
+                        return@runOnUiThread
+                    }
+
+                    if (shouldPreloadLanguage) {
+                        NativeAdsUtils.preloadNative(applicationContext)
+                    }
+                    if (!canShowInter) {
+                        onAdsLoaded(false)
                         return@runOnUiThread
                     }
 
@@ -203,19 +199,10 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>() {
         adReady = loaded
 
         dotsHandler.removeCallbacks(adsTimeoutRunnable)
-
-//        Log.d("SplashAds", "Ads loaded: $loaded")
-//        Log.d("SplashAds", "Splash finished: $splashFinished")
-
         tryShowAds()
     }
 
     private fun tryShowAds() {
-//        Log.d(
-//            "SplashAds",
-//            "tryShowAds: splash=$splashFinished, " +
-//                    "ads=$adsFinished, ready=$adReady"
-//        )
 
         if (!splashFinished ||
             !adsFinished ||
@@ -231,17 +218,13 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>() {
         if (adReady) {
             isShowingAd = true
             adReady = false
-            //Log.d("SplashAds", "Đang hiển thị Interstitial")
 
             InterAdsUtils.showInter(this, InterAdsUtils.Placement.SPLASH) {
-                //Log.d("SplashAds", "Interstitial đã đóng")
 
                 isShowingAd = false
-                // Dismiss callback may arrive before Splash resumes. Navigate directly.
                 navigateOnce()
             }
         } else {
-            //Log.d("SplashAds", "Không có Ads, chuyển màn hình")
 
             navigateOnce()
         }

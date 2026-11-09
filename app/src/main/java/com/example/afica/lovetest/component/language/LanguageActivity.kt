@@ -15,6 +15,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.example.afica.lovetest.R
+import com.example.afica.lovetest.ads.NativeAdsUtils
 import com.example.afica.lovetest.base.activity.BaseActivity
 import com.example.afica.lovetest.component.onboarding.OnboardingActivity
 import com.example.afica.lovetest.component.main.MainActivity
@@ -66,7 +67,6 @@ class LanguageActivity : BaseActivity<ActivityLanguageBinding>() {
                         ActivityOptions.makeCustomAnimation(this, 0, 0).toBundle()
                     )
                 } else {
-                    // Recreate Main with the saved locale and remove Settings/Language above it.
                     startActivity(
                         Intent(this, MainActivity::class.java).addFlags(
                             Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NO_ANIMATION
@@ -79,15 +79,11 @@ class LanguageActivity : BaseActivity<ActivityLanguageBinding>() {
                 disableTransitionAnimations()
             }
         }
-//        ViewCompat.setOnApplyWindowInsetsListener(viewBaseActivity.root) { view, insets ->
-//            val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-//            view.setPadding(bars.left, bars.top, bars.right, bars.bottom)
-//            insets
-//        }
     }
 
     override fun initData() {
         viewModel.loadListLanguage()
+        loadNative()
     }
 
     override fun initObserver() {
@@ -109,6 +105,16 @@ class LanguageActivity : BaseActivity<ActivityLanguageBinding>() {
         super.onSaveInstanceState(outState)
     }
 
+    private fun loadNative() {
+        if (isFromSplash) {
+            NativeAdsUtils.preloadNative(applicationContext, NativeAdsUtils.Placement.ONBOARDING)
+            NativeAdsUtils.preloadNative(applicationContext, NativeAdsUtils.Placement.ONBOARDING_SECOND)
+            NativeAdsUtils.showNativeLanguage(
+                activity = this,
+                container = viewBaseActivity.frAdsNative
+            )
+        }
+    }
     companion object {
         private const val STATE_SELECTED_LANGUAGE = "selected_language"
 

@@ -24,3 +24,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Lovetest"
 include(":app")
+include(":ads")
