@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_watch_and_save_dialog"
+    android:orientation="vertical"
+    android:padding="24dp">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/memory_reward_title"
+        android:textColor="@color/splash_title"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:lineSpacingExtra="4dp"
+        android:text="@string/memory_reward_message"
+        android:textColor="@color/splash_notice"
+        android:textSize="14sp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnWatchAndSave"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:layout_marginEnd="6dp"
+            android:minWidth="0dp"
+            android:background="@drawable/bg_button_watch_ads"
+            app:backgroundTint="@null"
+            android:minHeight="0dp"
+            android:paddingHorizontal="6dp"
+            android:paddingVertical="0dp"
+            android:gravity="center"
+            android:stateListAnimator="@null"
+            android:fontFamily="sans-serif"
+            android:letterSpacing="0"
+            android:maxLines="1"
+            android:textColor="@android:color/white"
+            android:textSize="14sp"
+
+            app:autoSizeStepGranularity="1sp"
+            android:text="@string/memory_reward_watch"
+            android:textAllCaps="false" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnCancel"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:layout_marginStart="6dp"
+            android:background="@drawable/bg_button_cancel_ads"
+            app:backgroundTint="@null"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:paddingHorizontal="6dp"
+            android:paddingVertical="0dp"
+            android:stateListAnimator="@null"
+            android:fontFamily="sans-serif"
+            android:letterSpacing="0"
+            android:maxLines="1"
+            android:textAllCaps="false"
+
+            app:autoSizeStepGranularity="1sp"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:text="@android:string/cancel"
+            android:textColor="@color/splash_notice"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+
+</LinearLayout>
