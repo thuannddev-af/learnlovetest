@@ -61,6 +61,11 @@ object RewardAdsUtils {
             action()
             return
         }
+        val fullscreenToken = Any()
+        if (!FullscreenAdGate.acquire(fullscreenToken)) {
+            action()
+            return
+        }
         config.ad = null
         config.showing = true
         var finished = false
@@ -68,6 +73,7 @@ object RewardAdsUtils {
         fun finish() {
             if (finished) return
             finished = true
+            FullscreenAdGate.release(fullscreenToken)
             config.showing = false
             ad.fullScreenContentCallback = null
             if (cancelled || placements[adPlacement] !== config || activity.isFinishing ||
@@ -79,6 +85,7 @@ object RewardAdsUtils {
             override fun onAdDismissedFullScreenContent() = finish()
             override fun onAdFailedToShowFullScreenContent(error: AdError) = finish()
         }
+        try {
         ad.show(activity) { reward ->
             if (!rewarded && !finished && !cancelled && placements[adPlacement] === config &&
                 !activity.isFinishing && !activity.isDestroyed &&
@@ -87,6 +94,7 @@ object RewardAdsUtils {
                 onRewardEarned?.invoke(reward)
             }
         }
+        } catch (_: RuntimeException) { finish() }
     }
 
     fun loadAndShowRewardAds(

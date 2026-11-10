@@ -67,6 +67,7 @@ object NativeAdsUtils {
                 }
             }
             .withAdListener(object : AdListener() {
+                override fun onAdClicked() { AppOpenAdsUtils.skipNextResume() }
                 override fun onAdFailedToLoad(error: LoadAdError) {
                     if (preloads[placement] !== request) return
                     preloads.remove(placement)

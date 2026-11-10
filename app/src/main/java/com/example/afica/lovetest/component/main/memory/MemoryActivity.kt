@@ -17,6 +17,7 @@ import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.lifecycleScope
 import com.example.afica.lovetest.R
 import com.example.afica.lovetest.ads.AdsConfig
+import com.example.afica.lovetest.ads.AppOpenAdsUtils
 import com.example.afica.lovetest.ads.BannerAdsUtils
 import com.example.afica.lovetest.ads.RemoteConfigManager
 import com.example.afica.lovetest.ads.RewardAdsUtils
@@ -70,7 +71,10 @@ class MemoryActivity : BaseActivity<ActivityMemoryBinding>() {
 
         viewBaseActivity.btnBack.setOnClickWithPressEffect { finish() }
         viewBaseActivity.btnAddPhoto.setOnClickWithPressEffect {
-            if (!busy) pickPhoto.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+            if (!busy) {
+                AppOpenAdsUtils.skipNextResume()
+                pickPhoto.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+            }
         }
         viewBaseActivity.btnDate.setOnClickWithPressEffect {
             if (supportFragmentManager.findFragmentByTag(DATE_RESULT) == null) {

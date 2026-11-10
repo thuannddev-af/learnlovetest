@@ -22,6 +22,7 @@ import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
 import com.example.afica.lovetest.R
 import com.example.afica.lovetest.ads.InterAdsUtils
+import com.example.afica.lovetest.ads.AppOpenAdsUtils
 import com.example.afica.lovetest.component.dialog.DatePickerDialog
 import com.example.afica.lovetest.component.dialog.PhotoOptionsDialog
 import com.example.afica.lovetest.data.model.ProfileInformation
@@ -51,6 +52,9 @@ class ProfileInformationSheet : BottomSheetDialogFragment() {
     private var draftName = ""
     private var draftMale = true
     private var loadingPhoto = false
+    private var waitingForSaveAd = false
+    private var pendingProfileSave: ProfileInformation? = null
+    private var saveAdCompleted = false
     private var genderPopup: ListPopupWindow? = null
     private val requestCameraPermission = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -97,9 +101,12 @@ class ProfileInformationSheet : BottomSheetDialogFragment() {
         ) { _, result ->
             when (result.getString(Constant.PHOTO_OPTION)) {
                 Constant.PHOTO_OPTION_CAMERA -> launchCamera()
-                Constant.PHOTO_OPTION_UPLOAD -> pickPhoto.launch(
+                Constant.PHOTO_OPTION_UPLOAD -> {
+                    AppOpenAdsUtils.skipNextResume()
+                    pickPhoto.launch(
                     PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
-                )
+                    )
+                }
             }
         }
     }
@@ -123,11 +130,8 @@ class ProfileInformationSheet : BottomSheetDialogFragment() {
         views.imgAvatar.setOnClickListener { showPhotoOptions() }
         views.btnChangePhoto.setOnClickWithPressEffect { showPhotoOptions() }
         views.btnBirthday.setOnClickWithPressEffect { chooseBirthday() }
-        views.btnSave.setOnClickListener {
-            InterAdsUtils.showInter(requireActivity(), InterAdsUtils.Placement.INTER_SAVE) {
-                if (isAdded && binding != null) saveProfile()
-            }
-        }
+        views.btnSave.setOnClickWithPressEffect { requestSaveProfile() }
+        InterAdsUtils.loadInter(requireActivity(), InterAdsUtils.Placement.INTER_SAVE)
     }
 
     override fun onStart() {
@@ -142,6 +146,12 @@ class ProfileInformationSheet : BottomSheetDialogFragment() {
                 }
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // onResume can run inside a FragmentManager transaction; remove the sheet afterwards.
+        binding?.root?.post { completeProfileSave() }
     }
 
     private fun showPhotoOptions() {
@@ -182,6 +192,7 @@ class ProfileInformationSheet : BottomSheetDialogFragment() {
                 Manifest.permission.CAMERA
             ) != PackageManager.PERMISSION_GRANTED
         ) {
+            AppOpenAdsUtils.skipNextResume()
             requestCameraPermission.launch(Manifest.permission.CAMERA)
             return
         }
@@ -194,6 +205,7 @@ class ProfileInformationSheet : BottomSheetDialogFragment() {
                 requireContext().packageName + ".profile.photos",
                 file
             )
+            AppOpenAdsUtils.skipNextResume()
             takePhoto.launch(uri)
         } catch (_: ActivityNotFoundException) {
             cameraPath?.let { File(it).delete() }
@@ -222,7 +234,7 @@ class ProfileInformationSheet : BottomSheetDialogFragment() {
             } finally {
                 capturedPath?.let { File(it).delete() }
                 loadingPhoto = false
-                binding?.btnSave?.isEnabled = true
+                binding?.btnSave?.isEnabled = !waitingForSaveAd
                 binding?.btnChangePhoto?.setText(R.string.profile_change_photo)
             }
         }
@@ -248,7 +260,8 @@ class ProfileInformationSheet : BottomSheetDialogFragment() {
         }
     }
 
-    private fun saveProfile() {
+    private fun requestSaveProfile() {
+        if (loadingPhoto || waitingForSaveAd || parentFragmentManager.isStateSaved) return
         val views = binding ?: return
         val name = views.edtName.text?.toString()?.trim().orEmpty()
         if (name.isEmpty()) {
@@ -256,15 +269,34 @@ class ProfileInformationSheet : BottomSheetDialogFragment() {
             views.edtName.requestFocus()
             return
         }
-        ProfileStore(requireContext()).save(
-            profileId,
-            ProfileInformation(name, draftMale, birthday, photoPath)
-        )
+        pendingProfileSave = ProfileInformation(name, draftMale, birthday, photoPath)
+        waitingForSaveAd = true
+        saveAdCompleted = false
+        views.btnSave.isEnabled = false
+        isCancelable = false
+        InterAdsUtils.showInter(requireActivity(), InterAdsUtils.Placement.INTER_SAVE) {
+            if (isAdded && binding != null) {
+                saveAdCompleted = true
+                binding?.root?.post { completeProfileSave() }
+            }
+        }
+    }
+
+    private fun completeProfileSave() {
+        if (!saveAdCompleted || !isAdded || !isResumed || binding == null ||
+            parentFragmentManager.isStateSaved) return
+        val profile = pendingProfileSave ?: return
+        pendingProfileSave = null
+        saveAdCompleted = false
+        waitingForSaveAd = false
+        isCancelable = true
+        ProfileStore(requireContext()).save(profileId, profile)
         parentFragmentManager.setFragmentResult(
             Constant.RESULT_PROFILE_UPDATED,
             bundleOf(PROFILE_ID to profileId)
         )
-        dismiss()
+        // Remove the Fragment before accepting another avatar click, not just its window.
+        dismissNow()
 
 
     }
@@ -279,6 +311,7 @@ class ProfileInformationSheet : BottomSheetDialogFragment() {
     }
 
     override fun onDestroyView() {
+        activity?.let { InterAdsUtils.cancelInter(it, InterAdsUtils.Placement.INTER_SAVE) }
         genderPopup?.dismiss()
         genderPopup = null
         binding = null

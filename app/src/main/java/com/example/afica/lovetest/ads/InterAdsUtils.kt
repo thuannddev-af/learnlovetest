@@ -34,6 +34,14 @@ object InterAdsUtils {
     private val requests = mutableMapOf<Pair<FragmentActivity, Placement>, Request>()
     private val remoteConfig by lazy { RemoteConfigManager() }
 
+    /** Discard cached/loading results for this placement. Late SDK callbacks are ignored. */
+    fun cancelInter(activity: FragmentActivity, placement: Placement) {
+        requests.remove(activity to placement)?.apply {
+            callbacks.clear()
+            ad = null
+        }
+    }
+
     fun loadInter(
         activity: FragmentActivity,
         placement: Placement = Placement.DEFAULT,
@@ -93,9 +101,15 @@ object InterAdsUtils {
                 return@loadInter
             }
             var completed = false
+            val fullscreenToken = Any()
+            if (!FullscreenAdGate.acquire(fullscreenToken)) {
+                onComplete()
+                return@loadInter
+            }
             fun finish() {
                 if (completed) return
                 completed = true
+                FullscreenAdGate.release(fullscreenToken)
                 ad.fullScreenContentCallback = null
                 if (!activity.isFinishing && !activity.isDestroyed) onComplete()
             }
@@ -103,7 +117,7 @@ object InterAdsUtils {
                 override fun onAdDismissedFullScreenContent() = finish()
                 override fun onAdFailedToShowFullScreenContent(error: AdError) = finish()
             }
-            ad.show(activity)
+            try { ad.show(activity) } catch (_: RuntimeException) { finish() }
         }
     }
 }

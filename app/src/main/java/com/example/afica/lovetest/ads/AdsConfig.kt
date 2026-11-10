@@ -1,6 +1,7 @@
 package com.example.afica.lovetest.ads
 
 object AdsConfig {
+    const val APP_OPEN_ID = "ca-app-pub-3940256099942544/9257395921"
     const val IS_TEST = true
 
     // Google AdMob Test IDs

@@ -3,6 +3,7 @@ package com.example.afica.lovetest.component.setting
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import com.example.afica.lovetest.ads.AppOpenAdsUtils
 import com.example.afica.lovetest.base.activity.BaseActivity
 import com.example.afica.lovetest.component.language.LanguageActivity
 import com.example.afica.lovetest.databinding.ActivitySettingBinding

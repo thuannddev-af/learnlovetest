@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@drawable/splash_background"
-    android:fillViewport="true"
     tools:context=".component.permission.PermissionActivity">
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/nested"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btnContinue"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         android:fillViewport="true">
     <LinearLayout
         android:layout_width="match_parent"
@@ -81,28 +83,32 @@
                 android:gravity="center"
                 app:buttonTint="@null" />
         </LinearLayout>
-        <TextView
-            android:id="@+id/btnContinue"
-            android:layout_width="wrap_content"
-            android:layout_height="48dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="72dp"
-            android:foreground="@drawable/foreground_click_circle"
-            android:clickable="true"
-            android:focusable="true"
-            android:fontFamily="@font/plusjakartasans_semibold"
-            android:gravity="center"
-            android:paddingHorizontal="16dp"
-            android:text="@string/permission_continue"
-            android:textColor="@color/splash_accent"
-            android:textSize="20sp"
-            android:textStyle="bold" />
     </LinearLayout>
     </androidx.core.widget.NestedScrollView>
-
+    <TextView
+        android:id="@+id/btnContinue"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginVertical="12dp"
+        android:foreground="@drawable/foreground_click_circle"
+        android:clickable="true"
+        android:focusable="true"
+        android:fontFamily="@font/plusjakartasans_semibold"
+        android:gravity="center"
+        android:paddingHorizontal="16dp"
+        android:text="@string/permission_continue"
+        android:textColor="@color/splash_accent"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/frAdsNative"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
     <FrameLayout
         android:id="@+id/frAdsNative"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         android:visibility="gone" />
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

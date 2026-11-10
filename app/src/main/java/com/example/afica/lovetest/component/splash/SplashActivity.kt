@@ -11,6 +11,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
 import com.example.afica.lovetest.R
 import com.example.afica.lovetest.ads.InterAdsUtils
+import com.example.afica.lovetest.ads.AppOpenAdsUtils
 import com.example.afica.lovetest.ads.NativeAdsUtils
 import com.example.afica.lovetest.ads.RemoteConfigManager
 import com.example.afica.lovetest.base.activity.BaseActivity
@@ -157,13 +158,15 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>() {
             val shouldPreloadLanguage =
                 !SharedPreferenceUtils.getInstance(this).isLanguageChosen() &&
                         remoteConfigManager.canShowAd(RemoteConfigManager.NATIVE_LANGUAGE)
-            if (!canShowInter && !shouldPreloadLanguage) {
+            if (!canShowInter && !shouldPreloadLanguage &&
+                !remoteConfigManager.canShowAd(RemoteConfigManager.APP_OPEN_ENABLE)) {
                 onAdsLoaded(false)
                 return@init
             }
 
             MobileAds.initialize(applicationContext) {
                 runOnUiThread {
+                    AppOpenAdsUtils.onAdsInitialized(applicationContext)
                     if (isFinishing || isDestroyed ||
                         hasNavigated || adsFinished
                     ) {

@@ -9,6 +9,7 @@ class RemoteConfigManager {
     companion object {
         //bật tắt ads
         const val ADS_ENABLE = "ads_enable"
+        const val APP_OPEN_ENABLE = "app_open_enable"
 
         const val BANNER_HOME_ENABLE = "banner_home_enable"
         const val BANNER_MEMORY_ENABLE = "banner_home_enable"
@@ -27,6 +28,7 @@ class RemoteConfigManager {
 
         val defaultValues = mapOf(
             ADS_ENABLE to false,
+            APP_OPEN_ENABLE to false,
             BANNER_HOME_ENABLE to false,
             BANNER_MEMORY_ENABLE to false,
             NATIVE_LANGUAGE to false,

@@ -2,6 +2,7 @@ package com.example.afica.lovetest
 
 import android.app.Activity
 import android.app.Application
+import com.example.afica.lovetest.ads.AppOpenAdsUtils
 import android.os.Bundle
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
@@ -14,6 +15,7 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         SharedPreferenceUtils.getInstance(this)
+        AppOpenAdsUtils.initialize(this)
         initFullscreen()
     }
 

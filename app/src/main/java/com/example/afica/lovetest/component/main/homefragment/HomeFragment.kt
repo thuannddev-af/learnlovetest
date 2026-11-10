@@ -40,11 +40,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 //            }
 //            insets
 //        }
-        views.imgBoy.setOnClickListener { showProfile(Constant.PROFILE_BOY) }
+        views.imgBoy.setOnClickWithPressEffect { showProfile(Constant.PROFILE_BOY) }
         views.btnSettings.setOnClickWithPressEffect {
             startActivity(Intent(requireContext(), SettingActivity::class.java))
         }
-        views.imgGirl.setOnClickListener { showProfile(Constant.PROFILE_GIRL) }
+        views.imgGirl.setOnClickWithPressEffect { showProfile(Constant.PROFILE_GIRL) }
         views.btnChangeBackground.setOnClickWithPressEffect {
             if (parentFragmentManager.findFragmentByTag("background_sheet") == null) {
                 BackgroundSheet().show(parentFragmentManager, "background_sheet")
@@ -105,9 +105,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     private fun showProfile(id: String) {
+        if (!isResumed || parentFragmentManager.isStateSaved) return
         if (parentFragmentManager.findFragmentByTag("profile_information") == null) {
             ProfileInformationSheet.newInstance(id)
-                .show(parentFragmentManager, "profile_information")
+                .showNow(parentFragmentManager, "profile_information")
         }
     }
 

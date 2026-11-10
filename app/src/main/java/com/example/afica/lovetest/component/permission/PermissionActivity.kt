@@ -14,6 +14,7 @@ import androidx.core.view.WindowInsetsCompat
 import com.example.afica.lovetest.component.main.MainActivity
 import com.example.afica.lovetest.R
 import com.example.afica.lovetest.ads.NativeAdsUtils
+import com.example.afica.lovetest.ads.AppOpenAdsUtils
 import com.example.afica.lovetest.base.activity.BaseActivity
 import com.example.afica.lovetest.databinding.ActivityPermissionBinding
 import com.example.afica.lovetest.utils.setOnClickWithPressEffect
@@ -37,6 +38,7 @@ class PermissionActivity : BaseActivity<ActivityPermissionBinding>() {
             if (hasCameraAccess()) {
                 openAppSettings()
             } else {
+                AppOpenAdsUtils.skipNextResume()
                 requestCamera.launch(Manifest.permission.CAMERA)
             }
         }
@@ -77,6 +79,7 @@ class PermissionActivity : BaseActivity<ActivityPermissionBinding>() {
     }
 
     private fun openAppSettings() {
+        AppOpenAdsUtils.skipNextResume()
         startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:$packageName")))
     }
 

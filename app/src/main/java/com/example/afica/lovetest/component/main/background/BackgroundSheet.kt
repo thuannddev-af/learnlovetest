@@ -14,6 +14,7 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.lifecycleScope
 import com.example.afica.lovetest.R
+import com.example.afica.lovetest.ads.AppOpenAdsUtils
 import com.example.afica.lovetest.databinding.SheetBackgroundBinding
 import com.example.afica.lovetest.domain.usecase.GetListBackgroundUseCase
 import com.example.afica.lovetest.utils.ProfilePhotos
@@ -50,6 +51,7 @@ class BackgroundSheet : BottomSheetDialogFragment() {
         backgroundAdapter.onClick = { uri ->
             if (!importing) {
                 if (uri == null) {
+                    AppOpenAdsUtils.skipNextResume()
                     uploadPhoto.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
                 } else {
                     applyBackground(uri)

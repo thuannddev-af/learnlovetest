@@ -21,6 +21,11 @@
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="${ad_app_id}" />
 
+        <activity
+            android:name="com.google.android.gms.ads.AdActivity"
+            android:theme="@style/Theme.Lovetest.Ads"
+            tools:replace="android:theme" />
+
         <activity android:name=".component.setting.SettingActivity"
             android:theme="@style/Theme.Lovetest.Main" android:exported="false" />
         <activity
