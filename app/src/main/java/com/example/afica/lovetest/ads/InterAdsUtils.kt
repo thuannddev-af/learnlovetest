@@ -1,8 +1,10 @@
 package com.example.afica.lovetest.ads
 
+import android.app.Activity
 import android.util.Log
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.withResumed
@@ -34,6 +36,7 @@ object InterAdsUtils {
         var observer: DefaultLifecycleObserver? = null
         var releaseFullscreen: (() -> Unit)? = null
     }
+
     private val requests = mutableMapOf<Pair<FragmentActivity, Placement>, Request>()
 
     private fun isEnabled(placement: Placement): Boolean {
@@ -49,7 +52,11 @@ object InterAdsUtils {
         request.helper.cancelRequestAndShowAllAds(true)
     }
 
-    fun loadInter(activity: FragmentActivity, placement: Placement, onComplete: (Boolean) -> Unit = {}) {
+    fun loadInter(
+        activity: FragmentActivity,
+        placement: Placement,
+        onComplete: (Boolean) -> Unit = {}
+    ) {
         if (activity.isFinishing || activity.isDestroyed) return
         if (!isEnabled(placement)) {
             cancelInter(activity, placement)
@@ -64,18 +71,22 @@ object InterAdsUtils {
         }
         val helperKey = "${placement.placementName}_${System.identityHashCode(activity)}"
         val helper = InterstitialAdsHelper.getInstance(helperKey).apply {
-            setInterstitialAdConfig(InterstitialAdConfig(
-                idAds = placement.adId,
-                canShowAds = isEnabled(placement),
-                canReloadAds = false,
-                adPlacement = placement.placementName,
-                reloadIfFirstFail = true
-            ))
+            setInterstitialAdConfig(
+                InterstitialAdConfig(
+                    idAds = placement.adId,
+                    canShowAds = isEnabled(placement),
+                    canReloadAds = false,
+                    adPlacement = placement.placementName,
+                    reloadIfFirstFail = true
+                )
+            )
         }
         val request = Request(helper).apply { callbacks.add(onComplete) }
         requests[key] = request
         request.observer = object : DefaultLifecycleObserver {
-            override fun onDestroy(owner: LifecycleOwner) { cancelInter(activity, placement) }
+            override fun onDestroy(owner: LifecycleOwner) {
+                cancelInter(activity, placement)
+            }
         }.also { activity.lifecycle.addObserver(it) }
         fun complete(loaded: Boolean) {
             if (requests[key] !== request) return
@@ -90,13 +101,13 @@ object InterAdsUtils {
                 Log.d("InterAds", "${placement.placementName} loaded")
                 complete(true)
             }
+
             override fun onAdFailedToLoad(loadAdError: LoadAdError) {
                 Log.e("InterAds", "${placement.placementName} load failed: ${loadAdError.message}")
                 complete(false)
             }
         })
     }
-
     fun showInter(activity: FragmentActivity, placement: Placement, onComplete: () -> Unit) {
         if (activity.isFinishing || activity.isDestroyed) return
         if (!isEnabled(placement)) {
@@ -116,7 +127,10 @@ object InterAdsUtils {
                 activity.lifecycle.withResumed {
                     if (requests[activity to placement] !== request) return@withResumed
                     val token = Any()
-                    if (!isEnabled(placement) || AdmobManager.isShowAdsFullScreen || !FullscreenAdGate.acquire(token)) {
+                    if (!isEnabled(placement) || AdmobManager.isShowAdsFullScreen || !FullscreenAdGate.acquire(
+                            token
+                        )
+                    ) {
                         request.showing = false
                         onComplete()
                         return@withResumed
@@ -133,17 +147,23 @@ object InterAdsUtils {
                         if (!activity.isFinishing && !activity.isDestroyed) onComplete()
                     }
                     try {
-                        request.helper.forceShowInterstitial(activity, activity, object : InterstitialAdShowCallBack {
-                            override fun onNextAction() = finish()
-                            override fun onAdClose() = finish()
-                            override fun onInterstitialShow() { Log.d("InterAds", "${placement.placementName} shown") }
-                            override fun onAdClicked() = Unit
-                            override fun onAdImpression() = Unit
-                            override fun onAdFailedToShow(adError: AdError) {
-                                Log.e("InterAds", adError.message)
-                                finish()
-                            }
-                        })
+                        request.helper.forceShowInterstitial(
+                            activity,
+                            activity,
+                            object : InterstitialAdShowCallBack {
+                                override fun onNextAction() = finish()
+                                override fun onAdClose() = finish()
+                                override fun onInterstitialShow() {
+                                    Log.d("InterAds", "${placement.placementName} shown")
+                                }
+
+                                override fun onAdClicked() = Unit
+                                override fun onAdImpression() = Unit
+                                override fun onAdFailedToShow(adError: AdError) {
+                                    Log.e("InterAds", adError.message)
+                                    finish()
+                                }
+                            })
                     } catch (error: RuntimeException) {
                         Log.e("InterAds", "Cannot show ${placement.placementName}", error)
                         finish()
@@ -151,5 +171,134 @@ object InterAdsUtils {
                 }
             }
         }
+    }
+
+
+
+    //////////// ads theo module
+    fun loadInterAds(
+        activity: Activity,
+        idAds: String,
+        adPlacement: String,
+        isEnable: Boolean,
+        onAdLoaded: () -> Unit = {},
+        onAdLoadFail: () -> Unit = {}
+    ) {
+        val helper = InterstitialAdsHelper.getInstance(adPlacement)
+
+        helper.setInterstitialAdConfig(
+            InterstitialAdConfig(
+                idAds = idAds,
+                canShowAds = isEnable,
+                canReloadAds = false,
+                adPlacement = adPlacement,
+                reloadIfFirstFail = true
+            )
+        )
+
+        helper.requestInterAds(
+            activity,
+            false,
+            object : InterstitialAdRequestCallBack {
+                override fun onAdLoaded(data: ContentAd) {
+                    onAdLoaded()
+                }
+
+                override fun onAdFailedToLoad(loadAdError: LoadAdError) {
+                    onAdLoadFail()
+                }
+            }
+        )
+    }
+
+    fun showInterAds(
+        activity: Activity,
+        lifecycleOwner: LifecycleOwner,
+        adPlacement: String,
+        action: () -> Unit
+    ) {
+        lifecycleOwner.lifecycleScope.launch {
+            lifecycleOwner.lifecycle.withResumed {
+                val token = Any()
+
+                if (AdmobManager.isShowAdsFullScreen ||
+                    !FullscreenAdGate.acquire(token)
+                ) {
+                    action()
+                    return@withResumed
+                }
+
+                var completed = false
+
+                fun finish() {
+                    if (completed) return
+                    completed = true
+                    FullscreenAdGate.release(token)
+
+                    if (!activity.isFinishing && !activity.isDestroyed) {
+                        action()
+                    }
+                }
+
+                InterstitialAdsHelper.getInstance(adPlacement)
+                    .forceShowInterstitial(
+                        activity,
+                        lifecycleOwner,
+                        object : InterstitialAdShowCallBack {
+                            override fun onNextAction() = finish()
+
+                            override fun onAdClose() = finish()
+
+                            override fun onAdFailedToShow(
+                                adError: AdError
+                            ) = finish()
+
+                            override fun onInterstitialShow() {}
+                            override fun onAdClicked() {}
+                            override fun onAdImpression() {}
+                        }
+                    )
+            }
+        }
+    }
+
+    fun loadandShowInterAds(
+        activity: Activity,
+        lifecycleOwner: LifecycleOwner,
+        idAds: String,
+        adPlacement: String,
+        isEnable: Boolean,
+        action: () -> Unit
+    ) {
+        if(activity.isFinishing || activity.isDestroyed) return
+
+        if(!isEnable) {
+            action()
+            return
+        }
+        loadInterAds(
+            activity,
+            idAds,
+            adPlacement,
+            isEnable,
+            onAdLoaded = {
+                if(!activity.isFinishing && !activity.isDestroyed && lifecycleOwner.lifecycle.currentState != Lifecycle.State.DESTROYED) {
+                    showInterAds(
+                        activity,
+                        lifecycleOwner,
+                        adPlacement,
+                        action
+                    )
+                }
+            },
+            onAdLoadFail = {
+                if(!activity.isFinishing && !activity.isDestroyed && lifecycleOwner.lifecycle.currentState != Lifecycle.State.DESTROYED) {
+                    action()
+                }
+            }
+        )
+    }
+    fun cancelInter(adPlacement: String) {
+        InterstitialAdsHelper.getInstance(adPlacement).cancelRequestAndShowAllAds(true)
     }
 }

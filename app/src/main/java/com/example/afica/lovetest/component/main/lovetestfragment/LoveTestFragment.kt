@@ -12,12 +12,15 @@ import androidx.core.text.HtmlCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.Lifecycle
+import com.example.afica.lovetest.BuildConfig
 import com.example.afica.lovetest.R
+import com.example.afica.lovetest.ads.AdPlacement
 import com.example.afica.lovetest.ads.InterAdsUtils
 import com.example.afica.lovetest.base.fragment.BaseFragment
 import com.example.afica.lovetest.component.lovetest.NameTestActivity
 import com.example.afica.lovetest.component.lovetest.HoroscopeTestActivity
 import com.example.afica.lovetest.databinding.FragmentLoveTestBinding
+import com.example.afica.lovetest.utils.FirebaseConfigManager
 import com.example.afica.lovetest.utils.setOnSingleClickListener
 
 class LoveTestFragment : BaseFragment<FragmentLoveTestBinding>() {
@@ -38,8 +41,15 @@ class LoveTestFragment : BaseFragment<FragmentLoveTestBinding>() {
             }
         }
         viewBinding.btnHoroscopeTest.setOnSingleClickListener(3000L) {
-            InterAdsUtils.showInter(requireActivity(), InterAdsUtils.Placement.INTER_LOVE) {
-                startActivity(Intent(requireContext(), HoroscopeTestActivity::class.java))
+//            InterAdsUtils.showInter(requireActivity(), InterAdsUtils.Placement.INTER_LOVE) {
+//                startActivity(Intent(requireContext(), HoroscopeTestActivity::class.java))
+//            }
+            InterAdsUtils.loadandShowInterAds(
+                requireActivity(), viewLifecycleOwner, BuildConfig.inter_love, AdPlacement.INTER_LOVE, isEnable = FirebaseConfigManager.instance().adConfig.enableInterMain
+            ) {
+                startActivity(
+                    Intent(requireActivity(), NameTestActivity::class.java)
+                )
             }
         }
         val title = getString(R.string.love_test_title)
@@ -50,15 +60,22 @@ class LoveTestFragment : BaseFragment<FragmentLoveTestBinding>() {
     }
 
     private fun showInter(action: () -> Unit) {
-        if (waitingForInter) return
-        val owner = viewLifecycleOwner
-        waitingForInter = true
-        InterAdsUtils.showInter(requireActivity(), InterAdsUtils.Placement.INTER_LOVE) {
-            if (!isAdded || owner.lifecycle.currentState == Lifecycle.State.DESTROYED) {
-                return@showInter
-            }
-            waitingForInter = false
-            action()
+//        if (waitingForInter) return
+//        val owner = viewLifecycleOwner
+//        waitingForInter = true
+//        InterAdsUtils.showInter(requireActivity(), InterAdsUtils.Placement.INTER_LOVE) {
+//            if (!isAdded || owner.lifecycle.currentState == Lifecycle.State.DESTROYED) {
+//                return@showInter
+//            }
+//            waitingForInter = false
+//            action()
+//        }
+        InterAdsUtils.loadandShowInterAds(
+            requireActivity(), viewLifecycleOwner, BuildConfig.inter_love, AdPlacement.INTER_LOVE, isEnable = FirebaseConfigManager.instance().adConfig.enableInterMain
+        ) {
+            startActivity(
+                Intent(requireActivity(), NameTestActivity::class.java)
+            )
         }
     }
 

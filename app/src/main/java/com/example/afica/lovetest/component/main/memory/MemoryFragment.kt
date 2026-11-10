@@ -7,11 +7,15 @@ import android.widget.Toast
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.example.afica.lovetest.BuildConfig
 import com.example.afica.lovetest.R
+import com.example.afica.lovetest.ads.AdPlacement
 import com.example.afica.lovetest.ads.InterAdsUtils
 import com.example.afica.lovetest.base.fragment.BaseFragment
+import com.example.afica.lovetest.component.lovetest.NameTestActivity
 import com.example.afica.lovetest.data.repositores.LocalRespository
 import com.example.afica.lovetest.databinding.FragmentMemoryBinding
+import com.example.afica.lovetest.utils.FirebaseConfigManager
 import com.example.afica.lovetest.utils.setOnClickWithPressEffect
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CancellationException
@@ -50,12 +54,19 @@ class MemoryFragment : BaseFragment<FragmentMemoryBinding>() {
         if(interdelay) return
         val owner = viewLifecycleOwner
         interdelay = true
-        InterAdsUtils.showInter(requireActivity(), InterAdsUtils.Placement.INTER_ADD) {
-            if(!isAdded && owner.lifecycle.currentState == Lifecycle.State.DESTROYED) {
-                return@showInter
-            }
-            interdelay = false
-            action()
+//        InterAdsUtils.showInter(requireActivity(), InterAdsUtils.Placement.INTER_ADD) {
+//            if(!isAdded && owner.lifecycle.currentState == Lifecycle.State.DESTROYED) {
+//                return@showInter
+//            }
+//            interdelay = false
+//            action()
+//        }
+        InterAdsUtils.loadandShowInterAds(
+            requireActivity(), viewLifecycleOwner, BuildConfig.inter_add, AdPlacement.INTER_ADD, isEnable = FirebaseConfigManager.instance().adConfig.enableInterMain
+        ) {
+            startActivity(
+                Intent(requireActivity(), NameTestActivity::class.java)
+            )
         }
     }
     override fun onDestroyView() {

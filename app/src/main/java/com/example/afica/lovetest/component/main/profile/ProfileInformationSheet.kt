@@ -20,7 +20,9 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
+import com.example.afica.lovetest.BuildConfig
 import com.example.afica.lovetest.R
+import com.example.afica.lovetest.ads.AdPlacement
 import com.example.afica.lovetest.ads.InterAdsUtils
 import com.example.afica.lovetest.ads.AppOpenAdsUtils
 import com.example.afica.lovetest.component.dialog.DatePickerDialog
@@ -28,6 +30,7 @@ import com.example.afica.lovetest.component.dialog.PhotoOptionsDialog
 import com.example.afica.lovetest.data.model.ProfileInformation
 import com.example.afica.lovetest.databinding.SheetProfileInformationBinding
 import com.example.afica.lovetest.utils.Constant
+import com.example.afica.lovetest.utils.FirebaseConfigManager
 import com.example.afica.lovetest.utils.ProfilePhotos
 import com.example.afica.lovetest.utils.setOnClickWithPressEffect
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -130,7 +133,9 @@ class ProfileInformationSheet : BottomSheetDialogFragment() {
         views.btnChangePhoto.setOnClickWithPressEffect { showPhotoOptions() }
         views.btnBirthday.setOnClickWithPressEffect { chooseBirthday() }
         views.btnSave.setOnClickWithPressEffect { requestSaveProfile() }
-        InterAdsUtils.loadInter(requireActivity(), InterAdsUtils.Placement.INTER_SAVE)
+        InterAdsUtils.loadInterAds(
+            requireActivity(), BuildConfig.inter_save, AdPlacement.INTER_SAVE, isEnable = FirebaseConfigManager.instance().adConfig.enableInterMain
+        )
     }
 
     override fun onStart() {
@@ -271,10 +276,12 @@ class ProfileInformationSheet : BottomSheetDialogFragment() {
         saveAdCompleted = false
         views.btnSave.isEnabled = false
         isCancelable = false
-        InterAdsUtils.showInter(requireActivity(), InterAdsUtils.Placement.INTER_SAVE) {
-            if (isAdded && binding != null) {
+        InterAdsUtils.showInterAds(requireActivity(), viewLifecycleOwner, AdPlacement.INTER_SAVE) {
+            if(isAdded && binding != null ) {
                 saveAdCompleted = true
-                binding?.root?.post { completeProfileSave() }
+                binding?.root?.post {
+                    completeProfileSave()
+                }
             }
         }
     }
@@ -292,7 +299,6 @@ class ProfileInformationSheet : BottomSheetDialogFragment() {
             Constant.RESULT_PROFILE_UPDATED,
             bundleOf(PROFILE_ID to profileId)
         )
-        // Remove the Fragment before accepting another avatar click, not just its window.
         dismissNow()
 
 
@@ -308,10 +314,7 @@ class ProfileInformationSheet : BottomSheetDialogFragment() {
     }
 
     override fun onDestroyView() {
-        activity?.let { InterAdsUtils.cancelInter(it, InterAdsUtils.Placement.INTER_SAVE) }
-        genderPopup?.dismiss()
-        genderPopup = null
-        binding = null
+        InterAdsUtils.cancelInter(AdPlacement.INTER_SAVE)
         super.onDestroyView()
     }
 

@@ -331,8 +331,14 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="682f8607-0284-47d6-b6fd-2756dae56053" name="Changes" comment="pushlibadsfixfileinter">
+    <list default="true" id="682f8607-0284-47d6-b6fd-2756dae56053" name="Changes" comment="pushlsplashfixtheoadsmodule">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/ads/AdPlacement.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/ads/AdPlacement.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/ads/InterAdsUtils.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/ads/InterAdsUtils.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/component/main/homefragment/HomeFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/component/main/homefragment/HomeFragment.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/component/main/lovetestfragment/LoveTestFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/component/main/lovetestfragment/LoveTestFragment.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/component/main/memory/MemoryFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/component/main/memory/MemoryFragment.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/component/main/profile/ProfileInformationSheet.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/component/main/profile/ProfileInformationSheet.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -546,7 +552,8 @@
     <MESSAGE value="pushappadsopenfixbottomsheet" />
     <MESSAGE value="pushlayoutnativetype4" />
     <MESSAGE value="pushlibadsfixfileinter" />
-    <option name="LAST_COMMIT_MESSAGE" value="pushlibadsfixfileinter" />
+    <MESSAGE value="pushlsplashfixtheoadsmodule" />
+    <option name="LAST_COMMIT_MESSAGE" value="pushlsplashfixtheoadsmodule" />
   </component>
   <component name="play_dynamic_filters_status">
     <option name="appIdToCheckInfo">

@@ -5,9 +5,12 @@ import android.net.Uri
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.lifecycle.Lifecycle
+import com.example.afica.lovetest.BuildConfig
 import com.example.afica.lovetest.R
+import com.example.afica.lovetest.ads.AdPlacement
 import com.example.afica.lovetest.ads.InterAdsUtils
 import com.example.afica.lovetest.base.fragment.BaseFragment
+import com.example.afica.lovetest.component.lovetest.NameTestActivity
 import com.example.afica.lovetest.component.main.background.BackgroundSheet
 import com.example.afica.lovetest.component.main.background.BackgroundStore
 import com.example.afica.lovetest.component.main.profile.ProfileInformationSheet
@@ -16,6 +19,7 @@ import com.example.afica.lovetest.component.setting.SettingActivity
 import com.example.afica.lovetest.component.startdate.StartDateActivity
 import com.example.afica.lovetest.databinding.FragmentHomeBinding
 import com.example.afica.lovetest.utils.Constant
+import com.example.afica.lovetest.utils.FirebaseConfigManager
 import com.example.afica.lovetest.utils.SharedPreferenceUtils
 import com.example.afica.lovetest.utils.setOnClickWithPressEffect
 import java.io.File
@@ -51,22 +55,27 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             }
         }
         views.btnStartDate.setOnClickWithPressEffect {
-            showInter {
-                startActivity(Intent(requireContext(), StartDateActivity::class.java))
-            }
+            showInter()
         }
     }
 
-    private fun showInter(action: () -> Unit) {
-        if (interdelay) return
-        val owner = viewLifecycleOwner
-        interdelay = true
-        InterAdsUtils.showInter(requireActivity(), InterAdsUtils.Placement.INTER_DAY) {
-            if (!isAdded || owner.lifecycle.currentState == Lifecycle.State.DESTROYED) {
-                return@showInter
-            }
-            interdelay = false
-            action()
+    private fun showInter() {
+//        if (interdelay) return
+//        val owner = viewLifecycleOwner
+//        interdelay = true
+//        InterAdsUtils.showInter(requireActivity(), InterAdsUtils.Placement.INTER_DAY) {
+//            if (!isAdded || owner.lifecycle.currentState == Lifecycle.State.DESTROYED) {
+//                return@showInter
+//            }
+//            interdelay = false
+//            action()
+//        }
+        InterAdsUtils.loadandShowInterAds(
+            requireActivity(), viewLifecycleOwner, BuildConfig.inter_day, AdPlacement.INTER_DAY, isEnable = FirebaseConfigManager.instance().adConfig.enableInterMain
+        ) {
+            startActivity(
+                Intent(requireActivity(), StartDateActivity::class.java)
+            )
         }
     }
 
