@@ -1,19 +1,18 @@
 package com.example.afica.lovetest.ads
 
-import android.view.View
 import android.content.Context
 import android.os.Handler
 import android.os.Looper
+import android.view.View
 import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
 import com.example.afica.lovetest.R
-import com.example.afica.lovetest.utils.setOnClickWithPressEffect
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdLoader
@@ -32,10 +31,12 @@ object NativeAdsUtils {
 
     private val natives = mutableMapOf<FrameLayout, () -> Unit>()
     private val remoteConfig by lazy { RemoteConfigManager() }
+
     private class Preload {
         var ad: NativeAd? = null
         val listeners = mutableListOf<(NativeAd?) -> Unit>()
     }
+
     private val preloads = mutableMapOf<Placement, Preload>()
     private val cacheHandler = Handler(Looper.getMainLooper())
 
@@ -92,7 +93,14 @@ object NativeAdsUtils {
         onFailed: () -> Unit = {}
     ) {
         val placement = if (slot == 1) Placement.ONBOARDING else Placement.ONBOARDING_SECOND
-        showNative(activity, container, placement, lifecycleOwner, fullscreen = true, onFailed = onFailed)
+        showNative(
+            activity,
+            container,
+            placement,
+            lifecycleOwner,
+            fullscreen = true,
+            onFailed = onFailed
+        )
     }
 
     private fun showNative(
@@ -108,7 +116,8 @@ object NativeAdsUtils {
         container.visibility = View.GONE
         if (activity.isFinishing || activity.isDestroyed ||
             lifecycleOwner.lifecycle.currentState == Lifecycle.State.DESTROYED ||
-            !remoteConfig.canShowAd(placement.configKey)) {
+            !remoteConfig.canShowAd(placement.configKey)
+        ) {
             onFailed()
             return
         }
@@ -120,8 +129,14 @@ object NativeAdsUtils {
         var pendingRequest: Preload? = null
         var pendingListener: ((NativeAd?) -> Unit)? = null
         val observer = object : DefaultLifecycleObserver {
-            override fun onStart(owner: LifecycleOwner) { loadingView?.startShimmer() }
-            override fun onStop(owner: LifecycleOwner) { loadingView?.stopShimmer() }
+            override fun onStart(owner: LifecycleOwner) {
+                loadingView?.startShimmer()
+            }
+
+            override fun onStop(owner: LifecycleOwner) {
+                loadingView?.stopShimmer()
+            }
+
             override fun onDestroy(owner: LifecycleOwner) = destroy(container)
         }
         natives[container] = {
@@ -137,42 +152,44 @@ object NativeAdsUtils {
         }
         lifecycleOwner.lifecycle.addObserver(observer)
         val displayAd: (NativeAd?) -> Unit = display@{ ad ->
-                if (ad == null) {
-                    if (!disposed) {
-                        destroy(container)
-                        onFailed()
-                    }
-                    return@display
+            if (ad == null) {
+                if (!disposed) {
+                    destroy(container)
+                    onFailed()
                 }
-                if (disposed) {
-                    ad.destroy()
-                    return@display
-                }
-                nativeAd = ad
-                val layout = if (fullscreen) R.layout.layout_native_ad_fullscreen else R.layout.layout_native_ad
-                val view = activity.layoutInflater.inflate(layout, container, false) as NativeAdView
-                nativeView = view
-                view.headlineView = view.findViewById<TextView>(R.id.nativeHeadline).apply { text = ad.headline }
-                view.bodyView = view.findViewById<TextView>(R.id.nativeBody).apply {
-                    text = ad.body
-                    visibility = if (ad.body == null) View.GONE else View.VISIBLE
-                }
-                view.callToActionView = view.findViewById<Button>(R.id.nativeAction).apply {
-                    text = ad.callToAction
-                    visibility = if (ad.callToAction == null) View.GONE else View.VISIBLE
-                }
-                view.iconView = view.findViewById<ImageView>(R.id.nativeIcon).apply {
-                    setImageDrawable(ad.icon?.drawable)
-                    visibility = if (ad.icon == null) View.GONE else View.VISIBLE
-                }
-                view.mediaView = view.findViewById<MediaView>(R.id.nativeMedia)
-                view.setNativeAd(ad)
-                loadingView?.stopShimmer()
-                loadingView = null
-                container.removeAllViews()
-                container.addView(view)
-                container.visibility = View.VISIBLE
+                return@display
             }
+            if (disposed) {
+                ad.destroy()
+                return@display
+            }
+            nativeAd = ad
+            val layout =
+                if (fullscreen) R.layout.layout_native_ad_fullscreen else R.layout.layout_native_ad
+            val view = activity.layoutInflater.inflate(layout, container, false) as NativeAdView
+            nativeView = view
+            view.headlineView =
+                view.findViewById<TextView>(R.id.nativeHeadline).apply { text = ad.headline }
+            view.bodyView = view.findViewById<TextView>(R.id.nativeBody).apply {
+                text = ad.body
+                visibility = if (ad.body == null) View.GONE else View.VISIBLE
+            }
+            view.callToActionView = view.findViewById<Button>(R.id.nativeAction).apply {
+                text = ad.callToAction
+                visibility = if (ad.callToAction == null) View.GONE else View.VISIBLE
+            }
+            view.iconView = view.findViewById<ImageView>(R.id.nativeIcon).apply {
+                setImageDrawable(ad.icon?.drawable)
+                visibility = if (ad.icon == null) View.GONE else View.VISIBLE
+            }
+            view.mediaView = view.findViewById<MediaView>(R.id.nativeMedia)
+            view.setNativeAd(ad)
+            loadingView?.stopShimmer()
+            loadingView = null
+            container.removeAllViews()
+            container.addView(view)
+            container.visibility = View.VISIBLE
+        }
         preloadNative(activity.applicationContext, placement)
         val request = preloads[placement] ?: run {
             destroy(container)
@@ -186,7 +203,7 @@ object NativeAdsUtils {
             displayAd(cachedAd)
         } else {
             val loadingLayout = if (fullscreen) R.layout.loading_native_fullscreen_view
-                else R.layout.layout_native_ads_type1
+            else R.layout.layout_native_ads_type1
             val shimmer = activity.layoutInflater.inflate(
                 loadingLayout, container, false
             ) as ShimmerFrameLayout
@@ -202,5 +219,7 @@ object NativeAdsUtils {
         }
     }
 
-    fun destroy(container: FrameLayout) { natives.remove(container)?.invoke() }
+    fun destroy(container: FrameLayout) {
+        natives.remove(container)?.invoke()
+    }
 }

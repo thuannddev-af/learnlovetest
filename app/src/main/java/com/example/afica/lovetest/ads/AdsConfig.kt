@@ -12,6 +12,7 @@ object AdsConfig {
 
     private const val INTERST =
         "ca-app-pub-3940256099942544/1033173712"
+    const val REWARD_ID = "ca-app-pub-3940256099942544/5224354917"
 
 
     // Banner Home
@@ -43,6 +44,5 @@ object AdsConfig {
     const val INTER_ADD = INTERST
 
     // Google AdMob rewarded test ID
-    const val REWARD_ID = "ca-app-pub-3940256099942544/5224354917"
 
 }
