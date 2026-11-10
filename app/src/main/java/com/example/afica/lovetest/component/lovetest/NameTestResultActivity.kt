@@ -240,7 +240,6 @@ class NameTestResultActivity : BaseActivity<ActivityNameTestResultBinding>() {
                     clipData = ClipData.newUri(contentResolver, getString(R.string.result_title), uri)
                     addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                 }
-                com.example.afica.lovetest.ads.AppOpenAdsUtils.skipNextResume()
                 startActivity(Intent.createChooser(share, getString(R.string.result_share)))
             } catch (error: CancellationException) {
                 throw error

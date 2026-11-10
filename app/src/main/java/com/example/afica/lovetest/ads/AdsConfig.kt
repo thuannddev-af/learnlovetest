@@ -11,10 +11,9 @@ object AdsConfig {
     private const val NATIVE =
         "ca-app-pub-3940256099942544/2247696110"
 
-    private const val INTERST =
-        "ca-app-pub-3940256099942544/1033173712"
     const val REWARD_ID = "ca-app-pub-3940256099942544/5224354917"
 
+    const val OPEN_RESUME = "open_resume"
 
     // Banner Home
     const val BANNER_HOME_ID = BANNER
@@ -28,23 +27,6 @@ object AdsConfig {
     const val NATIVE_ONBOARDING_INLINE_2_ID = NATIVE
     const val NATIVE_ONBOARDING_INLINE_3_ID = NATIVE
 
-    // Interstitial
-    const val INTERSTITIAL_ID = INTERST
-
-    // Interstitial Splash
-    const val INTER_SPLASH = INTERST
-
-    //Inter SAVE
-    const val INTER_SAVE = INTERST
-
-    //Inter SetDay
-    const val INTER_DAY = INTERST
-
-    //Inter Love
-    const val INTER_LOVE = INTERST
-
-    //Inter Add
-    const val INTER_ADD = INTERST
 
     // Google AdMob rewarded test ID
 

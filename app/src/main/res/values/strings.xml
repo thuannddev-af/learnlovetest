@@ -1,4 +1,8 @@
 <resources>
+    <string name="network_error">No internet connection</string>
+    <string name="network_error_message">Connect to the internet and try again.</string>
+    <string name="try_again">Try again</string>
+    <string name="exit">Exit</string>
     <string name="result_wait_before_leaving">Please wait until the test finishes before going back.</string>
 
     <string-array name="date_weekdays" translatable="false">

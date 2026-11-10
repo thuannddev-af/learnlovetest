@@ -13,6 +13,7 @@ import androidx.viewbinding.ViewBinding
 import com.example.afica.lovetest.data.model.Language
 import com.example.afica.lovetest.utils.LocaleHelper
 import com.example.afica.lovetest.utils.SharedPreferenceUtils
+import com.example.afica.lovetest.utils.SpManager
 
 abstract class BaseActivity <V : ViewBinding> : AppCompatActivity() {
     lateinit var viewBaseActivity: V
@@ -27,14 +28,14 @@ abstract class BaseActivity <V : ViewBinding> : AppCompatActivity() {
     }
 
     override fun attachBaseContext(newBase: Context) {
-        language = SharedPreferenceUtils.getInstance(newBase).getLanguage()
+        language = SpManager.getInstance(newBase).getLanguage()
         val context = LocaleHelper.setLocale(newBase, language.languageCode)
         super.attachBaseContext(context)
     }
 
     override fun onStart() {
         super.onStart()
-        if (language.languageCode != SharedPreferenceUtils.getInstance().getLanguage().languageCode) {
+        if (language.languageCode != SpManager.getInstance().getLanguage().languageCode) {
             localeDrawBlocker = ViewTreeObserver.OnPreDrawListener { false }.also {
                 viewBaseActivity.root.viewTreeObserver.addOnPreDrawListener(it)
             }

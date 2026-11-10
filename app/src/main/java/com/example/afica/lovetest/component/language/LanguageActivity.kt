@@ -23,6 +23,7 @@ import com.example.afica.lovetest.data.model.Language
 import com.example.afica.lovetest.databinding.ActivityLanguageBinding
 import com.example.afica.lovetest.utils.LocaleHelper
 import com.example.afica.lovetest.utils.SharedPreferenceUtils
+import com.example.afica.lovetest.utils.SpManager
 import com.example.afica.lovetest.utils.setOnClickWithPressEffect
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
@@ -34,7 +35,7 @@ class LanguageActivity : BaseActivity<ActivityLanguageBinding>() {
     private var selectedLanguageCode: String? = null
     private val viewModel: LanguageViewModel by viewModels()
     private val languageAdapter = LanguageAdapter()
-    private val preferences by lazy { SharedPreferenceUtils.getInstance(this) }
+    private val preferences by lazy { SpManager.getInstance(this) }
     private val isFromSplash: Boolean
         get() = intent.getBooleanExtra(Constant.EXTRA_FROM_SPLASH,
             !intent.getBooleanExtra(Constant.EXTRA_FROM_SETTINGS, false))

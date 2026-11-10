@@ -38,7 +38,6 @@ class PermissionActivity : BaseActivity<ActivityPermissionBinding>() {
             if (hasCameraAccess()) {
                 openAppSettings()
             } else {
-                AppOpenAdsUtils.skipNextResume()
                 requestCamera.launch(Manifest.permission.CAMERA)
             }
         }
@@ -79,7 +78,6 @@ class PermissionActivity : BaseActivity<ActivityPermissionBinding>() {
     }
 
     private fun openAppSettings() {
-        AppOpenAdsUtils.skipNextResume()
         startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:$packageName")))
     }
 

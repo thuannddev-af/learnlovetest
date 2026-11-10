@@ -1,123 +1,155 @@
 package com.example.afica.lovetest.ads
 
+import android.util.Log
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.withResumed
+import com.ads.admob.AdmobManager
+import com.ads.admob.data.ContentAd
+import com.ads.admob.helper.interstitial.InterstitialAdConfig
+import com.ads.admob.helper.interstitial.InterstitialAdsHelper
+import com.ads.admob.listener.InterstitialAdRequestCallBack
+import com.ads.admob.listener.InterstitialAdShowCallBack
+import com.example.afica.lovetest.BuildConfig
+import com.example.afica.lovetest.utils.FirebaseConfigManager
 import com.google.android.gms.ads.AdError
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.LoadAdError
-import com.google.android.gms.ads.interstitial.InterstitialAd
-import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
+import kotlinx.coroutines.launch
 
 object InterAdsUtils {
-    enum class Placement(val adId: String, val configKey: String) {
-        SPLASH(AdsConfig.INTER_SPLASH, RemoteConfigManager.INTER_SPLASH),
-
-        INTER_SAVE(AdsConfig.INTER_SAVE, RemoteConfigManager.INTER_ADS),
-
-        INTER_DAY(AdsConfig.INTER_DAY, RemoteConfigManager.INTER_ADS),
-
-        INTER_LOVE(AdsConfig.INTER_LOVE, RemoteConfigManager.INTER_ADS),
-
-        INTER_ADD(AdsConfig.INTER_ADD, RemoteConfigManager.INTER_ADS),
-        DEFAULT(AdsConfig.INTERSTITIAL_ID, RemoteConfigManager.INTER_ADS)
+    enum class Placement(val adId: String, val placementName: String) {
+        SPLASH(BuildConfig.inter_splash, "inter_splash"),
+        INTER_SAVE(BuildConfig.inter_save, "inter_save"),
+        INTER_DAY(BuildConfig.inter_day, "inter_day"),
+        INTER_LOVE(BuildConfig.inter_love, "inter_love"),
+        INTER_ADD(BuildConfig.inter_add, "inter_add")
     }
 
-    private class Request {
-        var ad: InterstitialAd? = null
-        val callbacks = mutableListOf<(Boolean) -> Unit>()
+    private class Request(val helper: InterstitialAdsHelper) {
         var loading = true
+        var showing = false
+        val callbacks = mutableListOf<(Boolean) -> Unit>()
+        var observer: DefaultLifecycleObserver? = null
+        var releaseFullscreen: (() -> Unit)? = null
     }
-
     private val requests = mutableMapOf<Pair<FragmentActivity, Placement>, Request>()
-    private val remoteConfig by lazy { RemoteConfigManager() }
 
-    /** Discard cached/loading results for this placement. Late SDK callbacks are ignored. */
-    fun cancelInter(activity: FragmentActivity, placement: Placement) {
-        requests.remove(activity to placement)?.apply {
-            callbacks.clear()
-            ad = null
-        }
+    private fun isEnabled(placement: Placement): Boolean {
+        val config = FirebaseConfigManager.instance().adConfig
+        return if (placement == Placement.SPLASH) config.enableInterSplash else config.enableInterMain
     }
 
-    fun loadInter(
-        activity: FragmentActivity,
-        placement: Placement = Placement.DEFAULT,
-        onComplete: (Boolean) -> Unit = {}
-    ) {
+    fun cancelInter(activity: FragmentActivity, placement: Placement) {
+        val request = requests.remove(activity to placement) ?: return
+        request.callbacks.clear()
+        request.releaseFullscreen?.invoke()
+        request.observer?.let { activity.lifecycle.removeObserver(it) }
+        request.helper.cancelRequestAndShowAllAds(true)
+    }
+
+    fun loadInter(activity: FragmentActivity, placement: Placement, onComplete: (Boolean) -> Unit = {}) {
         if (activity.isFinishing || activity.isDestroyed) return
-        if (!remoteConfig.canShowAd(placement.configKey)) {
+        if (!isEnabled(placement)) {
+            cancelInter(activity, placement)
             onComplete(false)
             return
         }
         val key = activity to placement
-        requests[key]?.let { request ->
-            if (request.loading) request.callbacks.add(onComplete)
-            else onComplete(request.ad != null)
+        requests[key]?.let {
+            if (it.loading) it.callbacks.add(onComplete)
+            else onComplete(it.helper.interstitialAdValue != null)
             return
         }
-        val request = Request().apply { callbacks.add(onComplete) }
+        val helperKey = "${placement.placementName}_${System.identityHashCode(activity)}"
+        val helper = InterstitialAdsHelper.getInstance(helperKey).apply {
+            setInterstitialAdConfig(InterstitialAdConfig(
+                idAds = placement.adId,
+                canShowAds = isEnabled(placement),
+                canReloadAds = false,
+                adPlacement = placement.placementName,
+                reloadIfFirstFail = true
+            ))
+        }
+        val request = Request(helper).apply { callbacks.add(onComplete) }
         requests[key] = request
-        activity.lifecycle.addObserver(object : DefaultLifecycleObserver {
-            override fun onDestroy(owner: LifecycleOwner) {
-                requests.remove(key)?.callbacks?.clear()
-                activity.lifecycle.removeObserver(this)
-            }
-        })
-        fun complete(ad: InterstitialAd?) {
+        request.observer = object : DefaultLifecycleObserver {
+            override fun onDestroy(owner: LifecycleOwner) { cancelInter(activity, placement) }
+        }.also { activity.lifecycle.addObserver(it) }
+        fun complete(loaded: Boolean) {
             if (requests[key] !== request) return
-            request.ad = ad
             request.loading = false
             val callbacks = request.callbacks.toList()
             request.callbacks.clear()
-            if (ad == null) requests.remove(key)
-            callbacks.forEach { it(ad != null) }
+            if (!loaded) cancelInter(activity, placement)
+            callbacks.forEach { it(loaded) }
         }
-        InterstitialAd.load(activity.applicationContext, placement.adId,
-            AdRequest.Builder().build(), object : InterstitialAdLoadCallback() {
-                override fun onAdLoaded(ad: InterstitialAd) = complete(ad)
-                override fun onAdFailedToLoad(error: LoadAdError) = complete(null)
-            })
+        helper.requestInterAds(activity, false, object : InterstitialAdRequestCallBack {
+            override fun onAdLoaded(data: ContentAd) {
+                Log.d("InterAds", "${placement.placementName} loaded")
+                complete(true)
+            }
+            override fun onAdFailedToLoad(loadAdError: LoadAdError) {
+                Log.e("InterAds", "${placement.placementName} load failed: ${loadAdError.message}")
+                complete(false)
+            }
+        })
     }
 
-    fun showInter(
-        activity: FragmentActivity,
-        placement: Placement = Placement.DEFAULT,
-        onComplete: () -> Unit
-    ) {
+    fun showInter(activity: FragmentActivity, placement: Placement, onComplete: () -> Unit) {
         if (activity.isFinishing || activity.isDestroyed) return
-        if (!remoteConfig.canShowAd(placement.configKey)) {
-            requests.remove(activity to placement)
+        if (!isEnabled(placement)) {
+            cancelInter(activity, placement)
             onComplete()
             return
         }
         loadInter(activity, placement) { loaded ->
-            val ad = requests.remove(activity to placement)?.ad
-            if (!loaded || ad == null ||
-                !activity.lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) {
+            val request = requests[activity to placement]
+            if (!loaded || request == null) {
                 onComplete()
                 return@loadInter
             }
-            var completed = false
-            val fullscreenToken = Any()
-            if (!FullscreenAdGate.acquire(fullscreenToken)) {
-                onComplete()
-                return@loadInter
+            if (request.showing) return@loadInter
+            request.showing = true
+            activity.lifecycleScope.launch {
+                activity.lifecycle.withResumed {
+                    if (requests[activity to placement] !== request) return@withResumed
+                    val token = Any()
+                    if (!isEnabled(placement) || AdmobManager.isShowAdsFullScreen || !FullscreenAdGate.acquire(token)) {
+                        request.showing = false
+                        onComplete()
+                        return@withResumed
+                    }
+                    request.releaseFullscreen = {
+                        FullscreenAdGate.release(token)
+                        AdmobManager.adsFullScreenDismiss()
+                    }
+                    var completed = false
+                    fun finish() {
+                        if (completed) return
+                        completed = true
+                        cancelInter(activity, placement)
+                        if (!activity.isFinishing && !activity.isDestroyed) onComplete()
+                    }
+                    try {
+                        request.helper.forceShowInterstitial(activity, activity, object : InterstitialAdShowCallBack {
+                            override fun onNextAction() = finish()
+                            override fun onAdClose() = finish()
+                            override fun onInterstitialShow() { Log.d("InterAds", "${placement.placementName} shown") }
+                            override fun onAdClicked() = Unit
+                            override fun onAdImpression() = Unit
+                            override fun onAdFailedToShow(adError: AdError) {
+                                Log.e("InterAds", adError.message)
+                                finish()
+                            }
+                        })
+                    } catch (error: RuntimeException) {
+                        Log.e("InterAds", "Cannot show ${placement.placementName}", error)
+                        finish()
+                    }
+                }
             }
-            fun finish() {
-                if (completed) return
-                completed = true
-                FullscreenAdGate.release(fullscreenToken)
-                ad.fullScreenContentCallback = null
-                if (!activity.isFinishing && !activity.isDestroyed) onComplete()
-            }
-            ad.fullScreenContentCallback = object : FullScreenContentCallback() {
-                override fun onAdDismissedFullScreenContent() = finish()
-                override fun onAdFailedToShowFullScreenContent(error: AdError) = finish()
-            }
-            try { ad.show(activity) } catch (_: RuntimeException) { finish() }
         }
     }
 }

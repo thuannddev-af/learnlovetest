@@ -95,8 +95,10 @@ class InterstitialAdSplashHelper(
             if (adInterstitialState.value == AdInterstitialState.Loaded || adInterstitialState.value == AdInterstitialState.ShowFail) {
                 requestDelayJob?.cancel()
                 AdmobManager.adsShowFullScreen()
-                showDialogLoading()
-                delay(1500.milliseconds)
+                if (config.loadingDelayMs > 0L) {
+                    showDialogLoading()
+                    delay(config.loadingDelayMs)
+                }
                 AdmobFactory.INSTANCE
                     .showInterstitial(activity, interstitialAdValue, invokeListenerAdCallback())
                 loadingJob = lifecycleOwner.lifecycleScope.launch {
@@ -308,10 +310,12 @@ class InterstitialAdSplashHelper(
             }
 
             override fun onAdLoaded(data: ContentAd) {
+                if (splashFinished) return
                 interstitialAdValue = data
                 lifecycleOwner.lifecycleScope.launch {
                     adInterstitialState.emit(AdInterstitialState.Loaded)
                 }
+                invokeAdListener { it.onAdLoaded(data) }
                 if (!splashFinished) {
                     showInterAds(activity)
                 }

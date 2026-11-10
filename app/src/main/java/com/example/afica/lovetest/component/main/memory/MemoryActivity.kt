@@ -72,7 +72,6 @@ class MemoryActivity : BaseActivity<ActivityMemoryBinding>() {
         viewBaseActivity.btnBack.setOnClickWithPressEffect { finish() }
         viewBaseActivity.btnAddPhoto.setOnClickWithPressEffect {
             if (!busy) {
-                AppOpenAdsUtils.skipNextResume()
                 pickPhoto.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
             }
         }

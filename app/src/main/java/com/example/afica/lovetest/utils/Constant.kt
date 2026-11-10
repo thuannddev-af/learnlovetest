@@ -23,5 +23,9 @@ object Constant {
     const val PHOTO_OPTION = "option"
     const val PHOTO_OPTION_CAMERA = "camera"
     const val PHOTO_OPTION_UPLOAD = "upload"
+
+    const val KEY_SP_IS_SHOW_UMP_SETTING = "KEY_SP_IS_SHOW_UMP_SETTING"
+
+
     const val DATABASE_NAME = "Lovetest"
 }

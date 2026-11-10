@@ -51,7 +51,6 @@ class BackgroundSheet : BottomSheetDialogFragment() {
         backgroundAdapter.onClick = { uri ->
             if (!importing) {
                 if (uri == null) {
-                    AppOpenAdsUtils.skipNextResume()
                     uploadPhoto.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
                 } else {
                     applyBackground(uri)

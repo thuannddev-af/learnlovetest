@@ -1,3 +1,6 @@
+import java.text.SimpleDateFormat
+import java.util.Date
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.plugin.compose")
@@ -17,14 +20,18 @@ android {
 
     defaultConfig {
         applicationId = "com.example.afica.lovetest"
-        manifestPlaceholders["ad_app_id"] =
-            "ca-app-pub-3940256099942544~3347511713"
         minSdk = 23
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
+        buildConfigField("String", "adjust_token", "\"\"")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        multiDexEnabled = true
+
+        val formattedDate = SimpleDateFormat("MM.dd.yyyy").format(Date())
+        base.archivesName.set("ProjectBase_v${versionName}(${versionCode})_${formattedDate}")
     }
 
     buildTypes {
@@ -34,18 +41,50 @@ android {
                 packageScope = setOf("androidx.**", "kotlin.**", "kotlinx.**")
             }
         }
+
+
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
     buildFeatures {
+        buildConfig = true
         compose = true
         viewBinding = true
+    }
+
+    flavorDimensions += "default"
+    productFlavors {
+        create("appDebug") {
+            manifestPlaceholders["ad_app_id"] = "ca-app-pub-3940256099942544~3347511713"
+            buildConfigField("String", "inter_splash", "\"ca-app-pub-3940256099942544/1033173712\"")
+            buildConfigField("String", "inter_save", "\"ca-app-pub-3940256099942544/1033173712\"")
+            buildConfigField("String", "inter_day", "\"ca-app-pub-3940256099942544/1033173712\"")
+            buildConfigField("String", "inter_love", "\"ca-app-pub-3940256099942544/1033173712\"")
+            buildConfigField("String", "inter_add", "\"ca-app-pub-3940256099942544/1033173712\"")
+            buildConfigField("String", "appopen_resume", "\"ca-app-pub-3940256099942544/9257395921\"")
+
+            buildConfigField("Boolean", "build_debug", "true")
+        }
+        create("appProduct") {
+            manifestPlaceholders["ad_app_id"] ="ca-app-pub-3940256099942544~3347511713"
+            buildConfigField("String", "inter_splash", "\"ca-app-pub-3940256099942544/1033173712\"")
+            buildConfigField("String", "inter_save", "\"ca-app-pub-3940256099942544/1033173712\"")
+            buildConfigField("String", "inter_day", "\"ca-app-pub-3940256099942544/1033173712\"")
+            buildConfigField("String", "inter_love", "\"ca-app-pub-3940256099942544/1033173712\"")
+            buildConfigField("String", "inter_add", "\"ca-app-pub-3940256099942544/1033173712\"")
+            buildConfigField("String", "appopen_resume", "\"ca-app-pub-3940256099942544/9257395921\"")
+
+            buildConfigField("Boolean", "build_debug", "false")
+        }
     }
 }
 
 dependencies {
+
+    implementation(project(":ads"))
+
     implementation("androidx.viewpager2:viewpager2:1.1.0")
     // Compose BOM
     implementation(platform("androidx.compose:compose-bom:2026.02.01"))
@@ -53,6 +92,9 @@ dependencies {
     // Activity
     implementation("androidx.activity:activity-compose:1.13.0")
     implementation("androidx.activity:activity-ktx:1.13.0")
+
+    //Gson
+    implementation("com.google.code.gson:gson:2.13.2")
 
     // AppCompat
     implementation("androidx.appcompat:appcompat:1.6.1")
@@ -71,6 +113,7 @@ dependencies {
 
     // Lifecycle
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.10.0")
+    implementation("androidx.lifecycle:lifecycle-process:2.10.0")
 
     // Material
     implementation("com.google.android.material:material:1.10.0")

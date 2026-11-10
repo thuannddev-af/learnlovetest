@@ -71,7 +71,6 @@ object BannerAdsUtils {
             container.visibility = View.GONE
         }
         adView.adListener = object : AdListener() {
-            override fun onAdClicked() { AppOpenAdsUtils.skipNextResume() }
             override fun onAdLoaded() {
                 if (disposed) return
                 Log.d("BannerAds", "$placement loaded")

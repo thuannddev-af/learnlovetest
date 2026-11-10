@@ -7,7 +7,6 @@ internal object FullscreenAdGate {
     fun acquire(token: Any): Boolean {
         if (owner != null) return false
         owner = token
-        AppOpenAdsUtils.skipNextResume()
         return true
     }
     fun release(token: Any) {

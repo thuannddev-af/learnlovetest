@@ -81,11 +81,6 @@ class SharedPreferenceUtils(context: Context, fileName: String = "app_preference
         @Volatile
         private var instance: SharedPreferenceUtils? = null
 
-        fun getInstance(context: Context): SharedPreferenceUtils =
-            instance ?: synchronized(this) {
-                instance ?: SharedPreferenceUtils(context.applicationContext).also { instance = it }
-            }
-
         fun getInstance(): SharedPreferenceUtils =
             checkNotNull(instance) { "Initialize SharedPreferenceUtils in Application.onCreate first." }
     }

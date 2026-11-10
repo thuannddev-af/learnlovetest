@@ -331,20 +331,43 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="682f8607-0284-47d6-b6fd-2756dae56053" name="Changes" comment="pushappadsopenfixbottomsheet">
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/gnt_outline_shape.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/layout_native_ad_view_type4.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/loading_native_ad_view_type4.xml" afterDir="false" />
+    <list default="true" id="682f8607-0284-47d6-b6fd-2756dae56053" name="Changes" comment="pushlayoutnativetype4">
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/ads/AdPlacement.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/domain/layer/AdConfig.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/domain/layer/FullscreenAdConfig.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/utils/FirebaseConfigManager.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/utils/Logger.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/utils/SpManager.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/utils/Utils.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ads/src/main/java/com/ads/admob/helper/interstitial/InterstitialAdSplashConfig.kt" beforeDir="false" afterPath="$PROJECT_DIR$/ads/src/main/java/com/ads/admob/helper/interstitial/InterstitialAdSplashConfig.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ads/src/main/java/com/ads/admob/helper/interstitial/InterstitialAdSplashHelper.kt" beforeDir="false" afterPath="$PROJECT_DIR$/ads/src/main/java/com/ads/admob/helper/interstitial/InterstitialAdSplashHelper.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ads/src/main/java/com/ads/admob/helper/reward/RewardAdHelper.kt" beforeDir="false" afterPath="$PROJECT_DIR$/ads/src/main/java/com/ads/admob/helper/reward/RewardAdHelper.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/App.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/App.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/ads/AdsConfig.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/ads/AdsConfig.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/ads/AppOpenAdsUtils.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/ads/AppOpenAdsUtils.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/ads/AppResumeAdPolicy.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/ads/BannerAdsUtils.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/ads/BannerAdsUtils.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/ads/FullscreenAdGate.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/ads/FullscreenAdGate.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/ads/InterAdsUtils.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/ads/InterAdsUtils.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/ads/NativeAdsUtils.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/ads/NativeAdsUtils.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/component/onboarding/OnBoardingAdapter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/component/onboarding/OnBoardingAdapter.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/component/onboarding/OnboardingActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/component/onboarding/OnboardingActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/ads/RemoteConfigManager.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/ads/RemoteConfigManager.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/base/activity/BaseActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/base/activity/BaseActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/component/language/LanguageActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/component/language/LanguageActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/component/lovetest/NameTestResultActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/component/lovetest/NameTestResultActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/component/main/background/BackgroundSheet.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/component/main/background/BackgroundSheet.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/component/main/memory/MemoryActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/component/main/memory/MemoryActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/component/main/profile/ProfileInformationSheet.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/component/main/profile/ProfileInformationSheet.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/component/permission/PermissionActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/component/permission/PermissionActivity.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/component/setting/SettingActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/component/setting/SettingActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/item_on_boarding.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/item_on_boarding.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/item_onboarding_native.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/item_onboarding_native.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/component/splash/SplashActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/component/splash/SplashActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/utils/Constant.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/utils/Constant.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/utils/LocaleHelper.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/utils/LocaleHelper.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/utils/SharedPreferenceUtils.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/utils/SharedPreferenceUtils.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/utils/ViewExt.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/afica/lovetest/utils/ViewExt.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle.kts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -382,6 +405,7 @@
       <list>
         <option value="Kotlin Class" />
         <option value="resourceFile" />
+        <option value="Kotlin Object" />
       </list>
     </option>
   </component>
@@ -451,6 +475,10 @@
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\Learn\app" />
+    </key>
+    <key name="CopyKotlinDeclarationDialog.RECENTS_KEY">
+      <recent name="com.example.afica.lovetest.utils" />
+      <recent name="com.example.afica.lovetest.domain.layer" />
     </key>
   </component>
   <component name="RunManager">
@@ -551,7 +579,8 @@
     <MESSAGE value="pushbannerngang" />
     <MESSAGE value="pushsapxepcode" />
     <MESSAGE value="pushappadsopenfixbottomsheet" />
-    <option name="LAST_COMMIT_MESSAGE" value="pushappadsopenfixbottomsheet" />
+    <MESSAGE value="pushlayoutnativetype4" />
+    <option name="LAST_COMMIT_MESSAGE" value="pushlayoutnativetype4" />
   </component>
   <component name="play_dynamic_filters_status">
     <option name="appIdToCheckInfo">

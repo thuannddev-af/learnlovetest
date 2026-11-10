@@ -102,7 +102,6 @@ class ProfileInformationSheet : BottomSheetDialogFragment() {
             when (result.getString(Constant.PHOTO_OPTION)) {
                 Constant.PHOTO_OPTION_CAMERA -> launchCamera()
                 Constant.PHOTO_OPTION_UPLOAD -> {
-                    AppOpenAdsUtils.skipNextResume()
                     pickPhoto.launch(
                     PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
                     )
@@ -192,7 +191,6 @@ class ProfileInformationSheet : BottomSheetDialogFragment() {
                 Manifest.permission.CAMERA
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            AppOpenAdsUtils.skipNextResume()
             requestCameraPermission.launch(Manifest.permission.CAMERA)
             return
         }
@@ -205,7 +203,6 @@ class ProfileInformationSheet : BottomSheetDialogFragment() {
                 requireContext().packageName + ".profile.photos",
                 file
             )
-            AppOpenAdsUtils.skipNextResume()
             takePhoto.launch(uri)
         } catch (_: ActivityNotFoundException) {
             cameraPath?.let { File(it).delete() }

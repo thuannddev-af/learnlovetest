@@ -1,10 +1,14 @@
 package com.example.afica.lovetest.utils
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.SystemClock
 import android.view.MotionEvent
 import android.view.View
 import android.view.animation.DecelerateInterpolator
+import com.example.afica.lovetest.data.model.Language
+import com.google.gson.Gson
+import java.util.Locale
 
 /** Accepts the first click immediately, then ignores clicks within [intervalMillis].
  * Each view has its own timer. Ignored clicks do not extend the waiting period.
@@ -60,4 +64,17 @@ fun View.setOnClickWithPressEffect(
         false
     }
     setOnSingleClickListener(intervalMillis, onClick)
+}
+fun Context.getDeviceLanguage(): String {
+    return Locale.getDefault().language
+}
+
+fun Language.toJson(): String {
+    return Gson().toJson(this)
+}
+
+fun String.toLanguageModel(): Language? {
+    return kotlin.runCatching {
+        Gson().fromJson(this, Language::class.java)
+    }.getOrNull()
 }

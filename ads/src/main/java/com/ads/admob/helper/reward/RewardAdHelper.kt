@@ -372,6 +372,7 @@ class RewardAdHelper private constructor(private val adPlacement: String) {
                     }
 
                     override fun onUserEarnedReward(rewardItem: RewardItem?) {
+                        callback.onUserEarnedReward(rewardItem)
                     }
 
                     override fun onRewardShow() {

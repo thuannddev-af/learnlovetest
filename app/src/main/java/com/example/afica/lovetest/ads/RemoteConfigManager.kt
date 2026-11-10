@@ -7,6 +7,8 @@ class RemoteConfigManager {
     private val remoteConfig: FirebaseRemoteConfig = FirebaseRemoteConfig.getInstance()
 
     companion object {
+        private val shared by lazy { RemoteConfigManager() }
+        fun instance(): RemoteConfigManager = shared
         //bật tắt ads
         const val ADS_ENABLE = "ads_enable"
         const val APP_OPEN_ENABLE = "app_open_enable"
@@ -22,7 +24,20 @@ class RemoteConfigManager {
             "interstitial_splash_enable"
     }
 
+    private var fetching = false
+    private var fetched = false
+    private var fetchSucceeded = false
+    private val pendingActions = mutableListOf<(Boolean) -> Unit>()
+
+    fun fetch() = init {}
+    fun doAfterFetch(action: () -> Unit) = init { action() }
+
     fun init(onComplete: (Boolean) -> Unit) {
+        if (this !== instance()) { instance().init(onComplete); return }
+        if (fetched) { onComplete(fetchSucceeded); return }
+        pendingActions.add(onComplete)
+        if (fetching) return
+        fetching = true
         val settings =
             FirebaseRemoteConfigSettings.Builder().setMinimumFetchIntervalInSeconds(0).build()
 
@@ -44,7 +59,12 @@ class RemoteConfigManager {
             }
             .continueWithTask { remoteConfig.fetchAndActivate() }
             .addOnCompleteListener { task ->
-                onComplete(task.isSuccessful)
+                fetching = false
+                fetched = task.isSuccessful
+                fetchSucceeded = task.isSuccessful
+                val actions = pendingActions.toList()
+                pendingActions.clear()
+                actions.forEach { it(fetchSucceeded) }
             }
     }
 
