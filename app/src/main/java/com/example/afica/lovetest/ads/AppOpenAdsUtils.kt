@@ -29,7 +29,6 @@ import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.appopen.AppOpenAd
 
-/** Resume-only ads. Cold starts and utility/system flows never trigger a show. */
 object AppOpenAdsUtils : Application.ActivityLifecycleCallbacks {
     private var initialized = false
     private var sdkReady = false

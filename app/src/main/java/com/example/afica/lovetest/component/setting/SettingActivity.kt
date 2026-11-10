@@ -24,4 +24,7 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
             LanguageActivity.start(this, isFromSplash = false)
         }
     }
+    private fun showAppopen() {
+        AppOpenAdsUtils.showAppOpenIfAvailable(this)
+    }
 }

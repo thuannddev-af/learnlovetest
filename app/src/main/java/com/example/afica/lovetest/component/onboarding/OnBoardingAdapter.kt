@@ -46,7 +46,9 @@ class OnBoardingAdapter(private val activity: FragmentActivity) :
     override fun getItemViewType(position: Int) = if (pages[position].placement == null) 0 else 1
 
     private class ContentHolder(val binding: ItemOnBoardingBinding) :
-        RecyclerView.ViewHolder(binding.root)
+        RecyclerView.ViewHolder(binding.root) {
+        var nativePage: Int? = null
+    }
 
     private class AdHolder(val binding: ItemOnboardingNativeBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -89,6 +91,14 @@ class OnBoardingAdapter(private val activity: FragmentActivity) :
                     holder.bindingAdapterPosition.takeIf { it != RecyclerView.NO_POSITION }
                         ?.let { onNextClick?.invoke(it) }
                 }
+                val nativePage = (page.contentIndex + 1).takeIf { it in 2..3 }
+                if (holder.nativePage != nativePage) {
+                    NativeAdsUtils.destroy(frAdsNative)
+                    holder.nativePage = nativePage
+                    if (nativePage != null) {
+                        NativeAdsUtils.showNativeOnboarding(activity, frAdsNative, page = nativePage)
+                    }
+                }
             }
         } else if (holder is AdHolder) {
             val placement = requireNotNull(page.placement)
@@ -112,6 +122,10 @@ class OnBoardingAdapter(private val activity: FragmentActivity) :
     }
 
     override fun onViewRecycled(holder: RecyclerView.ViewHolder) {
+        if (holder is ContentHolder) {
+            NativeAdsUtils.destroy(holder.binding.frAdsNative)
+            holder.nativePage = null
+        }
         if (holder is AdHolder) {
             NativeAdsUtils.destroy(holder.binding.nativeContainer)
             holder.placement = null

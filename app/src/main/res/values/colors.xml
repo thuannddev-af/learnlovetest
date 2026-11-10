@@ -22,6 +22,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="lightTransparent">#16000000</color>
 
+    <color name="text_color_cta_2">#F64242</color>
 
     <color name="home_shimmer_color">#C3C3C3</color>
     <color name="gnt_gray">#808080</color>

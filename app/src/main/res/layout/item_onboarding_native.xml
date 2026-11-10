@@ -4,6 +4,18 @@
     android:layout_height="match_parent"
     android:background="#FFFFFF"
     android:orientation="vertical">
+    <TextView
+        android:id="@+id/btnNext"
+        android:layout_width="wrap_content"
+        android:layout_gravity="end"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:text="@string/onboarding_next"
+        android:textColor="#202020" />
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -13,14 +25,5 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </FrameLayout>
-    <TextView
-        android:id="@+id/btnNext"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:gravity="center"
-        android:background="?attr/selectableItemBackground"
-        android:clickable="true"
-        android:focusable="true"
-        android:text="@string/onboarding_next"
-        android:textColor="#202020" />
+
 </LinearLayout>

@@ -7,6 +7,21 @@
     android:layout_height="match_parent"
     android:background="@drawable/splash_background">
 
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/frAdsNative"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/onboardingContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="360dp">
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/imageTopGuide"
         android:layout_width="wrap_content"
@@ -73,6 +88,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <FrameLayout
+        android:id="@+id/frAdsNative"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/btnNext"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <LinearLayout
         android:id="@+id/onboardingDots"
         android:layout_width="wrap_content"
@@ -121,7 +149,8 @@
         android:text="@string/onboarding_next"
         android:textColor="@color/splash_title"
         android:textSize="14sp"
-        app:layout_constraintTop_toTopOf="@id/footerGuide"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

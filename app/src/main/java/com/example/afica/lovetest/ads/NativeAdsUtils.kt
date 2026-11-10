@@ -26,7 +26,9 @@ object NativeAdsUtils {
     enum class Placement(val adId: String, val configKey: String) {
         LANGUAGE(AdsConfig.NATIVE_LANGUAGE_ID, RemoteConfigManager.NATIVE_LANGUAGE),
         ONBOARDING(AdsConfig.NATIVE_ONBOARDING_ID, RemoteConfigManager.NATIVE_ONBOARDING),
-        ONBOARDING_SECOND(AdsConfig.NATIVE_ONBOARDING_ID, RemoteConfigManager.NATIVE_ONBOARDING)
+        ONBOARDING_SECOND(AdsConfig.NATIVE_ONBOARDING_ID, RemoteConfigManager.NATIVE_ONBOARDING),
+        ONBOARDING_INLINE_2(AdsConfig.NATIVE_ONBOARDING_INLINE_2_ID, RemoteConfigManager.NATIVE_ONBOARDING),
+        ONBOARDING_INLINE_3(AdsConfig.NATIVE_ONBOARDING_INLINE_3_ID, RemoteConfigManager.NATIVE_ONBOARDING)
     }
 
     private val natives = mutableMapOf<FrameLayout, () -> Unit>()
@@ -86,6 +88,20 @@ object NativeAdsUtils {
         onFailed: () -> Unit = {}
     ) = showNative(activity, container, Placement.LANGUAGE, lifecycleOwner, onFailed = onFailed)
 
+    fun showNativeOnboarding(
+        activity: FragmentActivity,
+        container: FrameLayout,
+        page: Int = 2,
+        lifecycleOwner: LifecycleOwner = activity,
+        onFailed: () -> Unit = {}
+    ) {
+        require(page in 2..3) { "Inline native is available on onboarding page 2 or 3" }
+        val placement = if (page == 2) Placement.ONBOARDING_INLINE_2 else Placement.ONBOARDING_INLINE_3
+        showNative(activity, container, placement, lifecycleOwner,
+            nativeLayout = if (page == 2) R.layout.layout_native_ad_view_type4 else R.layout.layout_native_ad,
+            onFailed = onFailed)
+    }
+
     fun showNativeOnboardingFullscreen(
         activity: FragmentActivity,
         container: FrameLayout,
@@ -110,6 +126,7 @@ object NativeAdsUtils {
         placement: Placement = Placement.LANGUAGE,
         lifecycleOwner: LifecycleOwner = activity,
         fullscreen: Boolean = false,
+        nativeLayout: Int? = null,
         onFailed: () -> Unit = {}
     ) {
         destroy(container)
@@ -166,24 +183,25 @@ object NativeAdsUtils {
             }
             nativeAd = ad
             val layout =
-                if (fullscreen) R.layout.layout_native_ad_fullscreen else R.layout.layout_native_ad
+                nativeLayout ?: if (fullscreen) R.layout.layout_native_ad_fullscreen else R.layout.layout_native_ad
+            val type4 = layout == R.layout.layout_native_ad_view_type4
             val view = activity.layoutInflater.inflate(layout, container, false) as NativeAdView
             nativeView = view
             view.headlineView =
-                view.findViewById<TextView>(R.id.nativeHeadline).apply { text = ad.headline }
-            view.bodyView = view.findViewById<TextView>(R.id.nativeBody).apply {
+                view.findViewById<TextView>(if (type4) R.id.ad_headline else R.id.nativeHeadline).apply { text = ad.headline }
+            view.bodyView = view.findViewById<TextView>(if (type4) R.id.ad_body else R.id.nativeBody).apply {
                 text = ad.body
                 visibility = if (ad.body == null) View.GONE else View.VISIBLE
             }
-            view.callToActionView = view.findViewById<Button>(R.id.nativeAction).apply {
+            view.callToActionView = view.findViewById<TextView>(if (type4) R.id.ad_call_to_action else R.id.nativeAction).apply {
                 text = ad.callToAction
                 visibility = if (ad.callToAction == null) View.GONE else View.VISIBLE
             }
-            view.iconView = view.findViewById<ImageView>(R.id.nativeIcon).apply {
+            view.iconView = view.findViewById<ImageView>(if (type4) R.id.ad_app_icon else R.id.nativeIcon).apply {
                 setImageDrawable(ad.icon?.drawable)
                 visibility = if (ad.icon == null) View.GONE else View.VISIBLE
             }
-            view.mediaView = view.findViewById<MediaView>(R.id.nativeMedia)
+            view.mediaView = view.findViewById<MediaView>(if (type4) R.id.ad_media else R.id.nativeMedia)
             view.setNativeAd(ad)
             loadingView?.stopShimmer()
             loadingView = null
@@ -203,8 +221,11 @@ object NativeAdsUtils {
             request.ad = null
             displayAd(cachedAd)
         } else {
-            val loadingLayout = if (fullscreen) R.layout.loading_native_fullscreen_view
-            else R.layout.layout_native_ads_type1
+            val loadingLayout = when {
+                nativeLayout == R.layout.layout_native_ad_view_type4 -> R.layout.loading_native_ad_view_type4
+                fullscreen -> R.layout.loading_native_fullscreen_view
+                else -> R.layout.layout_native_ads_type1
+            }
             val shimmer = activity.layoutInflater.inflate(
                 loadingLayout, container, false
             ) as ShimmerFrameLayout

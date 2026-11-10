@@ -100,6 +100,8 @@ class OnboardingActivity : BaseActivity<ActivityOnboardingBinding>() {
     override fun initData() {
         NativeAdsUtils.preloadNative(applicationContext, NativeAdsUtils.Placement.ONBOARDING)
         NativeAdsUtils.preloadNative(applicationContext, NativeAdsUtils.Placement.ONBOARDING_SECOND)
+        NativeAdsUtils.preloadNative(applicationContext, NativeAdsUtils.Placement.ONBOARDING_INLINE_2)
+        NativeAdsUtils.preloadNative(applicationContext, NativeAdsUtils.Placement.ONBOARDING_INLINE_3)
         viewModel.getListOnBoarding()
     }
 

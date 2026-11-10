@@ -25,6 +25,8 @@ object AdsConfig {
 
     // Native Onboarding
     const val NATIVE_ONBOARDING_ID = NATIVE
+    const val NATIVE_ONBOARDING_INLINE_2_ID = NATIVE
+    const val NATIVE_ONBOARDING_INLINE_3_ID = NATIVE
 
     // Interstitial
     const val INTERSTITIAL_ID = INTERST
